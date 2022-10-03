@@ -1,6 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
-import 'package:scoalafun/app/locator.dart';
-import 'package:scoalafun/services/layout_manager.dart';
+import 'package:lima/app/locator.dart';
+import 'package:lima/services/layout_manager.dart';
 import 'package:stacked/stacked.dart';
 
 /// The `ViewModel` for the `Home` screen.
@@ -15,4 +17,13 @@ class HomeViewModel extends BaseViewModel {
     if (temp == textVal) return;
     notifyListeners();
   }
+
+  /// The page controller.
+  PageController pageController = PageController(initialPage: 0);
+
+  /// The current page index.
+  int pageIndex = 0;
+
+  /// Is the current language english?
+  bool isEnglish = false;
 }

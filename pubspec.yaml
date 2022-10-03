@@ -1,5 +1,5 @@
-name: scoalafun
-description: A new Flutter project.
+name: lima
+description: Aplicatie cu exercitii interactive pentru copii.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -34,6 +34,9 @@ dependencies:
   # Animation
   animated_text_kit: ^4.2.2
   rive: ^0.9.0
+  realm: ^0.4.0+beta
+  device_info_plus: ^4.1.2
+  flutter_switch: ^0.3.2
 
   # Components
 
@@ -54,7 +57,72 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+  
+  fonts: 
+    - family: Poppins
+      fonts: 
+        # THIN
+        - asset: assets/fonts/Poppins-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Poppins-ThinItalic.ttf
+          weight: 100
+          style: italic
 
+        # EXTRALIGHT
+        - asset: assets/fonts/Poppins-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Poppins-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+
+        # LIGHT
+        - asset: assets/fonts/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Poppins-LightItalic.ttf
+          weight: 300
+          style: italic
+
+        # REGULAR 
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Italic.ttf
+          style: italic
+
+        # MEDIUM
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-MediumItalic.ttf
+          weight: 500
+          style: italic
+
+        # SEMIBOLD
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+
+        # BOLD
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700 
+        - asset: assets/fonts/Poppins-BoldItalic.ttf
+          style: italic
+          weight: 700
+
+        # EXTRABOLD
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Poppins-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+  
+        # BLACK
+        - asset: assets/fonts/Poppins-Black.ttf
+          weight: 900 
+        - asset: assets/fonts/Poppins-BlackItalic.ttf
+          weight: 900
+          style: italic
+
+        #
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

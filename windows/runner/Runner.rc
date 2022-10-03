@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.vaindev" "\0"
-            VALUE "FileDescription", "scoalafun" "\0"
+            VALUE "FileDescription", "lima" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "scoalafun" "\0"
+            VALUE "InternalName", "lima" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.vaindev. All rights reserved." "\0"
-            VALUE "OriginalFilename", "scoalafun.exe" "\0"
-            VALUE "ProductName", "scoalafun" "\0"
+            VALUE "OriginalFilename", "lima.exe" "\0"
+            VALUE "ProductName", "lima" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

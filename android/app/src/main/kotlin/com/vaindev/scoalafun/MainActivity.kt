@@ -1,4 +1,4 @@
-package com.vaindev.scoalafun
+package com.vaindev.lima
 
 import io.flutter.embedding.android.FlutterActivity
 
