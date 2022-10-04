@@ -1,13 +1,32 @@
 /// Flutter
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:scoalafun/app/locator.dart';
-import 'package:scoalafun/app/router.gr.dart';
-import 'package:scoalafun/services/layout_manager.dart';
+import 'package:lima/app/locator.dart';
+import 'package:lima/app/router.gr.dart';
+import 'package:lima/helpers/hwid.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+
+import 'package:realm/realm.dart';
+
+/// Services
+import 'package:lima/services/layout_manager.dart';
+
+/// Themes
+import 'themes/themes.dart';
 
 /// Router
 import 'app/router.dart';
 
-void main() {
+import 'package:window_size/window_size.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    setWindowTitle('Lima - Culegere Interactivă');
+    setWindowMinSize(const Size(1080, 500));
+  }
   setup();
   runApp(MyApp());
 }
@@ -19,19 +38,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp.router(
-        title: 'ScoalaFun',
-        theme: ThemeData(
-            primaryColor: Colors.amber.shade300,
-            textTheme: const TextTheme(
-              displayLarge:
-                  TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-              titleLarge: TextStyle(fontSize: 24.0),
-              bodyMedium: TextStyle(fontSize: 14.0),
-            )),
-        routerDelegate: _appRouter.delegate(),
-        routeInformationParser: _appRouter.defaultRouteParser(), 
-        );
+      title: 'lima',
+      theme: Themes().customLightTheme(),
+      darkTheme: Themes().customDarkTheme(),
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
+    );
   }
 }

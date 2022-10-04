@@ -1,6 +1,6 @@
 /// Inversion of Control dependency
 import 'package:get_it/get_it.dart';
-import 'package:scoalafun/services/layout_manager.dart';
+import 'package:lima/services/layout_manager.dart';
 
 final l = GetIt.instance;
 
