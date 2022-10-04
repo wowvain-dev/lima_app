@@ -285,7 +285,15 @@ class _Page2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    model.size = MediaQuery.of(context).size;
+    var size = model.size;
+    /// Initializing the button sizes
+    for (int i = 0; i < 3; i ++){
+        if (model.buttonSizes[i]!.width == 0 || model.isMouseOverButton == false) {
+        model.buttonSizes[i] = Size(size.width / 5, size.width / 6);
+      }
+    }
+    print('${model.buttonSizes[0]}');
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -295,11 +303,21 @@ class _Page2 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MouseRegion(
+                    onEnter: (event) {
+                      model.buttonSizes[0] = Size(size.width / 4, size.width / 5);
+                      model.isMouseOverButton = true;
+                      model.notifyListeners();
+                    },
+                    onExit: (event) {
+                      model.buttonSizes[0] = Size(size.width / 5, size.width / 6);
+                      model.isMouseOverButton = false;
+                      model.notifyListeners();
+                    },
                     child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
                   curve: Curves.ease,
-                  width: size.width / 5,
-                  height: size.width / 6,
+                  width: model.buttonSizes[0]!.width,
+                  height: model.buttonSizes[0]!.height,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -308,7 +326,9 @@ class _Page2 extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .headline3!
-                                .copyWith(color: Color(0xFF2A2B2A)))
+                                .copyWith(
+                                  color: Color(0xFF2A2B2A), 
+                                  fontSize: size.width / 50))
                       ]),
                   decoration: BoxDecoration(
                       color: const Color(0xFFD9B1FF),
@@ -316,12 +336,22 @@ class _Page2 extends StatelessWidget {
                 )),
                 SizedBox(width: size.width / 35),
                 MouseRegion(
+                    onEnter: (event) {
+                      model.buttonSizes[1] = Size(size.width / 4, size.width / 5);
+                      model.isMouseOverButton = true;
+                      model.notifyListeners();
+                    },
+                    onExit: (event) {
+                      model.buttonSizes[1] = Size(size.width / 5, size.width / 6);
+                      model.isMouseOverButton = false;
+                      model.notifyListeners();
+                    },
                   child: GestureDetector(
                       child: AnimatedContainer(
                     duration: const Duration(milliseconds: 250),
                     curve: Curves.ease,
-                    width: size.width / 5,
-                    height: size.width / 6,
+                  width: model.buttonSizes[1]!.width,
+                  height: model.buttonSizes[1]!.height,
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -330,7 +360,9 @@ class _Page2 extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .headline3!
-                                  .copyWith(color: Color(0xFF2A2B2A)))
+                                  .copyWith(
+                                    color: Color(0xFF2A2B2A), 
+                                    fontSize: size.width / 50))
                         ]),
                     decoration: BoxDecoration(
                         color: const Color(0xFFCB93FF),
@@ -339,12 +371,22 @@ class _Page2 extends StatelessWidget {
                 ),
                 SizedBox(width: size.width / 35),
                 MouseRegion(
+                    onEnter: (event) {
+                      model.buttonSizes[2] = Size(size.width / 4, size.width / 5);
+                      model.isMouseOverButton = true;
+                      model.notifyListeners();
+                    },
+                    onExit: (event) {
+                      model.buttonSizes[2] = Size(size.width / 5, size.width / 6);
+                      model.isMouseOverButton = false;
+                      model.notifyListeners();
+                    },
                   child: GestureDetector(
                       child: AnimatedContainer(
                     duration: const Duration(milliseconds: 250),
                     curve: Curves.ease,
-                    width: size.width / 5,
-                    height: size.width / 6,
+                  width: model.buttonSizes[2]!.width,
+                  height: model.buttonSizes[2]!.height,
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -353,7 +395,9 @@ class _Page2 extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .headline3!
-                                  .copyWith(color: Color(0xFF2A2B2A)))
+                                  .copyWith(color: Color(0xFF2A2B2A), 
+                                    fontSize: size.width / 50
+                                  ))
                         ]),
                     decoration: BoxDecoration(
                         color: const Color(0xFFBF7CFF),

@@ -8,10 +8,13 @@
 
 #include <keyboard_event/keyboard_event_plugin.h>
 #include <realm/realm_plugin.h>
+#include <window_size/window_size_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
   KeyboardEventPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("KeyboardEventPlugin"));
   RealmPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("RealmPlugin"));
+  WindowSizePluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("WindowSizePlugin"));
 }

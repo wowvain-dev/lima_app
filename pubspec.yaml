@@ -39,6 +39,12 @@ dependencies:
   flutter_switch: ^0.3.2
   keyboard_event: ^0.3.2
 
+  # Setting min/max width and height for the application window.
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding
+      path: plugins/window_size
+
   # Components
 
 

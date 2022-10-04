@@ -32,13 +32,20 @@ class HomeViewModel extends BaseViewModel {
   /// Can the pageviewer scroll to left
        canGoLeft = false;
 
-  String temp = '';
+  /// Boolean value to check whether the mouse is currently over a button or not.
+  bool isMouseOverButton = false;
 
+  /// The size of the view
+  Size size = const Size(0, 0);
+
+  /// The sizes of each difficulty button
+  List<Size?> buttonSizes = List.filled(3, const Size(0, 0));
+
+  /// The focus node that contains the whole screen, used for physical key press events.
   FocusNode focusNode = FocusNode();
 
+  /// Function used to re-enable the left and right buttons (after temporarily disabling them)
   void scroll() async {
-    canGoRight = false;
-    canGoLeft = false;
     if (pageIndex < 2) canGoRight = true;
     if (pageIndex > 0) canGoLeft = true;
     notifyListeners();

@@ -1,3 +1,5 @@
+/// Deprecated since the app became a desktop-only program
+
 /// Flutter Widgets
 import 'package:flutter/widgets.dart';
 
