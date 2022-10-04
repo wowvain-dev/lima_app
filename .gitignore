@@ -10,6 +10,9 @@
 .svn/
 migrate_working_dir/
 
+# mongoDB Realm SDK files
+*.realm
+
 # IntelliJ related
 *.iml
 *.ipr
