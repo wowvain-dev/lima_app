@@ -22,8 +22,6 @@ import 'package:realm/realm.dart';
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
 
-  final app = App(AppConfiguration('lima_app-qjrix'));
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
