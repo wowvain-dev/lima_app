@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:lima/app/locator.dart';
@@ -25,5 +26,21 @@ class HomeViewModel extends BaseViewModel {
   int pageIndex = 0;
 
   /// Is the current language english?
-  bool isEnglish = false;
+  bool isEnglish = false, 
+  /// Can the pageviewer scroll to right
+       canGoRight = true, 
+  /// Can the pageviewer scroll to left
+       canGoLeft = false;
+
+  String temp = '';
+
+  FocusNode focusNode = FocusNode();
+
+  void scroll() async {
+    canGoRight = false;
+    canGoLeft = false;
+    if (pageIndex < 2) canGoRight = true;
+    if (pageIndex > 0) canGoLeft = true;
+    notifyListeners();
+  }
 }

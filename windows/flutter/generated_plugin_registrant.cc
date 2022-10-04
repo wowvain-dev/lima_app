@@ -6,9 +6,12 @@
 
 #include "generated_plugin_registrant.h"
 
+#include <keyboard_event/keyboard_event_plugin.h>
 #include <realm/realm_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
+  KeyboardEventPluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("KeyboardEventPlugin"));
   RealmPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("RealmPlugin"));
 }

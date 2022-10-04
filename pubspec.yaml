@@ -37,6 +37,7 @@ dependencies:
   realm: ^0.4.0+beta
   device_info_plus: ^4.1.2
   flutter_switch: ^0.3.2
+  keyboard_event: ^0.3.2
 
   # Components
 
