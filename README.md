@@ -8,5 +8,3 @@ NYI
 
 #### Exercitii
 NYI
-
-
