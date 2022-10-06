@@ -1,5 +1,6 @@
 #include "flutter_window.h"
 
+#include <iostream>
 #include <optional>
 
 #include "flutter/generated_plugin_registrant.h"
@@ -11,6 +12,10 @@ FlutterWindow::~FlutterWindow() {}
 
 bool FlutterWindow::OnCreate() {
   if (!Win32Window::OnCreate()) {
+      std::cout << Win32Window::GetClientArea().left;
+      std::cout << Win32Window::GetClientArea().bottom;
+      std::cout << Win32Window::GetClientArea().right;
+      std::cout << Win32Window::GetClientArea().top;
     return false;
   }
 

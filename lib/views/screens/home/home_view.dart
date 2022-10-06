@@ -28,71 +28,9 @@ class HomeView extends StatelessWidget {
       builder: (context, model, child) {
         l<LayoutManager>().updateLayout(context);
         return Scaffold(
-            body: Container(
-                child: l<LayoutManager>().layout == Layout.vertical
-                    ? _VerticalLayout()
-                    : _HorizontalLayout(model: model)));
+            body: Container(child: _HorizontalLayout(model: model)));
       },
       viewModelBuilder: () => HomeViewModel(),
-    );
-  }
-}
-
-class _VerticalLayout extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Focus(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 145,
-                    height: 145,
-                    decoration: BoxDecoration(
-                      color: Colors.lightBlue.shade200,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: IconButton(
-                          hoverColor: Colors.transparent,
-                          iconSize: 50,
-                          icon: const Icon(Icons.menu_book_sharp,
-                              color: Colors.white),
-                          onPressed: () => {context.router.push(LimbaView())}),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text('Limba si Comunicare')
-                ],
-              ),
-              const SizedBox(height: 64),
-              Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                Container(
-                  width: 145,
-                  height: 145,
-                  decoration: BoxDecoration(
-                    color: Colors.orange.shade200,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: IconButton(
-                        hoverColor: Colors.transparent,
-                        iconSize: 50,
-                        icon: const Icon(Icons.square_foot_rounded,
-                            size: 50, color: Colors.white),
-                        onPressed: () => {}),
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text('Matematica')
-              ]),
-            ]),
-      ),
     );
   }
 }
@@ -108,9 +46,9 @@ class _HorizontalLayout extends StatelessWidget {
     return Focus(
       focusNode: model.focusNode,
       onKey: (_, event) {
-        if (event.data.physicalKey == PhysicalKeyboardKey.arrowRight
-          && model.pageIndex < 2 && model.canGoRight
-        ) {
+        if (event.data.physicalKey == PhysicalKeyboardKey.arrowRight &&
+            model.pageIndex < 2 &&
+            model.canGoRight) {
           model.pageController.nextPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease);
           model.pageIndex++;
@@ -120,9 +58,9 @@ class _HorizontalLayout extends StatelessWidget {
           Future.delayed(const Duration(milliseconds: 450), model.scroll);
           model.notifyListeners();
         }
-        if (event.data.physicalKey == PhysicalKeyboardKey.arrowLeft
-          && model.pageIndex > 0 && model.canGoLeft
-        ) {
+        if (event.data.physicalKey == PhysicalKeyboardKey.arrowLeft &&
+            model.pageIndex > 0 &&
+            model.canGoLeft) {
           model.pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease);
           model.pageIndex--;
@@ -136,37 +74,7 @@ class _HorizontalLayout extends StatelessWidget {
         return KeyEventResult.handled;
       },
       child: Column(children: [
-        Container(
-            margin: const EdgeInsets.only(top: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("ROMÂNĂ",
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: model.isEnglish
-                            ? Colors.white54
-                            : const Color(0xFFF5F5F5))),
-                const SizedBox(width: 8),
-                FlutterSwitch(
-                    value: model.isEnglish,
-                    activeText: "ENG",
-                    inactiveText: "ROM",
-                    height: 30,
-                    width: 60,
-                    duration: const Duration(milliseconds: 100),
-                    onToggle: (val) {
-                      model.isEnglish = val;
-                      model.notifyListeners();
-                    }),
-                const SizedBox(width: 8),
-                Text("ENGLEZĂ",
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: !model.isEnglish
-                            ? Colors.white54
-                            : const Color(0xFFF5F5F5)))
-              ],
-            )),
+        const SizedBox(height: 60),
         Expanded(
           child: PageView(
               controller: model.pageController,
@@ -187,7 +95,7 @@ class _HorizontalLayout extends StatelessWidget {
               IconButton(
                   iconSize: 30,
                   // color: Colors.white24,
-                  icon: Icon(Icons.arrow_back_ios_new),
+                  icon: const Icon(Icons.arrow_back_ios_new),
                   onPressed: model.pageIndex > 0 && model.canGoLeft
                       ? () async {
                           model.pageController.previousPage(
@@ -285,13 +193,14 @@ class _Page2 extends StatelessWidget {
   Widget build(BuildContext context) {
     model.size = MediaQuery.of(context).size;
     var size = model.size;
+
     /// Initializing the button sizes
-    for (int i = 0; i < 3; i ++){
-        if (model.buttonSizes[i]!.width == 0 || model.isMouseOverButton == false) {
+    for (int i = 0; i < 3; i++) {
+      if (model.buttonSizes[i]!.width == 0 ||
+          model.isMouseOverButton == false) {
         model.buttonSizes[i] = Size(size.width / 5, size.width / 6);
       }
     }
-    print('${model.buttonSizes[0]}');
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -302,54 +211,82 @@ class _Page2 extends StatelessWidget {
               children: [
                 MouseRegion(
                     onEnter: (event) {
-                      model.buttonSizes[0] = Size(size.width / 4, size.width / 5);
+                      model.buttonSizes[0] =
+                          Size(size.width / 4, size.width / 5);
                       model.isMouseOverButton = true;
                       model.notifyListeners();
                     },
                     onExit: (event) {
-                      model.buttonSizes[0] = Size(size.width / 5, size.width / 6);
+                      model.buttonSizes[0] =
+                          Size(size.width / 5, size.width / 6);
                       model.isMouseOverButton = false;
                       model.notifyListeners();
                     },
-                    child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.ease,
-                  width: model.buttonSizes[0]!.width,
-                  height: model.buttonSizes[0]!.height,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('Învățăcel',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline3!
-                                .copyWith(
-                                  color: Color(0xFF2A2B2A), 
-                                  fontSize: size.width / 50))
-                      ]),
-                  decoration: BoxDecoration(
-                      color: const Color(0xFFD9B1FF),
-                      borderRadius: BorderRadius.circular(10)),
-                )),
+                    child: GestureDetector(
+                      onTap: () {
+                        model.buttonSizes[0] = 
+                          Size(size.width / 4.5, size.width / 5.5);
+                        model.notifyListeners();
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          model.buttonSizes[0] = Size(size.width / 4, size.width / 5);
+                        model.notifyListeners();
+                        }).then(
+                          (_) => context.router.push(const Level1View())
+                        );
+                      }, 
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.ease,
+                        width: model.buttonSizes[0]!.width,
+                        height: model.buttonSizes[0]!.height,
+                        decoration: BoxDecoration(
+                            color: const Color(0xFFD9B1FF),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('Învățăcel',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline3!
+                                      .copyWith(
+                                          color: Color(0xFF2A2B2A),
+                                          fontSize: size.width / 50))
+                            ]),
+                      ),
+                    )),
                 SizedBox(width: size.width / 35),
                 MouseRegion(
-                    onEnter: (event) {
-                      model.buttonSizes[1] = Size(size.width / 4, size.width / 5);
-                      model.isMouseOverButton = true;
-                      model.notifyListeners();
-                    },
-                    onExit: (event) {
-                      model.buttonSizes[1] = Size(size.width / 5, size.width / 6);
-                      model.isMouseOverButton = false;
-                      model.notifyListeners();
-                    },
+                  onEnter: (event) {
+                    model.buttonSizes[1] = Size(size.width / 4, size.width / 5);
+                    model.isMouseOverButton = true;
+                    model.notifyListeners();
+                  },
+                  onExit: (event) {
+                    model.buttonSizes[1] = Size(size.width / 5, size.width / 6);
+                    model.isMouseOverButton = false;
+                    model.notifyListeners();
+                  },
                   child: GestureDetector(
+                      onTap: () {
+                        model.buttonSizes[1] = 
+                          Size(size.width / 4.5, size.width / 5.5);
+                        model.notifyListeners();
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          model.buttonSizes[1] = Size(size.width / 4, size.width / 5);
+                        model.notifyListeners();
+                        });
+                        
+                      }, 
                       child: AnimatedContainer(
                     duration: const Duration(milliseconds: 250),
                     curve: Curves.ease,
-                  width: model.buttonSizes[1]!.width,
-                  height: model.buttonSizes[1]!.height,
+                    width: model.buttonSizes[1]!.width,
+                    height: model.buttonSizes[1]!.height,
+                    decoration: BoxDecoration(
+                        color: const Color(0xFFCB93FF),
+                        borderRadius: BorderRadius.circular(10)),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -359,32 +296,42 @@ class _Page2 extends StatelessWidget {
                                   .textTheme
                                   .headline3!
                                   .copyWith(
-                                    color: Color(0xFF2A2B2A), 
-                                    fontSize: size.width / 50))
+                                      color: const Color(0xFF2A2B2A),
+                                      fontSize: size.width / 50))
                         ]),
-                    decoration: BoxDecoration(
-                        color: const Color(0xFFCB93FF),
-                        borderRadius: BorderRadius.circular(10)),
                   )),
                 ),
                 SizedBox(width: size.width / 35),
                 MouseRegion(
-                    onEnter: (event) {
-                      model.buttonSizes[2] = Size(size.width / 4, size.width / 5);
-                      model.isMouseOverButton = true;
-                      model.notifyListeners();
-                    },
-                    onExit: (event) {
-                      model.buttonSizes[2] = Size(size.width / 5, size.width / 6);
-                      model.isMouseOverButton = false;
-                      model.notifyListeners();
-                    },
+                  onEnter: (event) {
+                    model.buttonSizes[2] = Size(size.width / 4, size.width / 5);
+                    model.isMouseOverButton = true;
+                    model.notifyListeners();
+                  },
+                  onExit: (event) {
+                    model.buttonSizes[2] = Size(size.width / 5, size.width / 6);
+                    model.isMouseOverButton = false;
+                    model.notifyListeners();
+                  },
                   child: GestureDetector(
+                      onTap: () {
+                        model.buttonSizes[2] = 
+                          Size(size.width / 4.5, size.width / 5.5);
+                        model.notifyListeners();
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          model.buttonSizes[2] = Size(size.width / 4, size.width / 5);
+                        model.notifyListeners();
+                        });
+                        
+                      }, 
                       child: AnimatedContainer(
                     duration: const Duration(milliseconds: 250),
                     curve: Curves.ease,
-                  width: model.buttonSizes[2]!.width,
-                  height: model.buttonSizes[2]!.height,
+                    width: model.buttonSizes[2]!.width,
+                    height: model.buttonSizes[2]!.height,
+                    decoration: BoxDecoration(
+                        color: const Color(0xFFBF7CFF),
+                        borderRadius: BorderRadius.circular(10)),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -393,13 +340,10 @@ class _Page2 extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .headline3!
-                                  .copyWith(color: Color(0xFF2A2B2A), 
-                                    fontSize: size.width / 50
-                                  ))
+                                  .copyWith(
+                                      color: Color(0xFF2A2B2A),
+                                      fontSize: size.width / 50))
                         ]),
-                    decoration: BoxDecoration(
-                        color: const Color(0xFFBF7CFF),
-                        borderRadius: BorderRadius.circular(10)),
                   )),
                 ),
               ])
