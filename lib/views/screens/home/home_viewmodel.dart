@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lima/app/locator.dart';
 import 'package:stacked/stacked.dart';
@@ -29,6 +31,12 @@ class HomeViewModel extends BaseViewModel {
   /// The sizes of each difficulty button
   List<Size?> buttonSizes = List.filled(3, const Size(0, 0));
 
+  /// Is the modal open?
+  bool modalOpen = false;
+
+  /// Is the button currently animated
+  bool isAnimated = false;
+
   /// The focus node that contains the whole screen, used for physical key press events.
   FocusNode focusNode = FocusNode();
 
@@ -38,4 +46,5 @@ class HomeViewModel extends BaseViewModel {
     if (pageIndex > 0) canGoLeft = true;
     notifyListeners();
   }
+
 }

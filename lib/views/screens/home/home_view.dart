@@ -18,6 +18,8 @@ import './home_viewmodel.dart';
 /// Storage dependencies
 import 'package:realm/realm.dart';
 
+import 'modal_viewmodel.dart';
+
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
 
@@ -200,13 +202,27 @@ class _Page2 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MouseRegion(
+                    // onHover: (event) {
+                    //   if (model.modalOpen) return; 
+                    //   model.buttonSizes[0] = 
+                    //     Size(size.width / 4, size.width / 5); 
+                    //     model.isMouseOverButton = true;
+                    //     model.notifyListeners();
+                    // },
                     onEnter: (event) {
+                      // if (model.modalOpen) return;
                       model.buttonSizes[0] =
                           Size(size.width / 4, size.width / 5);
                       model.isMouseOverButton = true;
                       model.notifyListeners();
                     },
+                    /// TODO(wowvain-dev): FIX THIS FUCKING DOGSHIT ASS ANIMATION GETTING
+                    /// TODO(wowvain-dev): ABSOLUTLEY INTRERUPTED FOR FUCKS SAKE <3
                     onExit: (event) {
+                      if (model.isAnimated) {
+                        print('exit prevented');
+                        return;
+                      }
                       model.buttonSizes[0] =
                           Size(size.width / 5, size.width / 6);
                       model.isMouseOverButton = false;
@@ -214,6 +230,7 @@ class _Page2 extends StatelessWidget {
                     },
                     child: GestureDetector(
                       onTap: () {
+                        model.modalOpen = true;
                         model.buttonSizes[0] = 
                           Size(size.width / 4.5, size.width / 5.5);
                         model.notifyListeners();
@@ -223,9 +240,18 @@ class _Page2 extends StatelessWidget {
                         }).then(
                           // (_) => context.router.push(const Level1View())
                           (_) {
+                            model.isAnimated = true;
+                            Future.delayed(const Duration(milliseconds: 100), () {
+                            model.buttonSizes[0] = Size(size.width / 5, size.width / 6);
+                            });
                             Future.delayed(const Duration(milliseconds: 100), 
-                              () => showModal(context, model: model, level: 'Invatacel')
-                            );
+                              () {
+                                showModal(
+                                  context, 
+                                  parent_model: model, 
+                                  level: 'învăţăcel');
+                              }
+                            ).then((_) {model.modalOpen = false; model.isAnimated = false;});
                           }
                         );
                       }, 
@@ -369,67 +395,107 @@ void showModal(
   BuildContext context, 
   {
     void Function()? callback, 
-    required HomeViewModel model, 
+    required HomeViewModel parent_model, 
     required String level}) {
   showDialog(
     context: context, 
     builder: (context) {
+      return ViewModelBuilder.reactive(
+        builder: (context, model, child) {
       return AlertDialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20), 
+          borderRadius: BorderRadius.circular(10), 
         ),
         contentPadding: const EdgeInsets.only(top: 10), 
         title: null, 
         content: Container(
-          height: model.size.height / 5,
+          height: MediaQuery.of(context).size.height / 4,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center, 
             children: <Widget>[
+                  // padding: const EdgeInsets.only(left: 32.0, right: 32, top: 16), 
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 32.0, right: 32, top: 16), 
-                  child: Text("Doriți să continuați ca $level?", style: Theme.of(context).textTheme.headline5!.copyWith(
-                    color: const Color(0xFFF5F5F5)
-                  ))
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: Center(
+                    child: Text("Doriți să continuați ca $level?", 
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                      color: const Color(0xFFF5F5F5), 
+                      fontSize: MediaQuery.of(context).size.width / 65,
+                    )),
+                  ),
                 ),
               ), 
-              const SizedBox(height: 32),
+              const Divider(height: 1, thickness: 1, color: Colors.white24),
               Row(
                 mainAxisSize: MainAxisSize.max, 
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: GestureDetector(
-                      child: Container(
-                        height: 40,
-                        child: Text('Nu', textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: const Color(0xFFF5F5F5)
-                          )
+                    child: MouseRegion(
+                      onEnter: model.noOnEnter,
+                      onExit: model.noOnExit,
+                      child: GestureDetector(
+                        child: AnimatedContainer(
+                          padding: const EdgeInsets.only(top: 8, bottom: 10),
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.ease,
+                          height: MediaQuery.of(context).size.height / 15,
+                          decoration: BoxDecoration(
+                            color: model.noButtonBG, 
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(10)
+                            )
+                          ),
+                          child: Center(
+                            child: Text('Nu', textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headline6!.copyWith(
+                                color: const Color(0xFFF5F5F5),
+                                fontSize: MediaQuery.of(context).size.width / 65,
+                              )
+                            ),
+                          ), 
                         ), 
-                      ), 
-                      onTap: () {
-                        Navigator.pop(context);
-                      }
+                        onTap: () {
+                          Navigator.pop(context);
+                        }
+                      ),
                     ),
                   ), 
                   // SizedBox(width: model.size.width / 10),
                   Expanded(
-                    child: GestureDetector(child: Container(
-                      child: Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blue[300]!),
-                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
-                        ),
-                        child: Text('Da', textAlign: TextAlign.center, 
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                          color: const Color(0xFFF5F5F5)
-                        ))
-                      )
-                    )),
+                    child: MouseRegion(
+                      onEnter: model.yesOnEnter,
+                      onExit: model.yesOnExit, 
+                      child: GestureDetector(
+                        child: Container(
+                        child: AnimatedContainer(
+                          padding: const EdgeInsets.only(top: 8, bottom: 10),
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.ease,
+                          height: MediaQuery.of(context).size.height / 15,
+                          decoration: BoxDecoration(
+                            color: model.yesButtonBG,
+                            borderRadius: const BorderRadius.only(bottomRight: 
+                              Radius.circular(10)
+                            )
+                          ),
+                          // decoration: BoxDecoration(
+                          //   border: Border.all(color: Colors.blue[300]!),
+                          //   borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
+                          //)
+                          child: Center(
+                            child: Text('Da', textAlign: TextAlign.center, 
+                            style: Theme.of(context).textTheme.headline6!.copyWith(
+                              color: const Color(0xFFF5F5F5), 
+                              fontSize: MediaQuery.of(context).size.width / 70
+                            )),
+                          )
+                        )
+                      )),
+                    ),
                   ), 
                 ]
               )
@@ -437,5 +503,9 @@ void showModal(
           )
         )
       );
+
+        }, 
+        viewModelBuilder: () => ModalViewModel()
+      ); 
     });
 }
