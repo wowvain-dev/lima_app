@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 
 /// Architectural Dependencies
 import 'package:lima/app/locator.dart';
-import 'package:lima/services/layout_manager.dart';
 import 'package:stacked/stacked.dart';
 import 'package:lima/app/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
@@ -26,131 +25,121 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
       builder: (context, model, child) {
-        l<LayoutManager>().updateLayout(context);
-        return Scaffold(
-            body: Container(child: _HorizontalLayout(model: model)));
-      },
-      viewModelBuilder: () => HomeViewModel(),
-    );
-  }
-}
-
-class _HorizontalLayout extends StatelessWidget {
-  _HorizontalLayout({required this.model});
-
-  HomeViewModel model;
-
-  @override
-  Widget build(BuildContext context) {
     model.focusNode.requestFocus();
-    return Focus(
-      focusNode: model.focusNode,
-      onKey: (_, event) {
-        if (event.data.physicalKey == PhysicalKeyboardKey.arrowRight &&
-            model.pageIndex < 2 &&
-            model.canGoRight) {
-          model.pageController.nextPage(
-              duration: const Duration(milliseconds: 500), curve: Curves.ease);
-          model.pageIndex++;
-          model.canGoRight = false;
-          model.canGoLeft = false;
+    model.size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: Focus(
+        focusNode: model.focusNode,
+        onKey: (_, event) {
+          if (event.data.physicalKey == PhysicalKeyboardKey.arrowRight &&
+              model.pageIndex < 2 &&
+              model.canGoRight) {
+            model.pageController.nextPage(
+                duration: const Duration(milliseconds: 500), curve: Curves.ease);
+            model.pageIndex++;
+            model.canGoRight = false;
+            model.canGoLeft = false;
+            model.notifyListeners();
+            Future.delayed(const Duration(milliseconds: 450), model.scroll);
+            model.notifyListeners();
+          }
+          if (event.data.physicalKey == PhysicalKeyboardKey.arrowLeft &&
+              model.pageIndex > 0 &&
+              model.canGoLeft) {
+            model.pageController.previousPage(
+                duration: const Duration(milliseconds: 500), curve: Curves.ease);
+            model.pageIndex--;
+            model.canGoRight = false;
+            model.canGoLeft = false;
+            model.notifyListeners();
+            Future.delayed(const Duration(milliseconds: 450), model.scroll);
+            model.notifyListeners();
+          }
           model.notifyListeners();
-          Future.delayed(const Duration(milliseconds: 450), model.scroll);
-          model.notifyListeners();
-        }
-        if (event.data.physicalKey == PhysicalKeyboardKey.arrowLeft &&
-            model.pageIndex > 0 &&
-            model.canGoLeft) {
-          model.pageController.previousPage(
-              duration: const Duration(milliseconds: 500), curve: Curves.ease);
-          model.pageIndex--;
-          model.canGoRight = false;
-          model.canGoLeft = false;
-          model.notifyListeners();
-          Future.delayed(const Duration(milliseconds: 450), model.scroll);
-          model.notifyListeners();
-        }
-        model.notifyListeners();
-        return KeyEventResult.handled;
-      },
-      child: Column(children: [
-        const SizedBox(height: 60),
-        Expanded(
-          child: PageView(
-              controller: model.pageController,
-              onPageChanged: (val) {
-                model.pageIndex = val;
-                model.notifyListeners();
-              },
-              scrollDirection: Axis.horizontal,
-              children: [_Page1(model), _Page2(model), _Page3(model)]),
-        ),
-        Container(
-          margin: const EdgeInsets.only(bottom: 32),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  iconSize: 30,
-                  // color: Colors.white24,
-                  icon: const Icon(Icons.arrow_back_ios_new),
-                  onPressed: model.pageIndex > 0 && model.canGoLeft
-                      ? () async {
-                          model.pageController.previousPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.ease);
-                          model.pageIndex--;
-                          model.canGoRight = false;
-                          model.canGoLeft = false;
-                          model.notifyListeners();
-                          Future.delayed(
-                              const Duration(milliseconds: 450), model.scroll);
-                          model.notifyListeners();
-                        }
-                      : null),
-              const SizedBox(width: 32),
-              Icon(Icons.circle,
-                  size: 15,
-                  color: model.pageIndex == 0
-                      ? const Color(0xFFF5F5F5)
-                      : Colors.white54),
-              const SizedBox(width: 16),
-              Icon(Icons.circle,
-                  size: 15,
-                  color: model.pageIndex == 1
-                      ? const Color(0xFFF5F5F5)
-                      : Colors.white54),
-              const SizedBox(width: 16),
-              Icon(Icons.circle,
-                  size: 15,
-                  color: model.pageIndex == 2
-                      ? const Color(0xFFF5F5F5)
-                      : Colors.white54),
-              const SizedBox(width: 32),
-              IconButton(
-                  iconSize: 30,
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: model.pageIndex < 2 && model.canGoRight
-                      ? () async {
-                          model.pageController.nextPage(
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.ease,
-                          );
-                          model.pageIndex++;
-                          model.canGoRight = false;
-                          model.canGoLeft = false;
-                          model.notifyListeners();
-                          Future.delayed(
-                              const Duration(milliseconds: 450), model.scroll);
-                          model.notifyListeners();
-                        }
-                      : null),
-            ],
+          return KeyEventResult.handled;
+        },
+        child: Column(children: [
+          const SizedBox(height: 60),
+          Expanded(
+            child: PageView(
+                controller: model.pageController,
+                onPageChanged: (val) {
+                  model.pageIndex = val;
+                  model.notifyListeners();
+                },
+                scrollDirection: Axis.horizontal,
+                children: [_Page1(model), _Page2(model), _Page3(model)]),
           ),
-        )
-      ]),
+          Container(
+            margin: const EdgeInsets.only(bottom: 32),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    iconSize: 30,
+                    // color: Colors.white24,
+                    icon: const Icon(Icons.arrow_back_ios_new),
+                    onPressed: model.pageIndex > 0 && model.canGoLeft
+                        ? () async {
+                            model.pageController.previousPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.ease);
+                            model.pageIndex--;
+                            model.canGoRight = false;
+                            model.canGoLeft = false;
+                            model.notifyListeners();
+                            Future.delayed(
+                                const Duration(milliseconds: 450), model.scroll);
+                            model.notifyListeners();
+                          }
+                        : null),
+                const SizedBox(width: 32),
+                Icon(Icons.circle,
+                    size: 15,
+                    color: model.pageIndex == 0
+                        ? const Color(0xFFF5F5F5)
+                        : Colors.white54),
+                const SizedBox(width: 16),
+                Icon(Icons.circle,
+                    size: 15,
+                    color: model.pageIndex == 1
+                        ? const Color(0xFFF5F5F5)
+                        : Colors.white54),
+                const SizedBox(width: 16),
+                Icon(Icons.circle,
+                    size: 15,
+                    color: model.pageIndex == 2
+                        ? const Color(0xFFF5F5F5)
+                        : Colors.white54),
+                const SizedBox(width: 32),
+                IconButton(
+                    iconSize: 30,
+                    icon: const Icon(Icons.arrow_forward_ios),
+                    onPressed: model.pageIndex < 2 && model.canGoRight
+                        ? () async {
+                            model.pageController.nextPage(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.ease,
+                            );
+                            model.pageIndex++;
+                            model.canGoRight = false;
+                            model.canGoLeft = false;
+                            model.notifyListeners();
+                            Future.delayed(
+                                const Duration(milliseconds: 450), model.scroll);
+                            model.notifyListeners();
+                          }
+                        : null),
+              ],
+            ),
+          )
+        ]),
+      ),
+    );
+  },
+      viewModelBuilder: () => HomeViewModel(),
     );
   }
 }
@@ -166,18 +155,19 @@ class _Page1 extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            model.isEnglish ? 'Hello!' : 'Salut!',
+            'Salut!',
             style: Theme.of(context).textTheme.headline2!.copyWith(
-                fontWeight: FontWeight.w400, color: const Color(0xFFF5F5F5)),
+                fontWeight: FontWeight.w400, color: const Color(0xFFF5F5F5), 
+                fontSize: model.size.width / 25),
           ),
           Text(
-            model.isEnglish
-                ? 'Press on the right arrow'
-                : 'Apăsaţi pe săgeata spre dreapta',
+            'Apăsaţi pe săgeata spre dreapta',
             style: Theme.of(context)
                 .textTheme
                 .headline6!
-                .copyWith(color: Colors.white60),
+                .copyWith(color: Colors.white60, 
+                  fontSize: model.size.width / 70
+                ),
           ),
         ]);
   }
@@ -231,7 +221,12 @@ class _Page2 extends StatelessWidget {
                           model.buttonSizes[0] = Size(size.width / 4, size.width / 5);
                         model.notifyListeners();
                         }).then(
-                          (_) => context.router.push(const Level1View())
+                          // (_) => context.router.push(const Level1View())
+                          (_) {
+                            Future.delayed(const Duration(milliseconds: 100), 
+                              () => showModal(context, model: model, level: 'Invatacel')
+                            );
+                          }
                         );
                       }, 
                       child: AnimatedContainer(
@@ -251,7 +246,7 @@ class _Page2 extends StatelessWidget {
                                       .textTheme
                                       .headline3!
                                       .copyWith(
-                                          color: Color(0xFF2A2B2A),
+                                          color: const Color(0xFF2A2B2A),
                                           fontSize: size.width / 50))
                             ]),
                       ),
@@ -277,6 +272,8 @@ class _Page2 extends StatelessWidget {
                           model.buttonSizes[1] = Size(size.width / 4, size.width / 5);
                         model.notifyListeners();
                         });
+                          // (_) => context.router.push(const Level2View())
+                        //);
                         
                       }, 
                       child: AnimatedContainer(
@@ -321,7 +318,9 @@ class _Page2 extends StatelessWidget {
                         Future.delayed(const Duration(milliseconds: 100), () {
                           model.buttonSizes[2] = Size(size.width / 4, size.width / 5);
                         model.notifyListeners();
-                        });
+                        }).then(
+                          (_) => context.router.push(const Level2View())
+                        );
                         
                       }, 
                       child: AnimatedContainer(
@@ -341,7 +340,7 @@ class _Page2 extends StatelessWidget {
                                   .textTheme
                                   .headline3!
                                   .copyWith(
-                                      color: Color(0xFF2A2B2A),
+                                      color: const Color(0xFF2A2B2A),
                                       fontSize: size.width / 50))
                         ]),
                   )),
@@ -362,6 +361,81 @@ class _Page3 extends StatelessWidget {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Text('Page 3')]);
+        children: [const Text('Page 3')]);
   }
+}
+
+void showModal(
+  BuildContext context, 
+  {
+    void Function()? callback, 
+    required HomeViewModel model, 
+    required String level}) {
+  showDialog(
+    context: context, 
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20), 
+        ),
+        contentPadding: const EdgeInsets.only(top: 10), 
+        title: null, 
+        content: Container(
+          height: model.size.height / 5,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center, 
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 32.0, right: 32, top: 16), 
+                  child: Text("Doriți să continuați ca $level?", style: Theme.of(context).textTheme.headline5!.copyWith(
+                    color: const Color(0xFFF5F5F5)
+                  ))
+                ),
+              ), 
+              const SizedBox(height: 32),
+              Row(
+                mainAxisSize: MainAxisSize.max, 
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      child: Container(
+                        height: 40,
+                        child: Text('Nu', textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: const Color(0xFFF5F5F5)
+                          )
+                        ), 
+                      ), 
+                      onTap: () {
+                        Navigator.pop(context);
+                      }
+                    ),
+                  ), 
+                  // SizedBox(width: model.size.width / 10),
+                  Expanded(
+                    child: GestureDetector(child: Container(
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blue[300]!),
+                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
+                        ),
+                        child: Text('Da', textAlign: TextAlign.center, 
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: const Color(0xFFF5F5F5)
+                        ))
+                      )
+                    )),
+                  ), 
+                ]
+              )
+            ]
+          )
+        )
+      );
+    });
 }

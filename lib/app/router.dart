@@ -17,9 +17,15 @@ import '../views/screens/level3/level3_view.dart';
   /// The three pages coresponding to the difficulty levels
   CustomRoute(page: Level1View, 
     transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
+    durationInMilliseconds: 300,
   ),
-  AutoRoute(page: Level2View), 
-  AutoRoute(page: Level3View) 
+  CustomRoute(page: Level2View, 
+    transitionsBuilder: TransitionsBuilders.fadeIn, 
+    durationInMilliseconds: 300, 
+  ), 
+  CustomRoute(page: Level3View, 
+    transitionsBuilder: TransitionsBuilders.fadeIn, 
+    durationInMilliseconds: 300, 
+  ) 
 ])
 class $AppRouter {}

@@ -39,21 +39,29 @@ class AppRouter extends _i5.RootStackRouter {
         routeData: routeData,
         child: _i2.Level1View(),
         transitionsBuilder: _i7.TransitionsBuilders.fadeIn,
-        durationInMilliseconds: 200,
+        durationInMilliseconds: 300,
         opaque: true,
         barrierDismissible: false,
       );
     },
     Level2View.name: (routeData) {
-      return _i5.MaterialPageX<dynamic>(
+      return _i5.CustomPage<dynamic>(
         routeData: routeData,
         child: _i3.Level2View(),
+        transitionsBuilder: _i7.TransitionsBuilders.fadeIn,
+        durationInMilliseconds: 300,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
     Level3View.name: (routeData) {
-      return _i5.MaterialPageX<dynamic>(
+      return _i5.CustomPage<dynamic>(
         routeData: routeData,
         child: _i4.Level3View(),
+        transitionsBuilder: _i7.TransitionsBuilders.fadeIn,
+        durationInMilliseconds: 300,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
   };

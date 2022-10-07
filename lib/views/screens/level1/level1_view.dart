@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 
 /// Architectural Dependencies
 import 'package:lima/app/locator.dart';
-import 'package:lima/services/layout_manager.dart';
 import 'package:stacked/stacked.dart';
 import 'package:lima/app/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
