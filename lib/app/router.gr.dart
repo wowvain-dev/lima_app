@@ -29,9 +29,16 @@ class AppRouter extends _i5.RootStackRouter {
     HomeView.name: (routeData) {
       final args =
           routeData.argsAs<HomeViewArgs>(orElse: () => const HomeViewArgs());
-      return _i5.MaterialPageX<dynamic>(
+      return _i5.CustomPage<dynamic>(
         routeData: routeData,
-        child: _i1.HomeView(key: args.key),
+        child: _i1.HomeView(
+          key: args.key,
+          initialIndex: args.initialIndex,
+        ),
+        transitionsBuilder: _i7.TransitionsBuilders.slideLeftWithFade,
+        durationInMilliseconds: 300,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
     Level1View.name: (routeData) {
@@ -90,24 +97,34 @@ class AppRouter extends _i5.RootStackRouter {
 /// generated route for
 /// [_i1.HomeView]
 class HomeView extends _i5.PageRouteInfo<HomeViewArgs> {
-  HomeView({_i6.Key? key})
-      : super(
+  HomeView({
+    _i6.Key? key,
+    int? initialIndex,
+  }) : super(
           HomeView.name,
           path: '/',
-          args: HomeViewArgs(key: key),
+          args: HomeViewArgs(
+            key: key,
+            initialIndex: initialIndex,
+          ),
         );
 
   static const String name = 'HomeView';
 }
 
 class HomeViewArgs {
-  const HomeViewArgs({this.key});
+  const HomeViewArgs({
+    this.key,
+    this.initialIndex,
+  });
 
   final _i6.Key? key;
 
+  final int? initialIndex;
+
   @override
   String toString() {
-    return 'HomeViewArgs{key: $key}';
+    return 'HomeViewArgs{key: $key, initialIndex: $initialIndex}';
   }
 }
 

@@ -22,6 +22,22 @@ class Level3View extends StatelessWidget {
   
   @override 
   Widget build(BuildContext context) {
-    return SizedBox();
+    return Scaffold(
+      body: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              context.router.pop(HomeView());
+            }, 
+            child: Container(
+              color: Colors.pink, 
+              width: 100, 
+              height: 100,
+    
+            )
+          )
+        ]
+      ),
+    );
   }
 }

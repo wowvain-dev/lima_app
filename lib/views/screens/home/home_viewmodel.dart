@@ -9,6 +9,25 @@ import 'package:stacked/stacked.dart';
 
 /// The `ViewModel` for the `Home` screen.
 class HomeViewModel extends BaseViewModel {
+  HomeViewModel({required this.pageIndex}){
+    this.pageController = PageController(initialPage: pageIndex);
+    
+    switch(pageIndex) {
+      case 0:
+        canGoLeft = false;
+        canGoRight = true;
+        break; 
+      case 1: 
+        canGoLeft = true;
+        canGoRight = true;
+        break;
+      case 2: 
+        canGoLeft = true;
+        canGoRight = false;
+        break;
+    }
+  }
+
   /// The page controller.
   PageController pageController = PageController(initialPage: 0);
 
@@ -30,12 +49,6 @@ class HomeViewModel extends BaseViewModel {
 
   /// The sizes of each difficulty button
   List<Size?> buttonSizes = List.filled(3, const Size(0, 0));
-
-  /// Is the modal open?
-  bool modalOpen = false;
-
-  /// Is the button currently animated
-  bool isAnimated = false;
 
   /// The focus node that contains the whole screen, used for physical key press events.
   FocusNode focusNode = FocusNode();

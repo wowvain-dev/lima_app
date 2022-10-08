@@ -12,7 +12,10 @@ import '../views/screens/level3/level3_view.dart';
 /// (used to generate `router.gr.dart`)
 @MaterialAutoRouter(replaceInRouteName: 'Page,Route', routes: <AutoRoute>[
   /// The initial home page.
-  AutoRoute(page: HomeView, initial: true),
+  CustomRoute(page: HomeView, initial: true, 
+    transitionsBuilder: TransitionsBuilders.slideLeftWithFade, 
+    durationInMilliseconds: 300,
+  ),
   
   /// The three pages coresponding to the difficulty levels
   CustomRoute(page: Level1View, 

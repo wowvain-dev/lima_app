@@ -21,7 +21,10 @@ import 'package:realm/realm.dart';
 import 'modal_viewmodel.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView({Key? key}) : super(key: key);
+  HomeView({Key? key, this.initialIndex}) : super(key: key);
+
+  /// The initial index of the page view.
+  int? initialIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +144,7 @@ class HomeView extends StatelessWidget {
       ),
     );
   },
-      viewModelBuilder: () => HomeViewModel(),
+      viewModelBuilder: () => HomeViewModel(pageIndex: initialIndex ?? 0),
     );
   }
 }
@@ -202,27 +205,13 @@ class _Page2 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MouseRegion(
-                    // onHover: (event) {
-                    //   if (model.modalOpen) return; 
-                    //   model.buttonSizes[0] = 
-                    //     Size(size.width / 4, size.width / 5); 
-                    //     model.isMouseOverButton = true;
-                    //     model.notifyListeners();
-                    // },
                     onEnter: (event) {
-                      // if (model.modalOpen) return;
                       model.buttonSizes[0] =
                           Size(size.width / 4, size.width / 5);
                       model.isMouseOverButton = true;
                       model.notifyListeners();
                     },
-                    /// TODO(wowvain-dev): FIX THIS FUCKING DOGSHIT ASS ANIMATION GETTING
-                    /// TODO(wowvain-dev): ABSOLUTLEY INTRERUPTED FOR FUCKS SAKE <3
                     onExit: (event) {
-                      if (model.isAnimated) {
-                        print('exit prevented');
-                        return;
-                      }
                       model.buttonSizes[0] =
                           Size(size.width / 5, size.width / 6);
                       model.isMouseOverButton = false;
@@ -230,17 +219,11 @@ class _Page2 extends StatelessWidget {
                     },
                     child: GestureDetector(
                       onTap: () {
-                        model.modalOpen = true;
-                        model.buttonSizes[0] = 
-                          Size(size.width / 4.5, size.width / 5.5);
-                        model.notifyListeners();
-                        Future.delayed(const Duration(milliseconds: 100), () {
+                        Future.delayed(Duration.zero, () {
                           model.buttonSizes[0] = Size(size.width / 4, size.width / 5);
                         model.notifyListeners();
                         }).then(
-                          // (_) => context.router.push(const Level1View())
                           (_) {
-                            model.isAnimated = true;
                             Future.delayed(const Duration(milliseconds: 100), () {
                             model.buttonSizes[0] = Size(size.width / 5, size.width / 6);
                             });
@@ -249,9 +232,10 @@ class _Page2 extends StatelessWidget {
                                 showModal(
                                   context, 
                                   parent_model: model, 
-                                  level: 'învăţăcel');
+                                  level: 'învăţăcel', 
+                                  callback: () => context.router.replace(Level1View()));
                               }
-                            ).then((_) {model.modalOpen = false; model.isAnimated = false;});
+                            );
                           }
                         );
                       }, 
@@ -291,13 +275,25 @@ class _Page2 extends StatelessWidget {
                   },
                   child: GestureDetector(
                       onTap: () {
-                        model.buttonSizes[1] = 
-                          Size(size.width / 4.5, size.width / 5.5);
-                        model.notifyListeners();
-                        Future.delayed(const Duration(milliseconds: 100), () {
+                        Future.delayed(Duration.zero, () {
                           model.buttonSizes[1] = Size(size.width / 4, size.width / 5);
                         model.notifyListeners();
-                        });
+                        }).then(
+                          (_) {
+                            Future.delayed(const Duration(milliseconds: 100), () {
+                            model.buttonSizes[0] = Size(size.width / 5, size.width / 6);
+                            });
+                            Future.delayed(const Duration(milliseconds: 100), 
+                              () {
+                                showModal(
+                                  context, 
+                                  parent_model: model, 
+                                  level: 'cunoscător', 
+                                  callback: () => context.router.replace(Level2View()));
+                              }
+                            );
+                          }
+                        );
                           // (_) => context.router.push(const Level2View())
                         //);
                         
@@ -345,7 +341,20 @@ class _Page2 extends StatelessWidget {
                           model.buttonSizes[2] = Size(size.width / 4, size.width / 5);
                         model.notifyListeners();
                         }).then(
-                          (_) => context.router.push(const Level2View())
+                          (_) {
+                            Future.delayed(const Duration(milliseconds: 100), () {
+                            model.buttonSizes[0] = Size(size.width / 5, size.width / 6);
+                            });
+                            Future.delayed(const Duration(milliseconds: 100), 
+                              () {
+                                showModal(
+                                  context, 
+                                  parent_model: model, 
+                                  level: 'cunoscător', 
+                                  callback: () => context.router.replace(Level3View()));
+                              }
+                            );
+                          }
                         );
                         
                       }, 
@@ -470,6 +479,7 @@ void showModal(
                       onEnter: model.yesOnEnter,
                       onExit: model.yesOnExit, 
                       child: GestureDetector(
+                        onTap: callback,
                         child: Container(
                         child: AnimatedContainer(
                           padding: const EdgeInsets.only(top: 8, bottom: 10),
