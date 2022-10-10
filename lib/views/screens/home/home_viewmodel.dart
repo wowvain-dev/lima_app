@@ -10,7 +10,7 @@ import 'package:stacked/stacked.dart';
 /// The `ViewModel` for the `Home` screen.
 class HomeViewModel extends BaseViewModel {
   HomeViewModel({required this.pageIndex}){
-    this.pageController = PageController(initialPage: pageIndex);
+    pageController = PageController(initialPage: pageIndex);
     
     switch(pageIndex) {
       case 0:

@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return MaterialApp.router(
-      title: 'lima',
+      title: 'Lima - Culegere Interactiva',
       theme: Themes().customLightTheme(),
       darkTheme: Themes().customDarkTheme(),
       routerDelegate: _appRouter.delegate(),

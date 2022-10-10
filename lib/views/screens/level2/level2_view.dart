@@ -27,7 +27,7 @@ class Level2View extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              context.router.replace(HomeView());
+              context.router.replace(HomeView(initialIndex: 1));
             }, 
             child: Container(
               color: Colors.pink, 
