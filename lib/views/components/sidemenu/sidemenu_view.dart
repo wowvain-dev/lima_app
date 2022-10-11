@@ -45,7 +45,7 @@ class SideMenu extends StatelessWidget {
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: const Icon(Icons.arrow_back_ios, 
-                        color: const Color(0xFF2A2B2A))
+                        color: Color(0xFF2A2B2A))
                       )
                     ]
                   ), 

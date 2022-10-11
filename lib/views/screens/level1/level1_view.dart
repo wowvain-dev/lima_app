@@ -20,6 +20,9 @@ import './level1_viewmodel.dart';
 import 'package:realm/realm.dart';
 
 class Level1View extends StatelessWidget {
+  
+  double menuWidth = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,23 +41,37 @@ class Level1View extends StatelessWidget {
               ]
           )
         ),
+        onDrawerChanged: (isOpened) {
+          if (isOpened) menuWidth = MediaQuery.of(context).size.width / 4;
+          if (!isOpened) menuWidth = 0;
+        },
         body: ViewModelBuilder.reactive(
             viewModelBuilder: () => Level1ViewModel(),
             builder: (context, model, child) {
-              return Column(children: [
-                GestureDetector(
-                    onTap: () {
-                      context.router.replace(HomeView(initialIndex: 1));
-                    },
-                    child: const Icon(
-                      Icons.arrow_back,
-                    )),
-                GestureDetector(
-                    onTap: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    child: const Icon( Icons.arrow_forward_ios))
-              ]);
+              return Row(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 120), 
+                    curve: Curves.ease, 
+                    width: menuWidth
+                  ),
+                  Column(children: [
+                    GestureDetector(
+                        onTap: () {
+                          context.router.replace(HomeView(initialIndex: 1));
+                        },
+                        child: const Icon(
+                          Icons.arrow_back,
+                        )),
+                    GestureDetector(
+                       onTap: () {
+                          Scaffold.of(context).openDrawer();
+                          model.notifyListeners();
+                        },
+                        child: const Icon( Icons.arrow_forward_ios))
+                  ]),
+                ],
+              );
             }));
   }
 }
