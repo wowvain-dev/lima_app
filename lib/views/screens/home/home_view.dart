@@ -1,5 +1,6 @@
 /// Flutter
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 /// Architectural Dependencies
@@ -202,6 +203,9 @@ class _Page2 extends StatelessWidget {
           );
       }
     }
+
+    AnimationController controller;
+
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -240,7 +244,6 @@ class _Page2 extends StatelessWidget {
                           });
                           Future.delayed(const Duration(milliseconds: 100), () {
                             showModal(context,
-                                parent_model: model,
                                 level: 'învăţăcel',
                                 callback: () =>
                                     context.router.replace(Level1View()));
@@ -298,7 +301,6 @@ class _Page2 extends StatelessWidget {
                           });
                           Future.delayed(const Duration(milliseconds: 100), () {
                             showModal(context,
-                                parent_model: model,
                                 level: 'cunoscător',
                                 callback: () =>
                                     context.router.replace(Level2View()));
@@ -371,7 +373,6 @@ class _Page2 extends StatelessWidget {
                           });
                           Future.delayed(const Duration(milliseconds: 100), () {
                             showModal(context,
-                                parent_model: model,
                                 level: 'cunoscător',
                                 callback: () =>
                                     context.router.replace(Level3View()));
@@ -391,13 +392,9 @@ class _Page2 extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               /// TODO(wowvain-dev): animate icons
-                              AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                curve: Curves.ease,
-                                width: model.buttonSizes[2].iconSize!,
-                                height: model.buttonSizes[2].iconSize!,
-                                child: Icon(Icons.school_outlined,
-                                  color: const Color(0xFF2A2B2A))),
+                              Icon(Icons.school_outlined,
+                                size: model.buttonSizes[2].iconSize,
+                                color: const Color(0xFF2A2B2A)),
                               const SizedBox(height: 8),
                               Text('Expert',
                                   style: Theme.of(context)
@@ -417,7 +414,6 @@ class _Page2 extends StatelessWidget {
 
 void showModal(BuildContext context,
     {void Function()? callback,
-    required HomeViewModel parent_model,
     required String level}) {
   showDialog(
       context: context,
