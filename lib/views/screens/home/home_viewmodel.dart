@@ -19,10 +19,6 @@ class HomeViewModel extends BaseViewModel {
         break; 
       case 1: 
         canGoLeft = true;
-        canGoRight = true;
-        break;
-      case 2: 
-        canGoLeft = true;
         canGoRight = false;
         break;
     }

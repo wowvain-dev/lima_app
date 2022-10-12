@@ -1,5 +1,6 @@
 /// Flutter
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 /// Architectural dependencies
 import 'package:stacked/stacked.dart';
@@ -44,9 +45,11 @@ class SideMenu extends StatelessWidget {
                       ), 
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
-                        child: const Icon(Icons.arrow_back_ios, 
-                        color: Color(0xFF2A2B2A))
-                      )
+                        child: SvgPicture.asset('assets/svg/double-arrow-left.svg', 
+                          color: const Color(0xFF2A2B2A)
+                        ), 
+                      ), 
+                      SizedBox(width: 8),
                     ]
                   ), 
                   ));
