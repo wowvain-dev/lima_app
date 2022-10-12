@@ -192,9 +192,14 @@ class _Page2 extends StatelessWidget {
 
     /// Initializing the button sizes
     for (int i = 0; i < 3; i++) {
-      if (model.buttonSizes[i]!.width == 0 ||
+      if (model.buttonSizes[i].containerSize!.width == 0 ||
           model.isMouseOverButton == false) {
-        model.buttonSizes[i] = Size(size.width / 5, size.width / 6);
+        model.buttonSizes[i] = 
+          ButtonDimensions(
+            containerSize: Size(size.width / 5, size.width / 6),
+            iconSize: size.width / 20, 
+            fontSize: size.width / 50,
+          );
       }
     }
     return Column(
@@ -211,13 +216,13 @@ class _Page2 extends StatelessWidget {
               children: [
                 MouseRegion(
                     onEnter: (event) {
-                      model.buttonSizes[0] =
+                      model.buttonSizes[0].containerSize =
                           Size(size.width / 4, size.width / 5);
                       model.isMouseOverButton = true;
                       model.notifyListeners();
                     },
                     onExit: (event) {
-                      model.buttonSizes[0] =
+                      model.buttonSizes[0].containerSize =
                           Size(size.width / 5, size.width / 6);
                       model.isMouseOverButton = false;
                       model.notifyListeners();
@@ -225,12 +230,12 @@ class _Page2 extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         Future.delayed(Duration.zero, () {
-                          model.buttonSizes[0] =
+                          model.buttonSizes[0].containerSize =
                               Size(size.width / 4, size.width / 5);
                           model.notifyListeners();
                         }).then((_) {
                           Future.delayed(const Duration(milliseconds: 100), () {
-                            model.buttonSizes[0] =
+                            model.buttonSizes[0].containerSize =
                                 Size(size.width / 5, size.width / 6);
                           });
                           Future.delayed(const Duration(milliseconds: 100), () {
@@ -245,8 +250,8 @@ class _Page2 extends StatelessWidget {
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.ease,
-                        width: model.buttonSizes[0]!.width,
-                        height: model.buttonSizes[0]!.height,
+                        width: model.buttonSizes[0].containerSize!.width,
+                        height: model.buttonSizes[0].containerSize!.height,
                         decoration: BoxDecoration(
                             color: const Color(0xFFD9B1FF),
                             borderRadius: BorderRadius.circular(10)),
@@ -255,7 +260,7 @@ class _Page2 extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(Icons.backpack_outlined,
-                                  size: size.width / 20,
+                                  size: model.buttonSizes[0].iconSize,
                                   color: const Color(0xFF2A2B2A)),
                               const SizedBox(height: 8),
                               Text('Învățăcel',
@@ -264,31 +269,31 @@ class _Page2 extends StatelessWidget {
                                       .headline3!
                                       .copyWith(
                                           color: const Color(0xFF2A2B2A),
-                                          fontSize: size.width / 50))
+                                          fontSize: model.buttonSizes[0].fontSize))
                             ]),
                       ),
                     )),
                 SizedBox(width: size.width / 35),
                 MouseRegion(
                   onEnter: (event) {
-                    model.buttonSizes[1] = Size(size.width / 4, size.width / 5);
+                    model.buttonSizes[1].containerSize = Size(size.width / 4, size.width / 5);
                     model.isMouseOverButton = true;
                     model.notifyListeners();
                   },
                   onExit: (event) {
-                    model.buttonSizes[1] = Size(size.width / 5, size.width / 6);
+                    model.buttonSizes[1].containerSize = Size(size.width / 5, size.width / 6);
                     model.isMouseOverButton = false;
                     model.notifyListeners();
                   },
                   child: GestureDetector(
                       onTap: () {
                         Future.delayed(Duration.zero, () {
-                          model.buttonSizes[1] =
+                          model.buttonSizes[1].containerSize =
                               Size(size.width / 4, size.width / 5);
                           model.notifyListeners();
                         }).then((_) {
                           Future.delayed(const Duration(milliseconds: 100), () {
-                            model.buttonSizes[0] =
+                            model.buttonSizes[1].containerSize =
                                 Size(size.width / 5, size.width / 6);
                           });
                           Future.delayed(const Duration(milliseconds: 100), () {
@@ -299,14 +304,12 @@ class _Page2 extends StatelessWidget {
                                     context.router.replace(Level2View()));
                           });
                         });
-                        // (_) => context.router.push(const Level2View())
-                        //);
                       },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.ease,
-                        width: model.buttonSizes[1]!.width,
-                        height: model.buttonSizes[1]!.height,
+                        width: model.buttonSizes[1].containerSize!.width,
+                        height: model.buttonSizes[1].containerSize!.height,
                         decoration: BoxDecoration(
                             color: const Color(0xFFCB93FF),
                             borderRadius: BorderRadius.circular(10)),
@@ -315,7 +318,7 @@ class _Page2 extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(Icons.menu_book_sharp,
-                                  size: size.width / 20,
+                                  size: model.buttonSizes[1].iconSize,
                                   color: const Color(0xFF2A2B2A)),
                               const SizedBox(height: 8),
                               Text('Cunoscător',
@@ -324,35 +327,47 @@ class _Page2 extends StatelessWidget {
                                       .headline3!
                                       .copyWith(
                                           color: const Color(0xFF2A2B2A),
-                                          fontSize: size.width / 50))
+                                          fontSize: model.buttonSizes[1].fontSize))
                             ]),
                       )),
                 ),
                 SizedBox(width: size.width / 35),
                 MouseRegion(
                   onEnter: (event) {
-                    model.buttonSizes[2] = Size(size.width / 4, size.width / 5);
+                    model.buttonSizes[2].containerSize = Size(size.width / 4, size.width / 5);
+                    model.buttonSizes[2].iconSize = size.width / 17;
+                    model.buttonSizes[2].fontSize = size.width / 47;
                     model.isMouseOverButton = true;
                     model.notifyListeners();
                   },
                   onExit: (event) {
-                    model.buttonSizes[2] = Size(size.width / 5, size.width / 6);
+                    model.buttonSizes[2].containerSize = Size(size.width / 5, size.width / 6);
                     model.isMouseOverButton = false;
                     model.notifyListeners();
                   },
                   child: GestureDetector(
                       onTap: () {
-                        model.buttonSizes[2] =
+                        model.buttonSizes[2].containerSize =
                             Size(size.width / 4.5, size.width / 5.5);
+                        model.buttonSizes[2].iconSize = 
+                            size.width / 18;
+                        model.buttonSizes[2].fontSize = 
+                            size.width / 48;
                         model.notifyListeners();
                         Future.delayed(const Duration(milliseconds: 100), () {
-                          model.buttonSizes[2] =
+                          model.buttonSizes[2].containerSize =
                               Size(size.width / 4, size.width / 5);
+                        model.buttonSizes[2].iconSize = 
+                            size.width / 17;
+                        model.buttonSizes[2].fontSize = 
+                            size.width / 47;
                           model.notifyListeners();
                         }).then((_) {
                           Future.delayed(const Duration(milliseconds: 100), () {
-                            model.buttonSizes[0] =
+                            model.buttonSizes[0].containerSize =
                                 Size(size.width / 5, size.width / 6);
+                            model.buttonSizes[2].iconSize = size.width / 20;
+                            model.buttonSizes[2].fontSize = size.width / 50;
                           });
                           Future.delayed(const Duration(milliseconds: 100), () {
                             showModal(context,
@@ -366,8 +381,8 @@ class _Page2 extends StatelessWidget {
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.ease,
-                        width: model.buttonSizes[2]!.width,
-                        height: model.buttonSizes[2]!.height,
+                        width: model.buttonSizes[2].containerSize!.width,
+                        height: model.buttonSizes[2].containerSize!.height,
                         decoration: BoxDecoration(
                             color: const Color(0xFFBF7CFF),
                             borderRadius: BorderRadius.circular(10)),
@@ -375,9 +390,14 @@ class _Page2 extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Icon(Icons.school_outlined,
-                                  size: size.width / 20,
-                                  color: const Color(0xFF2A2B2A)),
+                              /// TODO(wowvain-dev): animate icons
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.ease,
+                                width: model.buttonSizes[2].iconSize!,
+                                height: model.buttonSizes[2].iconSize!,
+                                child: Icon(Icons.school_outlined,
+                                  color: const Color(0xFF2A2B2A))),
                               const SizedBox(height: 8),
                               Text('Expert',
                                   style: Theme.of(context)
@@ -385,7 +405,7 @@ class _Page2 extends StatelessWidget {
                                       .headline3!
                                       .copyWith(
                                           color: const Color(0xFF2A2B2A),
-                                          fontSize: size.width / 50))
+                                          fontSize: model.buttonSizes[2].fontSize))
                             ]),
                       )),
                 ),
@@ -406,8 +426,6 @@ void showModal(BuildContext context,
             builder: (context, model, child) {
               var size = MediaQuery.of(context).size;
               var raport = size.width / size.height;
-
-              print(raport);
 
               if (raport > 1.80) {
                 size = Size(size.height * 1.70, size.height);

@@ -7,17 +7,35 @@ import 'package:flutter/widgets.dart';
 import 'package:lima/app/locator.dart';
 import 'package:stacked/stacked.dart';
 
+/// The dimensions used to manipulate / generate the buttons
+class ButtonDimensions {
+  ButtonDimensions({
+    this.containerSize, 
+    this.fontSize, 
+    this.iconSize
+  });
+
+  /// The sizes of the button container
+  Size? containerSize;
+
+  /// The size of the label font
+  double? fontSize;
+
+  /// The size of the icon
+  double? iconSize;
+}
+
 /// The `ViewModel` for the `Home` screen.
 class HomeViewModel extends BaseViewModel {
-  HomeViewModel({required this.pageIndex}){
+  HomeViewModel({required this.pageIndex}) {
     pageController = PageController(initialPage: pageIndex);
-    
-    switch(pageIndex) {
+
+    switch (pageIndex) {
       case 0:
         canGoLeft = false;
         canGoRight = true;
-        break; 
-      case 1: 
+        break;
+      case 1:
         canGoLeft = true;
         canGoRight = false;
         break;
@@ -31,11 +49,13 @@ class HomeViewModel extends BaseViewModel {
   int pageIndex = 0;
 
   /// Is the current language english?
-  bool isEnglish = false, 
-  /// Can the pageviewer scroll to right
-       canGoRight = true, 
-  /// Can the pageviewer scroll to left
-       canGoLeft = false;
+  bool isEnglish = false,
+
+      /// Can the pageviewer scroll to right
+      canGoRight = true,
+
+      /// Can the pageviewer scroll to left
+      canGoLeft = false;
 
   /// Boolean value to check whether the mouse is currently over a button or not.
   bool isMouseOverButton = false;
@@ -44,7 +64,13 @@ class HomeViewModel extends BaseViewModel {
   Size size = const Size(0, 0);
 
   /// The sizes of each difficulty button
-  List<Size?> buttonSizes = List.filled(3, const Size(0, 0));
+  List<ButtonDimensions> buttonSizes = List.filled(3, 
+    ButtonDimensions(
+      containerSize: const Size(0, 0),
+      fontSize: 0,
+      iconSize: 0,
+    )
+  );
 
   /// The focus node that contains the whole screen, used for physical key press events.
   FocusNode focusNode = FocusNode();
@@ -55,5 +81,4 @@ class HomeViewModel extends BaseViewModel {
     if (pageIndex > 0) canGoLeft = true;
     notifyListeners();
   }
-
 }
