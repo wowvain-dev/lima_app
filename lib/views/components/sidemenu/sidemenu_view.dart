@@ -40,16 +40,18 @@ class SideMenu extends StatelessWidget {
                       ])),
                   child: Row( 
                     children: [
+                      const SizedBox(width: 10),
                       Expanded(
                         child: content ?? const SizedBox(width: 10)
                       ), 
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
-                        child: SvgPicture.asset('assets/svg/double-arrow-left.svg', 
+                        child: SvgPicture.asset(
+                          'assets/svg/double-arrow-left.svg', 
                           color: const Color(0xFF2A2B2A)
                         ), 
                       ), 
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                     ]
                   ), 
                   ));

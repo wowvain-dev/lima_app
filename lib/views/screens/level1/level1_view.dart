@@ -59,14 +59,21 @@ class Level1View extends StatelessWidget {
                               : 0),
                       Expanded(
                         child: Align(
+                          alignment: Alignment.centerLeft,
                           child: GestureDetector(
                               onTap: () {
                                 Scaffold.of(context).openDrawer();
                                 model.notifyListeners();
                               },
-                              child: SvgPicture.asset(
-                                'assets/svg/double-arrow-right.svg',
-                                color: const Color(0xFFF5F5F5)
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 12),
+                                child: 
+                                  model.isOpened 
+                                    ? SizedBox(width: 8) 
+                                    : SvgPicture.asset(
+                                  'assets/svg/double-arrow-right.svg',
+                                  color: const Color(0xFFF5F5F5)
+                                ),
                               )),
                         ),
                       ),
