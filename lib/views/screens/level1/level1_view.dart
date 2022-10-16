@@ -32,22 +32,34 @@ class Level1View extends StatelessWidget {
                 model.notifyListeners();
               },
               drawer: SideMenu(
+                  math: [
+                    Text("Aritmetică",
+                      style: Theme.of(context).textTheme.headline6! 
+                        .copyWith(
+                          fontSize: 20,
+                          color: const Color(0xff2a2b2a)
+                        )
+                    ),
+                    Text("Geometrie", 
+                      style: Theme.of(context).textTheme.headline6! 
+                        .copyWith(
+                          fontSize: 20,
+                          color: const Color(0xff2a2b2a)
+                        )
+                    )
+                  ], 
+                  lang: [
+                    Text("Limba română", 
+                      style: Theme.of(context).textTheme.headline6! 
+                        .copyWith(
+                          fontSize: 20,
+                          color: const Color(0xff2a2b2a)
+                        )
+                    ), 
+                  ],
+                  title: 'Culegerea învăţăcelului',
                   width: MediaQuery.of(context).size.width / 4,
-                  content: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (int i = 0; i < 8; i++)
-                          Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 32, vertical: 16),
-                              child: Text('Element $i',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline5!
-                                      .copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xFF2A2B2A))))
-                      ])),
+              ),
               body: Builder(builder: (BuildContext context) {
                 return Row(
                     children: [
@@ -65,17 +77,31 @@ class Level1View extends StatelessWidget {
                                 Scaffold.of(context).openDrawer();
                                 model.notifyListeners();
                               },
-                              child: Container(
-                                margin: const EdgeInsets.only(left: 12),
-                                child: 
-                                  model.isOpened 
-                                    ? SizedBox(width: 8) 
-                                    : SvgPicture.asset(
-                                  'assets/svg/double-arrow-right.svg',
-                                  color: const Color(0xFFF5F5F5)
-                                ),
+                              child: 
+                              
+                  Container(
+                      margin: const EdgeInsets.only(left: 8),
+                      width: 16,
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: !model.isOpened 
+                            ? SvgPicture.asset(
+                              'assets/svg/double-arrow-right.svg',
+                              color: const Color(0xFFF5F5F5))
+                            : SizedBox()
                               )),
-                        ),
+                              
+                              // Container(
+                              //   margin: const EdgeInsets.only(left: 12),
+                              //   child: 
+                              //     model.isOpened 
+                              //       ? SizedBox(width: 8) 
+                              //       : SvgPicture.asset(
+                              //     'assets/svg/double-arrow-right.svg',
+                              //     color: const Color(0xFFF5F5F5)
+                              //   ),
+                              // )),
+                        )),
                       ),
                       Align(
                         alignment: Alignment.topCenter,

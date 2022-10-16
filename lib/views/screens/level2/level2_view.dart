@@ -33,20 +33,9 @@ class Level2View extends StatelessWidget {
               },
               drawer: SideMenu(
                   width: MediaQuery.of(context).size.width / 4,
-                  content: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (int i = 0; i < 8; i++)
-                          Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 32, vertical: 16),
-                              child: Text('Element $i',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline5!
-                                      .copyWith(
-                                          color: const Color(0xFF2A2B2A))))
-                      ])),
+                  math: [SizedBox()], 
+                  lang: [SizedBox()],
+              ),
               body: Builder(
                 builder: (BuildContext context) {
                   return Row(children: [
