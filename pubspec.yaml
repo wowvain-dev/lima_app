@@ -45,6 +45,7 @@ dependencies:
       url: https://github.com/google/flutter-desktop-embedding
       path: plugins/window_size
   flutter_svg: ^1.1.5
+  iconsax: ^0.0.8
 
   # Components
 
@@ -130,7 +131,35 @@ flutter:
           weight: 900
           style: italic
 
-        #
+
+    - family: Manrope
+      fonts:
+        # REGULAR
+        - asset: assets/fonts/Manrope-Regular.ttf
+        
+        # EXTRALIGHT
+        - asset: assets/fonts/Manrope-ExtraLight.ttf
+          weight: 200
+
+        # LIGHT
+        - asset: assets/fonts/Manrope-Light.ttf
+          weight: 300
+        
+        # MEDIUM
+        - asset: assets/fonts/Manrope-Medium.ttf
+          weight: 500
+        
+        # SEMIBOLD
+        - asset: assets/fonts/Manrope-SemiBold.ttf
+          weight: 600
+        
+        # BOLD
+        - asset: assets/fonts/Manrope-Bold.ttf
+          weight: 700
+
+        # EXTRABOLD
+        - asset: assets/fonts/Manrope-ExtraBold.ttf
+          weight: 800
   assets:
     - assets/svg/
   # To add assets to your application, add an assets section, like this:

@@ -18,7 +18,7 @@ import 'package:window_size/window_size.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+    
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Lima - Culegere Interactivă');
     setWindowMinSize(const Size(1080, 500));

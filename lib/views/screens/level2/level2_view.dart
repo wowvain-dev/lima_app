@@ -32,9 +32,9 @@ class Level2View extends StatelessWidget {
                 model.notifyListeners();
               },
               drawer: SideMenu(
-                  width: MediaQuery.of(context).size.width / 4,
-                  math: [SizedBox()], 
-                  lang: [SizedBox()],
+                  width: MediaQuery.of(context).size.width / 2,
+                  math: [], 
+                  lang: []
               ),
               body: Builder(
                 builder: (BuildContext context) {
