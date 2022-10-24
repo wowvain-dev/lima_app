@@ -207,7 +207,7 @@ class _SideMenuState extends State<SideMenu>
                                               colorScheme: element.colorScheme,
                                               onPress: () {
                                                 setState(() {
-                                                  element.onPress;
+                                                  element.onPress();
                                                 });
                                               },
                                               textStyle: Theme.of(context)
@@ -259,7 +259,7 @@ class _SideMenuState extends State<SideMenu>
                                                     element.colorScheme,
                                                 onPress: () {
                                                   setState(() {
-                                                    element.onPress;
+                                                    element.onPress();
                                                   });
                                                 },
                                                 textStyle: Theme.of(context)

@@ -12,7 +12,6 @@ class LinedText extends StatelessWidget {
     this.rightFlex = 1,
     this.textAlign = TextAlign.center,
   }); 
-
   String? text;
   double? thickness;
   Color? lineColor;

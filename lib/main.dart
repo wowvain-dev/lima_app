@@ -9,7 +9,7 @@ import 'package:lima/app/router.gr.dart';
 /// Services
 
 /// Themes
-import 'themes/themes.dart';
+import 'themes/theme.dart';
 
 /// Router
 import 'app/router.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+    print('egyw');
     return MaterialApp.router(
       title: 'Lima - Culegere Interactiva',
       theme: Themes().customLightTheme(),

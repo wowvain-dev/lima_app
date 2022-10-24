@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lima/app/locator.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:lima/models/sidemenu_manager.dart';
 
 enum ItemColor {
@@ -29,7 +30,7 @@ class ItemComponents {
   ItemColor colorScheme;
   IconData icon;
   String text;
-  void Function() onPress;
+  VoidCallback onPress;
 }
 
 class SideMenuItem extends StatefulWidget {
@@ -50,7 +51,7 @@ class SideMenuItem extends StatefulWidget {
   double iconSize;
   TextStyle textStyle;
   Subject subject;
-  void Function() onPress;
+  VoidCallback onPress;
 
   @override
   State<SideMenuItem> createState() => _SideMenuItemState(
@@ -83,7 +84,7 @@ class _SideMenuItemState extends State<SideMenuItem>
   TextStyle textStyle;
   double iconSize;
   Subject subject;
-  void Function() onPress;
+  VoidCallback onPress;
 
   AnimationController? controller;
   Animation<double>? onHoverAnimation;
@@ -134,7 +135,7 @@ class _SideMenuItemState extends State<SideMenuItem>
             if (l<SideMenuManager>().subject != subject) {
               l<SideMenuManager>().currentSubject = subject;
             }
-            Future.delayed(Duration.zero, onPress);
+            onPress();
           });
         },
         child: MouseRegion(

@@ -35,88 +35,92 @@ class Level1View extends StatelessWidget {
                 model.notifyListeners();
               },
               drawer: SideMenu(
-                  math: [
-                    ItemComponents(
+                math: [
+                  ItemComponents(
                       subject: Subject.aritmetica,
-                      colorScheme: ItemColor.blue, 
-                      icon: Iconsax.math, 
-                      text: 'Aritmetică', 
+                      colorScheme: ItemColor.blue,
+                      icon: Iconsax.math,
+                      text: 'Aritmetică',
                       // toggled: l<SideMenuManager>().subject == Subject.aritmetica,
                       onPress: () {
-                        l<SideMenuManager>().currentSubject 
-                          = Subject.aritmetica;
-                      }
-                      ),
-                    ItemComponents(
+                        l<SideMenuManager>().currentSubject =
+                            Subject.aritmetica;
+                        Navigator.pop(context);
+                        context.router.pushNamed('/level1/aritmetica');
+                      }),
+                  ItemComponents(
                       subject: Subject.geometrie,
-                      colorScheme: ItemColor.blue, 
-                      icon: Iconsax.shapes, 
-                      text: 'Geometrie', 
+                      colorScheme: ItemColor.blue,
+                      icon: Iconsax.shapes,
+                      text: 'Geometrie',
                       onPress: () {
-                        l<SideMenuManager>().currentSubject
-                          = Subject.geometrie;
-                      }
-                      ),
-                  ], 
-                  lang: [
-                    ItemComponents(
+                        l<SideMenuManager>().currentSubject = Subject.geometrie;
+                        Navigator.pop(context);
+                        context.router.pushNamed('/level1/geometrie');
+                      }),
+                ],
+                lang: [
+                  ItemComponents(
                       subject: Subject.romana,
-                      colorScheme: ItemColor.blue, 
-                      icon: Iconsax.book_1, 
-                      text: 'Limba Română', 
+                      colorScheme: ItemColor.blue,
+                      icon: Iconsax.book_1,
+                      text: 'Limba Română',
                       onPress: () {
-                        l<SideMenuManager>().currentSubject
-                          = Subject.romana;
-                      }
-                    )
-                  ],
-                  title: 'Culegerea învăţăcelului',
-                  width: MediaQuery.of(context).size.width / 4,
+                        l<SideMenuManager>().currentSubject = Subject.romana;
+                        Navigator.pop(context);
+                        context.router.pushNamed('/level1/romana');
+                      })
+                ],
+                title: 'Culegerea învăţăcelului',
+                width: MediaQuery.of(context).size.width / 4,
               ),
-              body: Builder(builder: (BuildContext context) {
-                return Row(
-                    children: [
-                      AnimatedContainer(
-                          duration: const Duration(milliseconds: 150),
-                          curve: Curves.ease,
-                          width: model.isOpened
-                              ? MediaQuery.of(context).size.width / 4
-                              : 0),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: GestureDetector(
-                              onTap: () {
-                                Scaffold.of(context).openDrawer();
-                                model.notifyListeners();
-                              },
-                              child: 
-                              
-                  Container(
-                      margin: const EdgeInsets.only(left: 8),
-                      width: 16,
-                      child: Align(
-                          alignment: Alignment.centerRight,
-                          child: !model.isOpened 
-                            ? SvgPicture.asset(
-                              'assets/svg/double-arrow-right.svg',
-                              color: const Color(0xFFF5F5F5))
-                            : const SizedBox()
-                              )),
+              body: LayoutBuilder(builder: (context, constraints) {
+                return Row(children: [
+                  AnimatedContainer(
+                      duration: const Duration(milliseconds: 150),
+                      curve: Curves.ease,
+                      width: model.isOpened
+                          ? MediaQuery.of(context).size.width / 4
+                          : 0),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: GestureDetector(
+                        onTap: () {
+                          Scaffold.of(context).openDrawer();
+                          model.notifyListeners();
+                        },
+                        child: Container(
+                            margin: const EdgeInsets.only(left: 8),
+                            width: 16,
+                            child: Align(
+                                alignment: Alignment.centerRight,
+                                child: !model.isOpened
+                                    ? SvgPicture.asset(
+                                        'assets/svg/double-arrow-right.svg',
+                                        color: const Color(0xFFF5F5F5))
+                                    : const SizedBox())),
+                      )),
+                  Expanded(
+                    child: AutoRouter(
+                      placeholder: (context) {
+                        return Center(
+                          child: Text('Placeholder')
+                        );
+                      }
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: GestureDetector(
+                        onTap: () {
+                          l<SideMenuManager>().clearChoice();
+                          context.router.replace(HomeView(initialIndex: 1));
+                        },
+                        child: const Icon(
+                          Icons.arrow_back,
                         )),
-                      ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: GestureDetector(
-                            onTap: () {
-                              l<SideMenuManager>().clearChoice();
-                              context.router.replace(HomeView(initialIndex: 1));
-                            },
-                            child: const Icon(
-                              Icons.arrow_back,
-                            )),
-                      ),
-                    ]);
+                  ),
+                ]);
               }));
         });
   }
