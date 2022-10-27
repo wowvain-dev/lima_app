@@ -44,6 +44,9 @@ class ExerciseCardState extends State<ExerciseCard> {
   IconData icon;
   VoidCallback onStart, onHelp;
 
+  Color button1 = const Color(0x00); 
+  Color button2 = const Color(0x00);
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -54,8 +57,8 @@ class ExerciseCardState extends State<ExerciseCard> {
             height: constraints.maxHeight,
             duration: const Duration(milliseconds: 250),
             curve: Curves.ease,
-            decoration: BoxDecoration(
-                gradient: const LinearGradient(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
@@ -75,7 +78,7 @@ class ExerciseCardState extends State<ExerciseCard> {
                         children: [
                     Transform.rotate(
                       angle: icon == Iconsax.arrow_3 ? pi / 4 : 0,
-                      child: Icon(icon, color: const Color(0xFF2A2B2A), 
+                      child: Icon( icon, color: const Color(0xFF2A2B2A), 
                         size: 60 * raport
                       ),
                     ),
@@ -88,8 +91,8 @@ class ExerciseCardState extends State<ExerciseCard> {
                               fontSize: constraints.maxWidth / 20
                             )),
                   ])),
-                  const Divider(height: 2, thickness: 1, color: Color(0xFF2A2B2A)),
-                  Container(
+                  const Divider(height: 1, thickness: 1, color: Color(0xFF2A2B2A)),
+                  SizedBox(
                     height: constraints.maxHeight / 5,
                     child: Row(
                       mainAxisSize: MainAxisSize.max, 
@@ -98,42 +101,64 @@ class ExerciseCardState extends State<ExerciseCard> {
                       children: 
                       [
                       Expanded(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: MouseRegion(
-                              child: GestureDetector(
-                                  child: AnimatedContainer(
-                                      duration: const Duration(milliseconds: 250),
-                                      curve: Curves.ease,
+                        child: MouseRegion(
+                          onEnter: (_) => setState(() => button2 = const Color(0xFFD9B1FF)),
+                          onExit: (_) => setState(() => button2 = const Color(0xFF)),
+                          child: GestureDetector(
+                            onTap: onHelp,
+                            child: AnimatedContainer(
+                                    height: constraints.maxHeight / 5,
+                                    decoration: BoxDecoration(
+                                      color: button2,
+                                      borderRadius: const BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                      )
+                                    ),
+                                    duration: const Duration(milliseconds: 250),
+                                    curve: Curves.ease,
+                                    child: Center(
+                                      child: Text('Ajutor', 
+                                      textAlign: TextAlign.center,
+                                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                                          color: const Color(0xFF2A2B2A), 
+                                          fontFamily: 'Manrope', 
+                                          fontWeight: FontWeight.w400, 
+                                          fontSize: constraints.maxWidth / 22)
+                                      ),
+                                    )),
+                          ),
+                        ),
+                      ),
+                      const VerticalDivider(
+                          width: 1, thickness: 1, color: Color(0xFF2A2B2A)),
+                      Expanded(
+                        child: MouseRegion(
+                          onEnter: (_) => setState(() => button1 = const Color(0xFFA6E1FA)),
+                          onExit: (_) => setState(() => button1 = const Color(0xFF)),
+                            child: GestureDetector(
+                              onTap: onStart,
+                                child: AnimatedContainer(
+                                    height: constraints.maxHeight / 5,
+                                    decoration: BoxDecoration(
+                                      color: button1, 
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                      )
+                                    ),
+                                    duration: const Duration(milliseconds: 250),
+                                    curve: Curves.ease,
+                                    child: Center(
                                       child: Text('Începe', 
+                                        textAlign: TextAlign.center,
                                         style: Theme.of(context).textTheme.headline6!.copyWith(
                                           color: const Color(0xFF2A2B2A), 
                                           fontFamily: 'Manrope', 
                                           fontWeight: FontWeight.w400, 
                                           fontSize: constraints.maxWidth / 22
                                         )
-                                      )))),
-                        ),
+                                      ),
+                                    )))),
                       ),
-                      const VerticalDivider(
-                          width: 2, thickness: 1, color: Color(0xFF2A2B2A)),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: MouseRegion(
-                              child: GestureDetector(
-                                  child: AnimatedContainer(
-                                      duration: const Duration(milliseconds: 250),
-                                      curve: Curves.ease,
-                                      child: Text('Ajutor', 
-                                      style: Theme.of(context).textTheme.headline6!.copyWith(
-                                          color: const Color(0xFF2A2B2A), 
-                                          fontFamily: 'Manrope', 
-                                          fontWeight: FontWeight.w400, 
-                                          fontSize: constraints.maxWidth / 25)
-                                      )))),
-                        ),
-                      )
                     ]),
                   )
                 ]));

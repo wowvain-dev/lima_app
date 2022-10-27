@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:iconly/iconly.dart';
+import 'package:iconsax/iconsax.dart';
 
 /// Architectural Dependencies
 import 'package:lima/app/locator.dart';
@@ -87,7 +89,7 @@ class HomeView extends StatelessWidget {
                   children: [
                     IconButton(
                         iconSize: 30,
-                        icon: const Icon(Icons.arrow_back_ios_new),
+                        icon: const Icon(Iconsax.arrow_left_2),
                         onPressed: model.pageIndex > 0 && model.canGoLeft
                             ? () async {
                                 model.pageController.previousPage(
@@ -104,13 +106,13 @@ class HomeView extends StatelessWidget {
                               }
                             : null),
                     const SizedBox(width: 32),
-                    Icon(Icons.circle,
+                    Icon(model.pageIndex == 0 ? Iconsax.record_circle : Iconsax.record,
                         size: 15,
                         color: model.pageIndex == 0
                             ? const Color(0xFFF5F5F5)
                             : Colors.white54),
                     const SizedBox(width: 16),
-                    Icon(Icons.circle,
+                    Icon(model.pageIndex == 1 ? Iconsax.record_circle : Iconsax.record,
                         size: 15,
                         color: model.pageIndex == 1
                             ? const Color(0xFFF5F5F5)
@@ -118,7 +120,7 @@ class HomeView extends StatelessWidget {
                     const SizedBox(width: 32),
                     IconButton(
                         iconSize: 30,
-                        icon: const Icon(Icons.arrow_forward_ios),
+                        icon: const Icon(Iconsax.arrow_right_3),
                         onPressed: model.pageIndex < 1 && model.canGoRight
                             ? () async {
                                 model.pageController.nextPage(
@@ -148,8 +150,8 @@ class HomeView extends StatelessWidget {
 }
 
 class _Page1 extends StatelessWidget {
-  _Page1(this.model);
-  HomeViewModel model;
+  const _Page1(this.model);
+  final HomeViewModel model;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -162,12 +164,15 @@ class _Page1 extends StatelessWidget {
             style: Theme.of(context).textTheme.headline2!.copyWith(
                 fontWeight: FontWeight.w400,
                 color: const Color(0xFFF5F5F5),
-                fontSize: model.size.width / 25),
+                fontSize: model.size.width / 20, 
+                fontFamily: 'Manrope'),
           ),
           Text(
             'Apăsaţi pe săgeata spre dreapta',
             style: Theme.of(context).textTheme.headline6!.copyWith(
-                color: Colors.white60, fontSize: model.size.width / 70),
+                color: Colors.white60, fontSize: model.size.width / 50, 
+                fontFamily: 'Manrope', 
+                fontWeight: FontWeight.w300),
           ),
         ]);
   }
@@ -246,7 +251,7 @@ class _Page2 extends StatelessWidget {
                             showModal(context,
                                 level: 'învăţăcel',
                                 callback: () =>
-                                    context.router.replace(Level1View()));
+                                    context.router.replace(const Level1View()));
                           });
                         });
                       },
@@ -262,7 +267,7 @@ class _Page2 extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Icon(Icons.backpack_outlined,
+                              Icon(Iconsax.briefcase,
                                   size: model.buttonSizes[0].iconSize,
                                   color: const Color(0xFF2A2B2A)),
                               const SizedBox(height: 8),
@@ -303,7 +308,7 @@ class _Page2 extends StatelessWidget {
                             showModal(context,
                                 level: 'cunoscător',
                                 callback: () =>
-                                    context.router.replace(Level2View()));
+                                    context.router.replace(const Level2View()));
                           });
                         });
                       },
@@ -319,7 +324,7 @@ class _Page2 extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Icon(Icons.menu_book_sharp,
+                              Icon(Iconsax.book_1,
                                   size: model.buttonSizes[1].iconSize,
                                   color: const Color(0xFF2A2B2A)),
                               const SizedBox(height: 8),
@@ -375,7 +380,7 @@ class _Page2 extends StatelessWidget {
                             showModal(context,
                                 level: 'cunoscător',
                                 callback: () =>
-                                    context.router.replace(Level3View()));
+                                    context.router.replace(const Level3View()));
                           });
                         });
                       },
@@ -392,7 +397,7 @@ class _Page2 extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               /// TODO(wowvain-dev): animate icons
-                              Icon(Icons.school_outlined,
+                              Icon(Iconsax.teacher4,
                                 size: model.buttonSizes[2].iconSize,
                                 color: const Color(0xFF2A2B2A)),
                               const SizedBox(height: 8),
@@ -457,95 +462,98 @@ void showModal(BuildContext context,
                             ),
                             const Divider(
                                 height: 1, thickness: 1, color: Colors.white24),
-                            Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: MouseRegion(
-                                      onEnter: model.noOnEnter,
-                                      onExit: model.noOnExit,
-                                      child: GestureDetector(
-                                          child: AnimatedContainer(
-                                            padding: const EdgeInsets.only(
-                                                top: 8, bottom: 10),
-                                            duration: const Duration(
-                                                milliseconds: 200),
-                                            curve: Curves.ease,
-                                            height: size.height / 15,
-                                            decoration: BoxDecoration(
-                                                color: model.noButtonBG,
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                        bottomLeft:
-                                                            Radius.circular(
-                                                                10))),
-                                            child: Center(
-                                              child: Text('Nu',
-                                                  textAlign: TextAlign.center,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline6!
-                                                      .copyWith(
-                                                        color: const Color(
-                                                            0xFFF5F5F5),
-                                                        fontSize:
-                                                            size.width / 65,
-                                                      )),
+                            Container(
+                              height: size.height / 15,
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: MouseRegion(
+                                        onEnter: model.noOnEnter,
+                                        onExit: model.noOnExit,
+                                        child: GestureDetector(
+                                            child: AnimatedContainer(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8, bottom: 10),
+                                              duration: const Duration(
+                                                  milliseconds: 200),
+                                              curve: Curves.ease,
+                                              height: size.height / 15,
+                                              decoration: BoxDecoration(
+                                                  color: model.noButtonBG,
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  10))),
+                                              child: Center(
+                                                child: Text('Nu',
+                                                    textAlign: TextAlign.center,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline6!
+                                                        .copyWith(
+                                                          color: const Color(
+                                                              0xFFF5F5F5),
+                                                          fontSize:
+                                                              size.width / 65,
+                                                        )),
+                                              ),
                                             ),
-                                          ),
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          }),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            }),
+                                      ),
                                     ),
-                                  ),
-                                  // SizedBox(width: model.size.width / 10),
-                                  Expanded(
-                                    child: MouseRegion(
-                                      onEnter: model.yesOnEnter,
-                                      onExit: model.yesOnExit,
-                                      child: GestureDetector(
-                                          onTap: callback,
-                                          child: Container(
-                                              child: AnimatedContainer(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 8, bottom: 10),
-                                                  duration: const Duration(
-                                                      milliseconds: 200),
-                                                  curve: Curves.ease,
-                                                  height: size.height / 15,
-                                                  decoration: BoxDecoration(
-                                                      color: model.yesButtonBG,
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                                  .only(
-                                                              bottomRight:
-                                                                  Radius
-                                                                      .circular(
-                                                                          10))),
-                                                  // decoration: BoxDecoration(
-                                                  //   border: Border.all(color: Colors.blue[300]!),
-                                                  //   borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
-                                                  //)
-                                                  child: Center(
-                                                    child: Text('Da',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline6!
-                                                            .copyWith(
-                                                                color: const Color(
-                                                                    0xFFF5F5F5),
-                                                                fontSize:
-                                                                    size.width /
-                                                                        70)),
-                                                  )))),
+                                    // SizedBox(width: model.size.width / 10),
+                                    const VerticalDivider(width: 1, thickness: 1, color: Colors.white24), 
+                                    Expanded(
+                                      child: MouseRegion(
+                                        onEnter: model.yesOnEnter,
+                                        onExit: model.yesOnExit,
+                                        child: GestureDetector(
+                                            onTap: callback,
+                                            child: AnimatedContainer(
+                                                padding:
+                                                    const EdgeInsets.only(
+                                                        top: 8, bottom: 10),
+                                                duration: const Duration(
+                                                    milliseconds: 200),
+                                                curve: Curves.ease,
+                                                height: size.height / 15,
+                                                decoration: BoxDecoration(
+                                                    color: model.yesButtonBG,
+                                                    borderRadius:
+                                                        const BorderRadius
+                                                                .only(
+                                                            bottomRight:
+                                                                Radius
+                                                                    .circular(
+                                                                        10))),
+                                                // decoration: BoxDecoration(
+                                                //   border: Border.all(color: Colors.blue[300]!),
+                                                //   borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
+                                                //)
+                                                child: Center(
+                                                  child: Text('Da',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline6!
+                                                          .copyWith(
+                                                              color: const Color(
+                                                                  0xFFF5F5F5),
+                                                              fontSize:
+                                                                  size.width /
+                                                                      70)),
+                                                ))),
+                                      ),
                                     ),
-                                  ),
-                                ])
+                                  ]),
+                            )
                           ])));
             },
             viewModelBuilder: () => ModalViewModel());
