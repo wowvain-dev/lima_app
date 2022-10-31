@@ -20,7 +20,12 @@ class Geometrie1ViewState extends State<Geometrie1View> {
   @override 
   Widget build(BuildContext context) {
     return Container(
-      child: const Text("Geometrie 1")
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const Text("Geometrie 1"),
+        ],
+      )
     );
   }
 }

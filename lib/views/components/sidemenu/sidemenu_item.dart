@@ -132,9 +132,9 @@ class _SideMenuItemState extends State<SideMenuItem>
         return GestureDetector(
         onTap: () {
           setState(() {
-            if (l<SideMenuManager>().subject != subject) {
-              l<SideMenuManager>().currentSubject = subject;
-            }
+            // if (l<SideMenuManager>().subject != subject) {
+            //   l<SideMenuManager>().currentSubject = subject;
+            // }
             onPress();
           });
         },
@@ -193,7 +193,6 @@ class _SideMenuItemState extends State<SideMenuItem>
                     Text(text,
                         style: textStyle.copyWith(
                             color: colors["text"],
-                            fontFamily: 'Manrope',
                             fontWeight: FontWeight.w700))
                   ])),
             ),

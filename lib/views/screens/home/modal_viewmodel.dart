@@ -7,9 +7,6 @@ class ModalViewModel extends BaseViewModel {
   Color? yesButtonBG, 
          noButtonBG; 
 
-
-
-
   /// Function triggered when the mouse enters the `yes` button region
   /// inside the Modal Dialog
   void yesOnEnter(PointerEnterEvent event) {

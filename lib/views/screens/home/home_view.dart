@@ -165,13 +165,12 @@ class _Page1 extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 color: const Color(0xFFF5F5F5),
                 fontSize: model.size.width / 20, 
-                fontFamily: 'Manrope'),
+                ),
           ),
           Text(
             'Apăsaţi pe săgeata spre dreapta',
             style: Theme.of(context).textTheme.headline6!.copyWith(
                 color: Colors.white60, fontSize: model.size.width / 50, 
-                fontFamily: 'Manrope', 
                 fontWeight: FontWeight.w300),
           ),
         ]);
@@ -251,7 +250,7 @@ class _Page2 extends StatelessWidget {
                             showModal(context,
                                 level: 'învăţăcel',
                                 callback: () =>
-                                    context.router.replace(const Level1View()));
+                                    context.router.push(const Level1View()));
                           });
                         });
                       },
@@ -308,7 +307,7 @@ class _Page2 extends StatelessWidget {
                             showModal(context,
                                 level: 'cunoscător',
                                 callback: () =>
-                                    context.router.replace(const Level2View()));
+                                    context.router.push(const Level2View()));
                           });
                         });
                       },
@@ -380,7 +379,7 @@ class _Page2 extends StatelessWidget {
                             showModal(context,
                                 level: 'cunoscător',
                                 callback: () =>
-                                    context.router.replace(const Level3View()));
+                                    context.router.push(const Level3View()));
                           });
                         });
                       },

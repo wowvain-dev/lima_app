@@ -1,5 +1,6 @@
 /// Auto Router Imports
 import 'package:auto_route/annotations.dart';
+import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart';
 
 /// Pages
 import 'package:lima/views/screens/home/home_view.dart';
@@ -21,43 +22,56 @@ import '../views/screens/level3/level3_view.dart';
 /// (used to generate `router.gr.dart`)
 @MaterialAutoRouter(replaceInRouteName: 'Page,Route', routes: <AutoRoute>[
   /// The initial home page.
-  CustomRoute(page: HomeView, initial: true, 
-    transitionsBuilder: TransitionsBuilders.slideLeftWithFade, 
+  CustomRoute(
+    page: HomeView,
+    initial: true,
+    transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
     durationInMilliseconds: 300,
   ),
-  
+
   /// The three pages coresponding to the difficulty levels
-  CustomRoute(page: Level1View, 
+  CustomRoute(
+    page: Level1View,
     path: '/level1',
     children: [
       CustomRoute(
-        path: 'aritmetica', page: Aritmetica1View,
-        transitionsBuilder: TransitionsBuilders.fadeIn, 
+        path: 'aritmetica',
+        page: Aritmetica1View,
+        transitionsBuilder: TransitionsBuilders.fadeIn,
         durationInMilliseconds: 300,
-      ), 
+      ),
       CustomRoute(
-        path: 'geometrie', page: Geometrie1View,
-        transitionsBuilder: TransitionsBuilders.fadeIn, 
-        durationInMilliseconds: 300,
-      ), 
+          path: 'exercitii',
+          page: ExerciseWrapper,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          durationInMilliseconds: 300),
       CustomRoute(
-        path: 'romana', page: Romana1View,
-        transitionsBuilder: TransitionsBuilders.fadeIn, 
+        path: 'geometrie',
+        page: Geometrie1View,
+        transitionsBuilder: TransitionsBuilders.fadeIn,
         durationInMilliseconds: 300,
-      ), 
+      ),
+      CustomRoute(
+        path: 'romana',
+        page: Romana1View,
+        transitionsBuilder: TransitionsBuilders.fadeIn,
+        durationInMilliseconds: 300,
+      )
     ],
     transitionsBuilder: TransitionsBuilders.fadeIn,
     durationInMilliseconds: 300,
   ),
-  CustomRoute(page: Level2View, 
+  CustomRoute(
+    page: Level2View,
     path: '/level2',
-    transitionsBuilder: TransitionsBuilders.fadeIn, 
-    durationInMilliseconds: 300, 
-  ), 
-  CustomRoute(page: Level3View, 
+    transitionsBuilder: TransitionsBuilders.fadeIn,
+    durationInMilliseconds: 300,
+  ),
+  CustomRoute(
+    page: Level3View,
     path: '/level3',
-    transitionsBuilder: TransitionsBuilders.fadeIn, 
-    durationInMilliseconds: 300, 
-  ) 
+    transitionsBuilder: TransitionsBuilders.fadeIn,
+    durationInMilliseconds: 300,
+  )
 ])
 class $AppRouter {}

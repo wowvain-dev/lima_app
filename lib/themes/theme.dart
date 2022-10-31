@@ -5,15 +5,15 @@ class Themes {
     TextTheme customTextTheme(TextTheme base) {
       return base.copyWith(
           headline1: base.headline1!.copyWith(
-            fontFamily: 'Poppins',
+            fontFamily: 'Manrope',
           ),
           headline2: base.headline2!.copyWith(
-            fontFamily: 'Poppins',
+            fontFamily: 'Manrope',
           ),
-          headline3: base.headline3!.copyWith(fontFamily: 'Poppins'),
-          headline4: base.headline4!.copyWith(fontFamily: 'Poppins'),
-          headline5: base.headline5!.copyWith(fontFamily: 'Poppins', fontSize: 18),
-          headline6: base.headline6!.copyWith(fontFamily: 'Poppins', fontSize: 15));
+          headline3: base.headline3!.copyWith(fontFamily: 'Manrope'),
+          headline4: base.headline4!.copyWith(fontFamily: 'Manrope'),
+          headline5: base.headline5!.copyWith(fontFamily: 'Manrope', fontSize: 18),
+          headline6: base.headline6!.copyWith(fontFamily: 'Manrope', fontSize: 15));
     }
 
     final ThemeData darkTheme = ThemeData.dark();
@@ -32,15 +32,15 @@ class Themes {
     TextTheme customTextTheme(TextTheme base) {
       return base.copyWith(
           headline1: base.headline1!.copyWith(
-            fontFamily: 'Poppins',
+            fontFamily: 'Manrope',
           ),
           headline2: base.headline2!.copyWith(
-            fontFamily: 'Poppins',
+            fontFamily: 'Manrope',
           ),
-          headline3: base.headline3!.copyWith(fontFamily: 'Poppins'),
-          headline4: base.headline4!.copyWith(fontFamily: 'Poppins'),
-          headline5: base.headline5!.copyWith(fontFamily: 'Poppins'),
-          headline6: base.headline6!.copyWith(fontFamily: 'Poppins'));
+          headline3: base.headline3!.copyWith(fontFamily: 'Manrope'),
+          headline4: base.headline4!.copyWith(fontFamily: 'Manrope'),
+          headline5: base.headline5!.copyWith(fontFamily: 'Manrope'),
+          headline6: base.headline6!.copyWith(fontFamily: 'Manrope'));
     }
 
     final ThemeData lightTheme = ThemeData.light();

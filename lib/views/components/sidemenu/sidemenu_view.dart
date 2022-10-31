@@ -110,7 +110,6 @@ class _SideMenuState extends State<SideMenu>
                                     .copyWith(
                                       fontSize: width! / 14,
                                       color: const Color(0xFF2A2B2A),
-                                      fontFamily: 'Manrope',
                                       fontWeight: FontWeight.w800,
                                     )),
                           ),
@@ -189,7 +188,6 @@ class _SideMenuState extends State<SideMenu>
                                             .textTheme
                                             .headline6!
                                             .copyWith(
-                                                fontFamily: 'Manrope',
                                                 color: const Color(0xFF818181)),
                                       ),
                                     ),
@@ -241,7 +239,6 @@ class _SideMenuState extends State<SideMenu>
                                             .textTheme
                                             .headline6!
                                             .copyWith(
-                                                fontFamily: 'Manrope',
                                                 color: const Color(0xFF818181)),
                                       ),
                                     ),
@@ -292,7 +289,6 @@ class _SideMenuState extends State<SideMenu>
                                       .textTheme
                                       .headline6!
                                       .copyWith(
-                                          fontFamily: 'Manrope',
                                           color: const Color(0xFFD0D0D0),
                                           fontSize: width! / 25))
                             ]))

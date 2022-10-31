@@ -1,8 +1,11 @@
 /// Flutter
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lima/app/router.gr.dart';
 import 'package:lima/views/components/exercise_card/exercise_card.dart';
+import 'package:lima/views/components/exercitii/matematica/aritmetica/operatii.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:motion/motion.dart';
 
@@ -20,6 +23,7 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
   bool b_card2 = false;
   bool b_card3 = false;
   bool b_card4 = false;
+  double opacity = 1;
 
   @override
   void initState() {
@@ -31,8 +35,10 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
     return LayoutBuilder(builder: (context, constraints) {
       double cardWidth = constraints.maxWidth / 3.5 + 20;
       double cardHeight = constraints.maxHeight / 4 + 20;
-      return Container(
-          color: const Color(0xFF2A2B2A),
+      return AnimatedOpacity(
+          opacity: opacity,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,8 +68,7 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                     icon: Iconsax.add,
                                     onStart: () =>
                                         print('adunare si scadere - start'),
-                                    onHelp: () =>
-                                        print('adunare si scadere - help')),
+                                    ),
                               )
                             : Motion(
                                 borderRadius: BorderRadius.circular(10),
@@ -77,10 +82,17 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                   child: ExerciseCard(
                                       label: 'Operaţii',
                                       icon: Iconsax.add,
-                                      onStart: () =>
-                                          print('adunare si scadere - start'),
-                                      onHelp: () =>
-                                          print('adunare si scadere - help')),
+                                      onStart: () {
+                                        setState(() {
+                                          opacity = 0;
+                                        });
+                                        context.router.replace(ExerciseWrapper(
+                                            exercise:
+                                                Operatii(difficultyLevel: 1),
+                                            modal: showOperatiiModal
+                                             ));
+                                      },
+                                      onHelp: showOperatiiModal),
                                 ),
                               ),
                       ),
@@ -104,8 +116,7 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                 child: ExerciseCard(
                                     label: 'Fracţii',
                                     icon: LineIcons.divide,
-                                    onStart: () => print('fractii - start'),
-                                    onHelp: () => print('fractii - help')),
+                                    onStart: () => print('fractii - start'),),
                               )
                             : Motion(
                                 borderRadius: BorderRadius.circular(10),
@@ -119,14 +130,8 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                   child: ExerciseCard(
                                       label: 'Fracţii',
                                       icon: LineIcons.divide,
-                                      // Transform.rotate(
-                                      //   angle: icon == Iconsax.arrow_3 ? pi / 4 : 0,
-                                      //   child: Icon(icon, color: const Color(0xFF2A2B2A),
-                                      //     size: 60 * raport
-                                      //   ),
-                                      // ),
                                       onStart: () => print('fractii - start'),
-                                      onHelp: () => print('fractii - help')),
+                                      ),
                                 ),
                               ),
                       ),
@@ -154,9 +159,9 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                 height: cardHeight,
                                 child: ExerciseCard(
                                     label: 'Ordine de şiruri',
-                                    icon: LineIcons.divide,
+                                    icon: Iconsax.arrow_3,
                                     onStart: () => print('ordine - start'),
-                                    onHelp: () => print('ordine - help')),
+                                    ),
                               )
                             : Motion(
                                 borderRadius: BorderRadius.circular(10),
@@ -169,9 +174,9 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                   height: cardHeight,
                                   child: ExerciseCard(
                                       label: 'Ordine de şiruri',
-                                      icon: LineIcons.divide,
+                                      icon: Iconsax.arrow_3,
                                       onStart: () => print('ordine - start'),
-                                      onHelp: () => print('ordine - help')),
+                                      ),
                                 ),
                               ),
                       ),
@@ -194,11 +199,10 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                 height: cardHeight,
                                 child: ExerciseCard(
                                     label: 'Formarea numerelor',
-                                    icon: LineIcons.divide,
+                                    icon: Iconsax.data,
                                     onStart: () =>
                                         print('formarea numerelor - start'),
-                                    onHelp: () =>
-                                        print('formarea numerelor - help')),
+                                        ),
                               )
                             : Motion(
                                 borderRadius: BorderRadius.circular(10),
@@ -211,11 +215,10 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                   height: cardHeight,
                                   child: ExerciseCard(
                                       label: 'Formarea numerelor',
-                                      icon: LineIcons.divide,
+                                      icon: Iconsax.data,
                                       onStart: () =>
                                           print('formarea numerelor - start'),
-                                      onHelp: () =>
-                                          print('formarea numerelor - help')),
+                                          ),
                                 ),
                               ),
                       ),
@@ -223,4 +226,36 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
               ]));
     });
   }
+}
+
+void showOperatiiModal(BuildContext context, void Function() callback) {
+  showDialog(
+    context: context, 
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ), 
+        contentPadding: const EdgeInsets.only(top: 10),
+        title: null, 
+        content: Container(
+          height: 500, 
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center, 
+            crossAxisAlignment: CrossAxisAlignment.center, 
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3), 
+                  child: Center(
+                    child: Text("Lamo"), 
+                  )
+                )
+              )
+            ]
+          )
+        )
+      );
+    }
+  );
 }

@@ -8,7 +8,7 @@ class ExerciseCard extends StatefulWidget {
       required this.label,
       required this.icon,
       required this.onStart,
-      required this.onHelp,
+      this.onHelp,
   });
 
   /// The label of the Exercise Card
@@ -21,7 +21,7 @@ class ExerciseCard extends StatefulWidget {
   VoidCallback onStart;
 
   /// Function called when the Help button is clicked
-  VoidCallback onHelp;
+  void Function(BuildContext, void Function())? onHelp;
 
   @override
   State<StatefulWidget> createState() => ExerciseCardState(
@@ -37,12 +37,13 @@ class ExerciseCardState extends State<ExerciseCard> {
       required this.label,
       required this.icon,
       required this.onStart,
-      required this.onHelp,
+      this.onHelp,
       });
 
   String label;
   IconData icon;
-  VoidCallback onStart, onHelp;
+  VoidCallback onStart; 
+  void Function(BuildContext, void Function())? onHelp;
 
   Color button1 = const Color(0x00); 
   Color button2 = const Color(0x00);
@@ -86,7 +87,7 @@ class ExerciseCardState extends State<ExerciseCard> {
                     Text(label,
                         style: Theme.of(context).textTheme.headline6!.copyWith(
                               color: const Color(0xFF2A2B2A),
-                              fontFamily: 'Manrope',
+                              
                               fontWeight: FontWeight.w600,
                               fontSize: constraints.maxWidth / 20
                             )),
@@ -105,7 +106,7 @@ class ExerciseCardState extends State<ExerciseCard> {
                           onEnter: (_) => setState(() => button2 = const Color(0xFFD9B1FF)),
                           onExit: (_) => setState(() => button2 = const Color(0xFF)),
                           child: GestureDetector(
-                            onTap: onHelp,
+                            onTap: () => onHelp!(context, () {}),
                             child: AnimatedContainer(
                                     height: constraints.maxHeight / 5,
                                     decoration: BoxDecoration(
@@ -121,7 +122,6 @@ class ExerciseCardState extends State<ExerciseCard> {
                                       textAlign: TextAlign.center,
                                       style: Theme.of(context).textTheme.headline6!.copyWith(
                                           color: const Color(0xFF2A2B2A), 
-                                          fontFamily: 'Manrope', 
                                           fontWeight: FontWeight.w400, 
                                           fontSize: constraints.maxWidth / 22)
                                       ),
@@ -136,7 +136,9 @@ class ExerciseCardState extends State<ExerciseCard> {
                           onEnter: (_) => setState(() => button1 = const Color(0xFFA6E1FA)),
                           onExit: (_) => setState(() => button1 = const Color(0xFF)),
                             child: GestureDetector(
-                              onTap: onStart,
+                              onTap: () {
+                                onStart();
+                              },
                                 child: AnimatedContainer(
                                     height: constraints.maxHeight / 5,
                                     decoration: BoxDecoration(
@@ -152,7 +154,6 @@ class ExerciseCardState extends State<ExerciseCard> {
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context).textTheme.headline6!.copyWith(
                                           color: const Color(0xFF2A2B2A), 
-                                          fontFamily: 'Manrope', 
                                           fontWeight: FontWeight.w400, 
                                           fontSize: constraints.maxWidth / 22
                                         )

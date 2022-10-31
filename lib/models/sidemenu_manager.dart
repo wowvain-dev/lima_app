@@ -1,3 +1,5 @@
+import 'package:stack/stack.dart';
+
 enum Subject {
   romana, 
   engleza, 
@@ -7,19 +9,34 @@ enum Subject {
   economie, 
 }
 
-Subject? _chosenSubject;
 
 class SideMenuManager {
+  Subject? _chosenSubject;
+  Stack<Subject> navHistory = Stack();
 
   Subject? get subject {
     return _chosenSubject;
   }
   
-  void set currentSubject (Subject a) {
+  set currentSubject (Subject a) {
+    navHistory.push(a);
     _chosenSubject = a;
   }
 
+  Subject? pop() {
+    navHistory.pop();
+    if (navHistory.isNotEmpty) {
+      _chosenSubject = navHistory.top();
+    } else {
+      _chosenSubject = null;
+    }
+    return _chosenSubject;
+  }
+
   clearChoice() {
+    while(navHistory.isNotEmpty) {
+      navHistory.pop();
+    }
     _chosenSubject = null;
   } 
 }

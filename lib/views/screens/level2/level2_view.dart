@@ -33,6 +33,7 @@ class Level2View extends StatelessWidget {
               },
               drawer: SideMenu(
                   width: MediaQuery.of(context).size.width / 2,
+
                   math: [], 
                   lang: []
               ),
