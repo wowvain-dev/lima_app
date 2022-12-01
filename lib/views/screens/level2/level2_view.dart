@@ -17,7 +17,6 @@ import 'package:keyboard_event/keyboard_event.dart';
 import './level2_viewmodel.dart';
 
 /// Storage dependencies
-import 'package:realm/realm.dart';
 
 class Level2View extends StatelessWidget {
 

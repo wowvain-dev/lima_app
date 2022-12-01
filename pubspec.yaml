@@ -34,7 +34,7 @@ dependencies:
   # Animation
   animated_text_kit: ^4.2.2
   rive: ^0.9.0
-  realm: ^0.4.0+beta
+  # realm: ^0.4.0+beta
   device_info_plus: ^4.1.2
   flutter_switch: ^0.3.2
   keyboard_event: ^0.3.2

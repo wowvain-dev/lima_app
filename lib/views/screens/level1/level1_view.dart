@@ -22,7 +22,6 @@ import 'package:iconsax/iconsax.dart';
 import './level1_viewmodel.dart';
 
 /// Storage dependencies
-import 'package:realm/realm.dart';
 
 class Level1View extends StatelessWidget {
   @override
@@ -134,7 +133,15 @@ class Level1View extends StatelessWidget {
                           Align(
                             alignment: Alignment.topLeft,
                             child: Container(
-                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              margin: const EdgeInsets.only(left: 10, top: 10, right: 10),
+                              padding: const EdgeInsets.only(bottom: 10),
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Color(0xFFFEFEFE), 
+                                    width: 1.0,
+                                  )
+                                )),
                               child: Row(
                                 children: [
                                   GestureDetector(

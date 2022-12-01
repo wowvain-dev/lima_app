@@ -228,7 +228,8 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
   }
 }
 
-void showOperatiiModal(BuildContext context, void Function() callback) {
+void showOperatiiModal(BuildContext context,
+   void Function() callback) {
   showDialog(
     context: context, 
     builder: (context) {

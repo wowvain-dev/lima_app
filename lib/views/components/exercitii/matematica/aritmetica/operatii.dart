@@ -1,158 +1,89 @@
-import 'dart:developer';
 import 'dart:math' hide log;
-
+ 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+ 
 import 'package:auto_route/auto_route.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/router.gr.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
-
-enum Sign {
-  plus, 
-  minus, 
-  mul, 
-  div,
-}
-
-extension SignPrinting on Sign {
-  String get symbol {
-    switch(this) {
-      case Sign.plus: 
-        return '+';
-      case Sign.minus: 
-        return '-';
-      case Sign.mul: 
-        return '*';
-      case Sign.div: 
-        return '/';
-    }
-  }
-}
-
-/// Binary Tree node describing a mathematical expression where every
-/// non-leaf node contains a sign and every leaf contains a number.
-class ExpressionNode{
-  ExpressionNode(this.sign, this.value);
-
-  /// The sign of this node or null.
-  Sign? sign;
-
-  /// The value of this node or null.
-  int? value;
-
-  ExpressionNode? left;
-  ExpressionNode? right;
-
-  @override
-  String toString() {
-    return _diagram(this);
-  }
-
-  String _diagram(
-    ExpressionNode? node, [
-      String top = '', 
-      String root = '', 
-      String bottom = '', 
-    ]
-  ) {
-    if (node == null) {
-      return '$root null\n';
-    }
-    if (node.left == null && node.right == null) {
-      return '$root ${node.value ?? node.sign!.symbol}\n';
-    } 
-    final a = _diagram(
-      node.right, 
-      '$top ', 
-      '$top┌──',
-      '$top│ ',
-    );
-    final b = '$root${node.value ?? node.sign!.symbol}\n';
-    final c = _diagram(
-      node.left, 
-      '$bottom│ ',
-      '$bottom└──',
-      '$bottom ',
-    );
-    
-    return '\n$a$b$c';
-  }
-}
-
+ 
+import 'package:lima/models/expression_tree.dart';
+ 
 class Operatii extends StatefulWidget {
   Operatii({
     Key? key,
     required this.difficultyLevel,
   });
-
+ 
   /// The difficulty level of this exercise
   int difficultyLevel;
-
+ 
   @override
   // ignore: no_logic_in_create_state
   createState() => _OperatiiState(level: difficultyLevel);
 }
-
+ 
 class _OperatiiState extends State<Operatii> {
   _OperatiiState({required this.level});
-
+ 
   int level;
 
-  /// 1 +
-  /// 2 -
-  /// 3 *
-  /// 4 /
-  int sign = 0;
+
+  List<Operator> sign = List.empty();
 
   int start = 0, end = 0;
-
+  int depth = 0;
+ 
   int a = 0, b = 0;
   Color accent = const Color(0x00000000);
-
+ 
   FocusNode f_node = FocusNode();
   FocusNode p_node = FocusNode();
-
+ 
   TextEditingController controller = TextEditingController();
-
+ 
   LinearGradient? buttonBG;
+
+  ExpressionTree tree = ExpressionTree();
 
   @override
   void initState() {
     buttonBG = const LinearGradient(
       colors: [
-        Color(0xFFBDC3C7),
-        Color(0xFF2C3E50),
+        Color(0xFF5D69BE),
+        Color(0xFFC89FEB),
       ],
-      begin: Alignment.bottomLeft,
-      end: Alignment.topRight,
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
     );
-
+ 
     switch (level) {
       case 1:
-        sign = Random().nextInt(2) + 1;
+        sign = [Operator.plus, Operator.minus, Operator.div];
         start = 0;
         end = 100;
+        depth = 3;
         break;
       case 2:
-        sign = Random().nextInt(2);
+        sign = [Operator.plus, Operator.minus];
         start = 0;
         end = 1000;
+        depth = 3;
         break;
       case 3:
-        sign = Random().nextInt(2);
+        sign = [Operator.plus, Operator.minus];
         start = 0;
         end = 10000;
+        depth = 4;
         break;
     }
-
+ 
     accent = Colors.primaries.skipWhile((value) => value.red > 150).elementAt(
         Random().nextInt(
             Colors.primaries.skipWhile((value) => value.red > 150).length));
-    a = Random().nextInt(start + end - 1) + start + 1;
-    b = Random().nextInt(start + min((end - a).abs(), a)) + start;
 
     f_node.addListener(() => setState(() {
           accent = Colors.primaries
@@ -163,23 +94,20 @@ class _OperatiiState extends State<Operatii> {
         }));
     f_node.unfocus();
 
+    tree = ExpressionTree.random(sign, start, end, depth, []);
+
+    while (ExpressionTree.getDepth(tree.root) <= 1) {
+      tree = ExpressionTree.randomUsingSource(tree);
+    }
+
+    print("\n\nEXPRESSIONS:\n${tree.expression}");
+    print("\n\nVALUE:\n${ExpressionTree.evaluate(tree.root)}");
+
     super.initState();
   }
-
+ 
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    
-    ExpressionNode root = ExpressionNode(Sign.plus, null)
-      ..left = (ExpressionNode(Sign.mul, null)
-        ..left = ExpressionNode(null, 7)
-        ..right = (ExpressionNode(Sign.plus, null)
-          ..left = ExpressionNode(null, 9) 
-          ..right = ExpressionNode(null, 23)
-        )
-      )
-      ..right = ExpressionNode(null, 3);
-
-    print(root);
 
     return Focus(
       focusNode: p_node,
@@ -194,43 +122,29 @@ class _OperatiiState extends State<Operatii> {
               buttonBG = const LinearGradient(colors: [
                 Color(0xFF29323c),
                 Color(0xFF485563),
-              ], begin: Alignment.bottomLeft, end: Alignment.topRight);
+              ], begin: Alignment.topLeft, end: Alignment.bottomRight);
             }).whenComplete(() {
               Future.delayed(const Duration(milliseconds: 200), () {
                 setState(() {
                   buttonBG = const LinearGradient(
                     colors: [
-                      Color(0xFFBDC3C7),
-                      Color(0xFF2C3E50),
-                    ],
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
+                      Color(0xFF5D69BE), Color(0xFFC89FEB)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   );
                 });
               });
             });
           });
-          if (sign == 1) {
-            if (controller.text == (a + b).toString()) {
-              print('BRAVO');
-              Navigator.pop(context);
-              context.router.replace(ExerciseWrapper(
-                  exercise: Operatii(difficultyLevel: 1),
-                  modal: showOperatiiModal));
-            } else {
-              showTryAgainModal(context);
-            }
-          }
-          if (sign == 2) {
-            if (controller.text == (a - b).toString()) {
-              print('BRAVO');
-              Navigator.pop(context);
-              context.router.replace(ExerciseWrapper(
-                  exercise: Operatii(difficultyLevel: 1),
-                  modal: showOperatiiModal));
-            } else {
-              showTryAgainModal(context);
-            }
+          if (controller.text == ExpressionTree.evaluate(tree.root).toString()) {
+            print('BRAVO');
+            Navigator.pop(context);
+            context.router.replace(ExerciseWrapper(
+              exercise: Operatii(difficultyLevel: 1),
+              modal: showOperatiiModal)
+            );
+          } else {
+            showTryAgainModal(context);
           }
           return KeyEventResult.handled;
         }
@@ -241,35 +155,23 @@ class _OperatiiState extends State<Operatii> {
           child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Expanded(child: GestureDetector(onTap: () => {})),
+          const Expanded(child: SizedBox()),
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Expanded(child: GestureDetector(onTap: () => {})),
-                Text(a.toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(fontSize: size.width / 20)),
-                Text(sign == 1 ? ' + ' : (sign == 2 ? ' - ' : ''),
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(fontSize: size.width / 20)),
-                Text(b.toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(fontSize: size.width / 20)),
+                Text(tree.expression,
+                    style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: size.width / 20)),
                 Text(' = ',
                     style: Theme.of(context)
                         .textTheme
                         .headline6!
                         .copyWith(fontSize: size.width / 20)),
                 Container(
-                  width: (size.width / 20) * ((a + b).toString().length),
+                  width: (size.width / 20) * (ExpressionTree.evaluate(tree.root).toString().length),
                   child: TextField(
+                      autofocus: true,
                       controller: controller,
                       focusNode: f_node,
                       cursorColor: accent,
@@ -291,24 +193,21 @@ class _OperatiiState extends State<Operatii> {
                   onExit: (_) {
                     setState(() {
                       buttonBG = const LinearGradient(
-                        colors: [
-                          Color(0xFFBDC3C7),
-                          Color(0xFF2C3E50),
-                        ],
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.topRight,
+                        colors: [ Color(0xFF5D69BE), Color(0xFFC89FEB)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       );
                     });
                   },
                   onEnter: (_) {
                     setState(() {
                       buttonBG = const LinearGradient(
-                        colors: [
-                          Color(0xFFc79081),
-                          Color(0xFFdfa579),
-                        ],
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.topRight,
+                                  colors: [
+                                    Color(0xFF576182),
+                                    Color(0xFF1FC5A8),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
                       );
                     });
                   },
@@ -317,28 +216,25 @@ class _OperatiiState extends State<Operatii> {
                         setState(() {
                           Future.delayed(Duration.zero, () {
                             buttonBG = const LinearGradient(
-                                colors: [
-                                  Color(0xFF29323c),
-                                  Color(0xFF485563),
-                                ],
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight);
+                        colors: [ Color(0xFF5D69BE), Color(0xFFC89FEB)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight);
                           }).whenComplete(() {
                             Future.delayed(Duration(milliseconds: 200), () {
                               setState(() {
                                 buttonBG = const LinearGradient(
                                   colors: [
-                                    Color(0xFFc79081),
-                                    Color(0xFFdfa579),
+                                    Color(0xFF576182),
+                                    Color(0xFF1FC5A8),
                                   ],
-                                  begin: Alignment.bottomLeft,
-                                  end: Alignment.topRight,
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
                                 );
                               });
                             });
                           });
                         });
-                        if (controller.text == (a + b).toString()) {
+                        if (controller.text == ExpressionTree.evaluate(tree.root).toString()) {
                           print('BRAVO');
                           Navigator.pop(context);
                           context.router.replace(ExerciseWrapper(

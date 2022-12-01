@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   keyboard_event
-  realm
   window_size
 )
 

@@ -64,13 +64,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.1"
-  build_cli_annotations:
-    dependency: transitive
-    description:
-      name: build_cli_annotations
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
   build_config:
     dependency: transitive
     description:
@@ -492,13 +485,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  objectid:
-    dependency: transitive
-    description:
-      name: objectid
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
   package_config:
     dependency: transitive
     description:
@@ -569,27 +555,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
-  realm:
-    dependency: "direct main"
-    description:
-      name: realm
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0+beta"
-  realm_common:
-    dependency: transitive
-    description:
-      name: realm_common
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0+beta"
-  realm_generator:
-    dependency: transitive
-    description:
-      name: realm_generator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0+beta"
   rive:
     dependency: "direct main"
     description:
@@ -597,13 +562,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.1"
-  sane_uuid:
-    dependency: transitive
-    description:
-      name: sane_uuid
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0-alpha.4"
   shelf:
     dependency: transitive
     description:
@@ -700,13 +658,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
-  tar:
-    dependency: transitive
-    description:
-      name: tar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.6"
   term_glyph:
     dependency: transitive
     description:

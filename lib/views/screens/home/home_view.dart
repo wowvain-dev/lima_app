@@ -19,7 +19,6 @@ import 'package:keyboard_event/keyboard_event.dart';
 import './home_viewmodel.dart';
 
 /// Storage dependencies
-import 'package:realm/realm.dart';
 
 import 'modal_viewmodel.dart';
 

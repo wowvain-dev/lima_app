@@ -23,11 +23,16 @@ void main() async {
   await Motion.instance.initialize();
 
   Motion.instance.setUpdateInterval(60.fps);
+
+  try {
+      if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+        setWindowTitle('Lima - Culegere Interactivă');
+        setWindowMinSize(const Size(1080, 500));
+      }
+  } catch(e) {
     
-  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    setWindowTitle('Lima - Culegere Interactivă');
-    setWindowMinSize(const Size(1080, 500));
   }
+    
   setup();
   runApp(MyApp());
 }
@@ -39,7 +44,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('egyw');
     return MaterialApp.router(
       title: 'Lima - Culegere Interactiva',
       theme: Themes().customLightTheme(),
