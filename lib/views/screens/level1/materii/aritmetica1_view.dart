@@ -5,6 +5,7 @@ import 'package:iconly/iconly.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/router.gr.dart';
 import 'package:lima/views/components/exercise_card/exercise_card.dart';
+import 'package:lima/views/components/exercitii/matematica/aritmetica/fractii.dart';
 import 'package:lima/views/components/exercitii/matematica/aritmetica/operatii.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:motion/motion.dart';
@@ -88,7 +89,7 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                         });
                                         context.router.replace(ExerciseWrapper(
                                             exercise:
-                                                Operatii(difficultyLevel: 1),
+                                                Operatii(),
                                             modal: showOperatiiModal
                                              ));
                                       },
@@ -116,8 +117,17 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                 child: ExerciseCard(
                                     label: 'Fracţii',
                                     icon: LineIcons.divide,
-                                    onStart: () => print('fractii - start'),),
-                              )
+                                    onStart: () {
+                                        setState(() {
+                                          opacity = 0;
+                                        });
+                                        context.router.replace(ExerciseWrapper(
+                                            exercise:
+                                                Fractii(),
+                                            modal: showFractiiModal
+                                             ));
+                                    },
+                              ))
                             : Motion(
                                 borderRadius: BorderRadius.circular(10),
                                 glare: const GlareConfiguration(maxOpacity: 0),
@@ -130,7 +140,16 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                   child: ExerciseCard(
                                       label: 'Fracţii',
                                       icon: LineIcons.divide,
-                                      onStart: () => print('fractii - start'),
+                                      onStart: () {
+                                        setState(() {
+                                          opacity = 0;
+                                        });
+                                        context.router.replace(ExerciseWrapper(
+                                            exercise:
+                                                Fractii(),
+                                            modal: showFractiiModal
+                                             ));
+                                      },
                                       ),
                                 ),
                               ),
@@ -244,10 +263,43 @@ void showOperatiiModal(BuildContext context,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center, 
             crossAxisAlignment: CrossAxisAlignment.center, 
-            children: [
+            children: const [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 3), 
+                  padding: EdgeInsets.symmetric(horizontal: 3), 
+                  child: Center(
+                    child: Text("Lamo"), 
+                  )
+                )
+              )
+            ]
+          )
+        )
+      );
+    }
+  );
+}
+
+void showFractiiModal(BuildContext context,
+   void Function() callback) {
+  showDialog(
+    context: context, 
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ), 
+        contentPadding: const EdgeInsets.only(top: 10),
+        title: null, 
+        content: Container(
+          height: 500, 
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center, 
+            crossAxisAlignment: CrossAxisAlignment.center, 
+            children: const [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 3), 
                   child: Center(
                     child: Text("Lamo"), 
                   )

@@ -24,7 +24,7 @@ extension SignPrinting on Operator {
       case Operator.minus:
         return '-';
       case Operator.mul:
-        return '*';
+        return '×';
       case Operator.div:
         return ':';
     }

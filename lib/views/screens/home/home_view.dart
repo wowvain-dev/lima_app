@@ -7,6 +7,8 @@ import 'package:iconsax/iconsax.dart';
 
 /// Architectural Dependencies
 import 'package:lima/app/locator.dart';
+import 'package:lima/models/difficulty_manager.dart';
+import 'package:lima/models/expression_tree.dart';
 import 'package:stacked/stacked.dart';
 import 'package:lima/app/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
@@ -248,8 +250,10 @@ class _Page2 extends StatelessWidget {
                           Future.delayed(const Duration(milliseconds: 100), () {
                             showModal(context,
                                 level: 'învăţăcel',
-                                callback: () =>
-                                    context.router.push(const Level1View()));
+                                callback: () {
+                                  context.router.push(const Level1View());
+                                  difficultySetup(1);
+                                });
                           });
                         });
                       },
@@ -305,8 +309,10 @@ class _Page2 extends StatelessWidget {
                           Future.delayed(const Duration(milliseconds: 100), () {
                             showModal(context,
                                 level: 'cunoscător',
-                                callback: () =>
-                                    context.router.push(const Level2View()));
+                                callback: () {
+                                    context.router.push(const Level2View());
+                                    difficultySetup(2);
+                                });
                           });
                         });
                       },
@@ -377,8 +383,10 @@ class _Page2 extends StatelessWidget {
                           Future.delayed(const Duration(milliseconds: 100), () {
                             showModal(context,
                                 level: 'cunoscător',
-                                callback: () =>
-                                    context.router.push(const Level3View()));
+                                callback: () {
+                                    context.router.push(const Level3View());
+                                    difficultySetup(3);
+                                });
                           });
                         });
                       },
@@ -556,4 +564,26 @@ void showModal(BuildContext context,
             },
             viewModelBuilder: () => ModalViewModel());
       });
+}
+
+
+void difficultySetup(int a) {
+  assert(a <= 3);
+  assert(a > 0);
+
+  switch (a) {
+    case 1:
+      l<DifficultyManager>().operatii = ExpressionDifficulty()
+        ..allowedOperators = [Operator.minus, Operator.plus]
+        ..depth = 1
+        ..lowLimit = 0
+        ..maxLimit = 100; 
+      l<DifficultyManager>().fractii = FractionDifficulty()
+        ..allowWholes = false 
+        ..onlySubunit = true 
+        ..lowLimit = 2 
+        ..maxLimit = 10;
+      break;
+    default:
+  }
 }
