@@ -583,6 +583,11 @@ void difficultySetup(int a) {
         ..onlySubunit = true 
         ..lowLimit = 2 
         ..maxLimit = 10;
+      l<DifficultyManager>().ordine = OrderDifficulty() 
+        ..allowedOrders = [Order.descending, Order.ascending]
+        ..length = 5
+        ..lowLimit = 0 
+        ..maxLimit = 50;
       break;
     default:
   }

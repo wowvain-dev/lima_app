@@ -187,8 +187,7 @@ class Level1View extends StatelessWidget {
                                       model.notifyListeners();
                                     },
                                     child: Container(
-                                        margin: const EdgeInsets.only(left: 8),
-                                        width: 16,
+                                        width: 28,
                                         child: Align(
                                             alignment: Alignment.centerRight,
                                             child: !model.isOpened

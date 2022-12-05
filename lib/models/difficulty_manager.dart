@@ -4,6 +4,11 @@ import 'dart:collection';
 
 import 'package:lima/models/expression_tree.dart';
 
+enum Order {
+  ascending, 
+  descending
+}
+
 class Difficulty {
 
 }
@@ -57,7 +62,34 @@ class FractionDifficulty extends Difficulty {
   /// TOOD(wowvain-dev): add getters / setters for all this shite
 }
 
+class OrderDifficulty extends Difficulty {
+  // members
+  int _lowLimit = 0;
+  int _maxLimit = 10;
+  int _length = 7;
+
+  List<Order> _allowedOrders = [
+    Order.descending, Order.ascending
+  ];
+
+  // getters / setters
+  int get lowLimit => _lowLimit;
+  set lowLimit(int a) => _lowLimit = a;
+
+  int get maxLimit => _maxLimit;
+  set maxLimit(int a) => _maxLimit = a;
+
+  int get length => _length;
+  set length(int a) => _length = a;
+
+  List<Order> get allowedOrders => _allowedOrders;
+  set allowedOrders(List<Order> a) => _allowedOrders = a;
+}
+
+
+
 class DifficultyManager {
   ExpressionDifficulty operatii = ExpressionDifficulty();
   FractionDifficulty fractii = FractionDifficulty();
+  OrderDifficulty ordine = OrderDifficulty();
 }

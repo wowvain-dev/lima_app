@@ -7,6 +7,7 @@ import 'package:lima/app/router.gr.dart';
 import 'package:lima/views/components/exercise_card/exercise_card.dart';
 import 'package:lima/views/components/exercitii/matematica/aritmetica/fractii.dart';
 import 'package:lima/views/components/exercitii/matematica/aritmetica/operatii.dart';
+import 'package:lima/views/components/exercitii/matematica/aritmetica/ordine.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:motion/motion.dart';
 
@@ -194,7 +195,16 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                   child: ExerciseCard(
                                       label: 'Ordine de şiruri',
                                       icon: Iconsax.arrow_3,
-                                      onStart: () => print('ordine - start'),
+                                      onStart: () {
+                                        setState(() {
+                                          opacity = 0;
+                                        });
+                                        context.router.replace(ExerciseWrapper(
+                                            exercise:
+                                                OrdiniSiruri(),
+                                            modal: showFractiiModal
+                                             ));
+                                      },
                                       ),
                                 ),
                               ),

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -75,7 +74,6 @@ class _FractiiState extends State<Fractii> {
     /// Generate fraction
     if (onlySubunit!) {
       var a = Random().nextInt(end! - start! - 1) + start!;
-      print("start: $start; end: $end; a: $a");
       int b = 0;
       if (a == start) {
         b = start!;
@@ -102,17 +100,17 @@ class _FractiiState extends State<Fractii> {
         child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
           Container(
             width: 200, height: 200,
-            margin: EdgeInsets.only(bottom: 10),
+            margin: const EdgeInsets.only(bottom: 10),
             child: Transform.rotate(
               angle: -pi / 2,
               child: CustomPaint(painter: PizzaPainter(fraction: frac!)),
             ),
           ),
-          const Expanded(child: SizedBox()),
+          const SizedBox(height: 20), 
           Container(
               width: 200,
               child: Column(children: <Widget>[
@@ -162,7 +160,7 @@ class _FractiiState extends State<Fractii> {
                           .copyWith(fontSize: size.width / 40)),
                 ),
               ])),
-          SizedBox(height: size.height / 20),
+          const Expanded(child: SizedBox()),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -235,17 +233,6 @@ class _FractiiState extends State<Fractii> {
                         } else {
                           showTryAgainModal(context);
                         }
-
-                        // if (controller.text ==
-                        //     ExpressionTree.evaluate(tree.root).toString()) {
-                        //   print('BRAVO');
-                        //   Navigator.pop(context);
-                        //   context.router.replace(ExerciseWrapper(
-                        //       exercise: Operatii(),
-                        //       modal: showOperatiiModal));
-                        // } else {
-                        //   showTryAgainModal(context);
-                        // }
                       },
                       child: AnimatedContainer(
                           padding: const EdgeInsets.symmetric(
@@ -255,7 +242,7 @@ class _FractiiState extends State<Fractii> {
                           decoration: BoxDecoration(
                             boxShadow: const [
                               BoxShadow(
-                                color: const Color(0x99000000),
+                                color: Color(0x99000000),
                                 spreadRadius: 2,
                                 blurRadius: 20,
                                 offset: Offset(0, 20),
@@ -271,7 +258,6 @@ class _FractiiState extends State<Fractii> {
                                   .textTheme
                                   .headline6!
                                   .copyWith(fontSize: size.width / 60))))),
-              SizedBox(height: size.height / 50),
               GestureDetector(
                 onTap: () {
                   context.router.push(ExerciseWrapper(
@@ -303,6 +289,35 @@ class _FractiiState extends State<Fractii> {
               const Expanded(child: SizedBox()),
             ]),
           ),
+          const Expanded(child: SizedBox()),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: size.width / 4),
+          height: size.height / 20,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Center(
+                  child: Text("Ce trebuie să fac?",
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: Colors.grey, fontSize: size.width / 60)),
+                ),
+              ),
+              VerticalDivider(
+                color: Colors.grey,
+                width: 2,
+              ),
+              Expanded(
+                child: Center(
+                  child: Text("Arată răspunsul",
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: Colors.grey, fontSize: size.width / 60)),
+                ),
+              )
+            ],
+          ),
+        )
         ]));
   }
 }
