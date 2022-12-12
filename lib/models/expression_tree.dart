@@ -210,12 +210,13 @@ class ExpressionTree {
   int maximumPossibleDepth;
   int get depth => getDepth(root);
 
-  static void _buildInOrderQueue(Queue<ExpressionNode?> queue, ExpressionNode? n) {
-     if (n == null) return;
+  static void _buildInOrderQueue(
+      Queue<ExpressionNode?> queue, ExpressionNode? n) {
+    if (n == null) return;
 
-     _buildInOrderQueue(queue, n.left);
-     queue.add(n);
-     _buildInOrderQueue(queue, n.right);
+    _buildInOrderQueue(queue, n.left);
+    queue.add(n);
+    _buildInOrderQueue(queue, n.right);
   }
 
   /// Returns the first (inorder) operator node that doesn't have both
@@ -226,7 +227,8 @@ class ExpressionTree {
     _buildInOrderQueue(queue, n);
 
     while (queue.isNotEmpty) {
-      if (queue.first!.isOperator() && (queue.first!.left == null || queue.first!.right == null)) {
+      if (queue.first!.isOperator() &&
+          (queue.first!.left == null || queue.first!.right == null)) {
         return queue.first!;
       }
       queue.removeFirst();
@@ -364,9 +366,8 @@ class ExpressionTree {
       print(expression.root);
       var lastNode = getFirstFreeOperatorLeafNode(expression.root);
       if (lastNode == null) {
-        expression.addLeafNode(
-            ExpressionNode(operators[Random().nextInt(operators.length)], null)
-        );
+        expression.addLeafNode(ExpressionNode(
+            operators[Random().nextInt(operators.length)], null));
         continue;
       }
 
@@ -406,7 +407,7 @@ class ExpressionTree {
         List<int> divisors = List.empty(growable: true);
 
         int i = 1;
-        while (i * i <= val) {
+        while (i * i <= val && i <= end) {
           if (val % i == 0) {
             if (i * i == val) {
               divisors.add(i);
@@ -417,8 +418,12 @@ class ExpressionTree {
           }
           i++;
         }
-        expression
-            .addLeafNode(ExpressionNode(null, (divisors..shuffle()).first));
+        var shuffle = divisors;
+        while (shuffle.first == 1) {
+          shuffle = divisors..shuffle();
+        }
+
+        expression.addLeafNode(ExpressionNode(null, shuffle.first));
         divisors.clear();
         continue;
       }
