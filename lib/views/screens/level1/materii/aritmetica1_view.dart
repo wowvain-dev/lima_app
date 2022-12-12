@@ -322,3 +322,36 @@ void showFractiiModal(BuildContext context,
     }
   );
 }
+
+void showOrdiniModal(BuildContext context,
+    void Function() callback) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            contentPadding: const EdgeInsets.only(top: 10),
+            title: null,
+            content: Container(
+                height: 500,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Expanded(
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              child: Center(
+                                child: Text("Lamo"),
+                              )
+                          )
+                      )
+                    ]
+                )
+            )
+        );
+      }
+  );
+}

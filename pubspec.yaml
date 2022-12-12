@@ -52,6 +52,7 @@ dependencies:
   toast: ^0.3.0
   fraction: ^4.1.4
   switcher: ^1.0.0
+  reorderables: ^0.5.1
 
   # Components
 

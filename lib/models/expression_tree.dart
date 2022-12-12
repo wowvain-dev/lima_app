@@ -380,10 +380,9 @@ class ExpressionTree {
 
       int val = ExpressionTree.evaluate(lastNode.left);
 
-      // print(lastNode.left!.left ?? "null");
+      // TODO(wowvain-dev): finishing touches required
 
       if (lastNode == ExpressionNode(Operator.minus, null)) {
-        /// TODO(wowvain-dev): figure out why SHIT DOESNT WORK (by shit I mean the fact that divisions with complex left side expressions always are evaluated to 0 randomly)
         print("the left side of the minus is ${lastNode.left}");
         lastNode.right = val >= 1
             ? ExpressionNode(null, Random().nextInt(val))

@@ -170,8 +170,8 @@ class _OperatiiState extends State<Operatii> {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight);
                             }).whenComplete(() {
-                              Future.delayed(
-                                  const Duration(milliseconds: 200), () {
+                              Future.delayed(const Duration(milliseconds: 200),
+                                  () {
                                 setState(() {
                                   buttonBG = const LinearGradient(
                                     colors: [
@@ -266,7 +266,7 @@ class _OperatiiState extends State<Operatii> {
                           color: Colors.grey, fontSize: size.width / 60)),
                 ),
               ),
-              VerticalDivider(
+              const VerticalDivider(
                 color: Colors.grey,
                 width: 2,
               ),
