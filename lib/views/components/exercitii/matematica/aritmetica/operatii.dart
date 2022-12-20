@@ -128,11 +128,6 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
 
     return Focus(
       focusNode: enterNode,
-
-      // onKey: () {
-
-      // },
-
       child: Container(
           // width: size.width / 1.5,
           child: Column(

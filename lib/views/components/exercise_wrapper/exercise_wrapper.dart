@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/models/difficulty_manager.dart';
 import 'package:lima/models/expression_tree.dart';
+import 'package:lima/views/components/exercitii/matematica/aritmetica/formare.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:switcher/switcher.dart';
@@ -176,9 +177,9 @@ void showSettingsModal(Widget exercise, BuildContext context,
     showFractionSettingsModal(context, modal);
   }
 
-  // if (exercise is Operatii) {
-
-  // }
+  if (exercise is Formare) {
+    showFormareSettingsModal(context, modal);
+  }
 }
 
 void showOperatiiSettingsModal(BuildContext context,
@@ -219,8 +220,9 @@ void showOperatiiSettingsModal(BuildContext context,
 
           for (var operator
               in l<DifficultyManager>().operatii.allowedOperators) {
-            if (allowedOperators.contains(operator) == false)
+            if (allowedOperators.contains(operator) == false) {
               buttonActive = true;
+            }
           }
 
           for (var operator in allowedOperators) {
@@ -1121,6 +1123,249 @@ void showFractionSettingsModal(BuildContext context,
                                             .headline6!
                                             .copyWith(
                                                 fontSize: modalWidth / 60)),
+                                  )))),
+                    ),
+                  ])));
+        });
+      });
+}
+
+void showFormareSettingsModal(BuildContext context,
+    void Function(BuildContext, void Function()) modal) async {
+  FormareType type = l<DifficultyManager>().formare.type;
+  showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        double modalWidth = MediaQuery.of(context).size.width - 804 > 650
+            ? MediaQuery.of(context).size.width - 804
+            : 650;
+        double modalHeight = MediaQuery.of(context).size.height - 104 > 400
+            ? MediaQuery.of(context).size.height - 104
+            : 400;
+
+        bool buttonActive = false;
+
+
+        var buttonBG = const LinearGradient(
+            colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)]);
+
+        return StatefulBuilder(builder: (context, setState) {
+          if (type  != l<DifficultyManager>().formare.type) {
+            buttonActive = true;
+          }
+          if (buttonActive == false) {
+            buttonBG = const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFF878c98), Color(0xAA878c98)]);
+          } else if (buttonBG ==
+              const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF878c98), Color(0xAA878c98)])) {
+            buttonBG = const LinearGradient(
+                colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)]);
+          }
+
+          return Dialog(
+            // insetPadding: const EdgeInsets.symmetric(vertical: 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Container(
+                  padding: const EdgeInsets.only(
+                      bottom: 2, left: 30, right: 30, top: 25),
+                  width: modalWidth,
+                  height: modalHeight,
+                  child: Column(children: [
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(width: 10),
+                          const Icon(
+                            IconlyLight.close_square,
+                            color: Color(0x00FEFEFE),
+                            size: 36,
+                          ),
+                          const Expanded(child: SizedBox()),
+                          Center(
+                            child: Text(
+                              "Configurare Dificultate",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline3!
+                                  .copyWith(
+                                  color: const Color(0xFFFEFEFE),
+                                  fontSize:
+                                  MediaQuery.of(context).size.width /
+                                      40),
+                            ),
+                          ),
+                          const Expanded(child: SizedBox()),
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: const Icon(
+                              IconlyLight.close_square,
+                              color: Color(0xFFFEFEFE),
+                              size: 36,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                        ]),
+                    const SizedBox(height: 24),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [Text(
+                                    "Format numere",
+                                    textAlign: TextAlign.left,
+                                    style: Theme.of(context).textTheme.headline4
+                                ),]
+                              ),
+                          const SizedBox(height: 50),
+                          ListTile(
+                            title: const Text("Mii, Sute, Zeci, Unităţi ( 1000-9999 )"),
+                            leading: Radio<FormareType>(
+                                value: FormareType.MSZU,
+                                groupValue: type,
+                                onChanged: (val) {
+                                  setState(() => type = val!);
+                                }
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text("Sute, Zeci, Unităţi (100 - 999 )"),
+                            leading: Radio<FormareType>(
+                                value: FormareType.SZU,
+                                groupValue: type,
+                                onChanged: (val) {
+                                  setState(() => type = val!);
+                                }
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text("Zeci, Unităţi ( 10 - 99 )"),
+                            leading: Radio<FormareType>(
+                                value: FormareType.ZU,
+                                groupValue: type,
+                                onChanged: (val) {
+                                  setState(() => type = val!);
+                                }
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text("Unităţi ( 1 - 9 )"),
+                            leading: Radio<FormareType>(
+                                value: FormareType.U,
+                                groupValue: type,
+                                onChanged: (val) {
+                                  setState(() => type = val!);
+                                }
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      width: modalWidth / 5,
+                      height: modalHeight / 15,
+                      child: MouseRegion(
+                          onExit: (_) {
+                            if (!buttonActive) return;
+                            setState(() {
+                              buttonBG = const LinearGradient(
+                                colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              );
+                            });
+                          },
+                          onEnter: (_) {
+                            if (!buttonActive) return;
+                            setState(() {
+                              buttonBG = const LinearGradient(
+                                colors: [
+                                  Color(0xFF576182),
+                                  Color(0xFF1FC5A8),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              );
+                            });
+                          },
+                          child: GestureDetector(
+                              onTap: () {
+                                print(buttonActive);
+                                if (!buttonActive) return;
+                                setState(() {
+                                  Future.delayed(Duration.zero, () {
+                                    buttonBG = const LinearGradient(
+                                        colors: [
+                                          Color(0xFF5D69BE),
+                                          Color(0xFFC89FEB)
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight);
+                                  }).whenComplete(() {
+                                    Future.delayed(
+                                        const Duration(milliseconds: 200), () {
+                                      setState(() {
+                                        buttonBG = const LinearGradient(
+                                          colors: [
+                                            Color(0xFF576182),
+                                            Color(0xFF1FC5A8),
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        );
+                                      });
+                                    });
+                                  });
+                                });
+
+                                l<DifficultyManager>().formare.type = type;
+
+                                ToastContext().init(context);
+                                Toast.show(
+                                    "Apăsaţi pe `Treceţi Peste` pentru a aplica schimbările făcute.",
+                                    duration: Toast.lengthLong,
+                                    gravity: Toast.bottom,
+                                    backgroundRadius: 10,
+                                    backgroundColor: const Color(0xFF000000));
+                              },
+                              child: AnimatedContainer(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0x99000000),
+                                        spreadRadius: 2,
+                                        blurRadius: 20,
+                                        offset: Offset(0, 20),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(15),
+                                    gradient: buttonBG,
+                                  ),
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.ease,
+                                  child: Center(
+                                    child: Text("Salvaţi",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(
+                                            fontSize: modalWidth / 60)),
                                   )))),
                     ),
                   ])));

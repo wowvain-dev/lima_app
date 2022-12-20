@@ -26,7 +26,7 @@ void main() async {
   try {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       setWindowTitle('Lima - Culegere Interactivă');
-      setWindowMinSize(const Size(1080, 500));
+      setWindowMinSize(const Size(1080, 800));
     }
   } catch (e) {}
 

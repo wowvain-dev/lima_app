@@ -53,6 +53,8 @@ dependencies:
   fraction: ^4.1.4
   switcher: ^1.0.0
   reorderables: ^0.5.1
+  audioplayers: ^1.1.1
+  logging: ^1.1.0
 
   # Components
 
@@ -169,6 +171,9 @@ flutter:
           weight: 800
   assets:
     - assets/svg/
+    - assets/audio/
+    - assets/audio/letters/
+    - assets/json/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

@@ -96,229 +96,478 @@ class _FractiiState extends State<Fractii> {
 
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Container(
-        child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-          Container(
-            width: 200, height: 200,
-            margin: const EdgeInsets.only(bottom: 10),
-            child: Transform.rotate(
-              angle: -pi / 2,
-              child: CustomPaint(painter: PizzaPainter(fraction: frac!)),
-            ),
-          ),
-          const SizedBox(height: 20), 
-          Container(
-              width: 200,
-              child: Column(children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 50),
-                  child: TextField(
-                      cursorColor: const Color(0xFF1FC5A8),
-                      focusNode: f1_node,
-                      controller: controller1,
-                      decoration: InputDecoration(
-                        hintText: f1_node.hasFocus ? '' : '?',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: const BorderSide(
-                                color: Color(0xFF1FC5A8), width: 2)),
-                      ),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(fontSize: size.width / 40)),
-                ),
-                const Divider(thickness: 2, color: Color(0xFFfefefe)),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 50),
-                  child: TextField(
-                      cursorColor: const Color(0xFFC89FEB),
-                      focusNode: f2_node,
-                      controller: controller2,
-                      decoration: InputDecoration(
-                        hintText: f2_node.hasFocus ? '' : '?',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: const BorderSide(
-                                color: Color(0xFFC89FEB), width: 2)),
-                      ),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(fontSize: size.width / 40)),
-                ),
-              ])),
-          const Expanded(child: SizedBox()),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+    print(size.height);
+    if (size.height > 852) {
+      return Container(
+          child: Column(
               mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-              MouseRegion(
-                  onExit: (_) {
-                    setState(() {
-                      buttonBG = const LinearGradient(
-                        colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      );
-                    });
-                  },
-                  onEnter: (_) {
-                    setState(() {
-                      buttonBG = const LinearGradient(
-                        colors: [
-                          Color(0xFF576182),
-                          Color(0xFF1FC5A8),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      );
-                    });
-                  },
-                  child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          Future.delayed(Duration.zero, () {
-                            buttonBG = const LinearGradient(
-                                colors: [
-                                  Color(0xFF5D69BE),
-                                  Color(0xFFC89FEB)
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight);
-                          }).whenComplete(() {
-                            Future.delayed(
-                                const Duration(milliseconds: 200), () {
-                              setState(() {
-                                buttonBG = const LinearGradient(
-                                  colors: [
-                                    Color(0xFF576182),
-                                    Color(0xFF1FC5A8),
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                );
-                              });
-                            });
-                          });
-                        });
-                        
-                        var value = int.parse(controller1.text) / int.parse(controller2.text);
-
-                        /// TODO(wowvain-dev): CREATE SEPARATE SMALL HEIGHT LAYOUT
-                        /// TODO(wowvain-dev): MAKE ALL POSSIBLE CHECKS FOR THE VALUE INSIDE THE TextFields
-                        /// TODO(wowvain-dev): TRY ADDING TEXTURE FOR THE SLICES
-
-                        if (value == frac!.toDouble()) {
-                          print ('BRAVO'); 
-                          Navigator.pop(context);
-                          context.router.replace(
-                            ExerciseWrapper(
-                              exercise: Fractii(), 
-                              modal: showFractiiModal
-                            ));
-                        } else {
-                          showTryAgainModal(context);
-                        }
-                      },
-                      child: AnimatedContainer(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x99000000),
-                                spreadRadius: 2,
-                                blurRadius: 20,
-                                offset: Offset(0, 20),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(15),
-                            gradient: buttonBG,
-                          ),
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.ease,
-                          child: Text("Verifică",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(fontSize: size.width / 60))))),
-              GestureDetector(
-                onTap: () {
-                  context.router.push(ExerciseWrapper(
-                      exercise: Fractii(), modal: showOperatiiModal));
-                },
-                child: MouseRegion(
-                  onEnter: (_) {
-                    setState(() {
-                      skip = const Color(0xFFFEFEFE);
-                    });
-                  },
-                  onExit: (_) {
-                    setState(() {
-                      skip = const Color(0xFFaaaaaa);
-                    });
-                  },
-                  child: AnimatedContainer(
-                    margin: const EdgeInsets.only(top: 20),
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.ease,
-                    child: Text("Treceţi Peste",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6!
-                            .copyWith(color: skip)),
+                const Expanded(child: SizedBox()),
+                Container(
+                  width: 200, height: 200,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Transform.rotate(
+                    angle: -pi / 2,
+                    child: CustomPaint(painter: PizzaPainter(fraction: frac!)),
                   ),
                 ),
-              ),
-              const Expanded(child: SizedBox()),
-            ]),
-          ),
-          const Expanded(child: SizedBox()),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: size.width / 4),
-          height: size.height / 20,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Center(
-                  child: Text("Ce trebuie să fac?",
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
-                          color: Colors.grey, fontSize: size.width / 60)),
+                const SizedBox(height: 20),
+                Container(
+                    width: 200,
+                    child: Column(children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 50),
+                        child: TextField(
+                            cursorColor: const Color(0xFF1FC5A8),
+                            focusNode: f1_node,
+                            controller: controller1,
+                            decoration: InputDecoration(
+                              hintText: f1_node.hasFocus ? '' : '?',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xFF1FC5A8), width: 2)),
+                            ),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(fontSize: size.width / 40)),
+                      ),
+                      const Divider(thickness: 2, color: Color(0xFFfefefe)),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 50),
+                        child: TextField(
+                            cursorColor: const Color(0xFFC89FEB),
+                            focusNode: f2_node,
+                            controller: controller2,
+                            decoration: InputDecoration(
+                              hintText: f2_node.hasFocus ? '' : '?',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xFFC89FEB), width: 2)),
+                            ),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(fontSize: size.width / 40)),
+                      ),
+                    ])),
+                const Expanded(child: SizedBox()),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 100,
+                        child: Center(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                const Expanded(child: SizedBox()),
+                                MouseRegion(
+                                    onExit: (_) {
+                                      setState(() {
+                                        buttonBG = const LinearGradient(
+                                          colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        );
+                                      });
+                                    },
+                                    onEnter: (_) {
+                                      setState(() {
+                                        buttonBG = const LinearGradient(
+                                          colors: [
+                                            Color(0xFF576182),
+                                            Color(0xFF1FC5A8),
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        );
+                                      });
+                                    },
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            Future.delayed(Duration.zero, () {
+                                              buttonBG = const LinearGradient(
+                                                  colors: [
+                                                    Color(0xFF5D69BE),
+                                                    Color(0xFFC89FEB)
+                                                  ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight);
+                                            }).whenComplete(() {
+                                              Future.delayed(
+                                                  const Duration(milliseconds: 200), () {
+                                                setState(() {
+                                                  buttonBG = const LinearGradient(
+                                                    colors: [
+                                                      Color(0xFF576182),
+                                                      Color(0xFF1FC5A8),
+                                                    ],
+                                                    begin: Alignment.topLeft,
+                                                    end: Alignment.bottomRight,
+                                                  );
+                                                });
+                                              });
+                                            });
+                                          });
+
+                                          var value = int.parse(controller1.text) / int.parse(controller2.text);
+
+                                          /// TODO(wowvain-dev): CREATE SEPARATE SMALL HEIGHT LAYOUT
+                                          /// TODO(wowvain-dev): MAKE ALL POSSIBLE CHECKS FOR THE VALUE INSIDE THE TextFields
+                                          /// TODO(wowvain-dev): TRY ADDING TEXTURE FOR THE SLICES
+
+                                          if (value == frac!.toDouble()) {
+                                            print ('BRAVO');
+                                            Navigator.pop(context);
+                                            context.router.replace(
+                                                ExerciseWrapper(
+                                                    exercise: Fractii(),
+                                                    modal: showFractiiModal
+                                                ));
+                                          } else {
+                                            showTryAgainModal(context);
+                                          }
+                                        },
+                                        child: AnimatedContainer(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 20,
+                                              vertical: 10,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Color(0x99000000),
+                                                  spreadRadius: 2,
+                                                  blurRadius: 20,
+                                                  offset: Offset(0, 20),
+                                                )
+                                              ],
+                                              borderRadius: BorderRadius.circular(15),
+                                              gradient: buttonBG,
+                                            ),
+                                            duration: const Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                            child: Text("Verifică",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6!
+                                                    .copyWith(fontSize: size.width / 60))))),
+                                MouseRegion(
+                                  onEnter: (_) {
+                                    setState(() {
+                                      skip = const Color(0xFFFEFEFE);
+                                    });
+                                  },
+                                  onExit: (_) {
+                                    setState(() {
+                                      skip = const Color(0xFFaaaaaa);
+                                    });
+                                  },
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      context.router.push(ExerciseWrapper(
+                                          exercise: Fractii(), modal: showOperatiiModal));
+                                    },
+                                    child: AnimatedContainer(
+                                      margin: const EdgeInsets.only(top: 20),
+                                      duration: const Duration(milliseconds: 500),
+                                      curve: Curves.ease,
+                                      child: Text("Treceţi Peste",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6!
+                                              .copyWith(color: skip)),
+                                    ),
+                                  ),
+                                ),
+                                const Expanded(child: SizedBox()),
+                              ]),
+                        ),
+                      ),
+
+                    ]
+                  )
                 ),
-              ),
-              VerticalDivider(
-                color: Colors.grey,
-                width: 2,
-              ),
-              Expanded(
-                child: Center(
-                  child: Text("Arată răspunsul",
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
-                          color: Colors.grey, fontSize: size.width / 60)),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: size.width / 4),
+                  height: size.height / 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Text("Ce trebuie să fac?",
+                              style: Theme.of(context).textTheme.headline6!.copyWith(
+                                  color: Colors.grey, fontSize: size.width / 60)),
+                        ),
+                      ),
+                      VerticalDivider(
+                        color: Colors.grey,
+                        width: 2,
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text("Arată răspunsul",
+                              style: Theme.of(context).textTheme.headline6!.copyWith(
+                                  color: Colors.grey, fontSize: size.width / 60)),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ]));
+    } else {
+      return Container(
+          child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const Expanded(child: SizedBox()),
+                const Expanded(child: SizedBox()),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 200, height: 200,
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Transform.rotate(
+                        angle: -pi / 2,
+                        child: CustomPaint(painter: PizzaPainter(fraction: frac!)),
+                      ),
+                    ),
+                    const SizedBox(width: 100),
+                    Container(
+                        width: 200,
+                        child: Column(children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 50),
+                            child: TextField(
+                                cursorColor: const Color(0xFF1FC5A8),
+                                focusNode: f1_node,
+                                controller: controller1,
+                                decoration: InputDecoration(
+                                  hintText: f1_node.hasFocus ? '' : '?',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(
+                                          color: Color(0xFF1FC5A8), width: 2)),
+                                ),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .copyWith(fontSize: size.width / 40)),
+                          ),
+                          const Divider(thickness: 2, color: Color(0xFFfefefe)),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 50),
+                            child: TextField(
+                                cursorColor: const Color(0xFFC89FEB),
+                                focusNode: f2_node,
+                                controller: controller2,
+                                decoration: InputDecoration(
+                                  hintText: f2_node.hasFocus ? '' : '?',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(
+                                          color: Color(0xFFC89FEB), width: 2)),
+                                ),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .copyWith(fontSize: size.width / 40)),
+                          ),
+                        ])),
+
+                  ]
                 ),
-              )
-            ],
-          ),
-        )
-        ]));
+                const Expanded(child: SizedBox()),
+                Container(
+                  height: 100,
+                  child: Center(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          MouseRegion(
+                              onExit: (_) {
+                                setState(() {
+                                  buttonBG = const LinearGradient(
+                                    colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  );
+                                });
+                              },
+                              onEnter: (_) {
+                                setState(() {
+                                  buttonBG = const LinearGradient(
+                                    colors: [
+                                      Color(0xFF576182),
+                                      Color(0xFF1FC5A8),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  );
+                                });
+                              },
+                              child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      Future.delayed(Duration.zero, () {
+                                        buttonBG = const LinearGradient(
+                                            colors: [
+                                              Color(0xFF5D69BE),
+                                              Color(0xFFC89FEB)
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight);
+                                      }).whenComplete(() {
+                                        Future.delayed(
+                                            const Duration(milliseconds: 200), () {
+                                          setState(() {
+                                            buttonBG = const LinearGradient(
+                                              colors: [
+                                                Color(0xFF576182),
+                                                Color(0xFF1FC5A8),
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            );
+                                          });
+                                        });
+                                      });
+                                    });
+
+                                    var value = int.parse(controller1.text) / int.parse(controller2.text);
+
+                                    /// TODO(wowvain-dev): MAKE ALL POSSIBLE CHECKS FOR THE VALUE INSIDE THE TextFields
+                                    /// TODO(wowvain-dev): TRY ADDING TEXTURE FOR THE SLICES
+
+                                    if (value == frac!.toDouble()) {
+                                      print ('BRAVO');
+                                      Navigator.pop(context);
+                                      context.router.replace(
+                                          ExerciseWrapper(
+                                              exercise: Fractii(),
+                                              modal: showFractiiModal
+                                          ));
+                                    } else {
+                                      showTryAgainModal(context);
+                                    }
+                                  },
+                                  child: AnimatedContainer(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color(0x99000000),
+                                            spreadRadius: 2,
+                                            blurRadius: 20,
+                                            offset: Offset(0, 20),
+                                          )
+                                        ],
+                                        borderRadius: BorderRadius.circular(15),
+                                        gradient: buttonBG,
+                                      ),
+                                      duration: const Duration(milliseconds: 300),
+                                      curve: Curves.ease,
+                                      child: Text("Verifică",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6!
+                                              .copyWith(fontSize: size.width / 60))))),
+                          GestureDetector(
+                            onTap: () {
+                              context.router.push(ExerciseWrapper(
+                                  exercise: Fractii(), modal: showOperatiiModal));
+                            },
+                            child: MouseRegion(
+                              onEnter: (_) {
+                                setState(() {
+                                  skip = const Color(0xFFFEFEFE);
+                                });
+                              },
+                              onExit: (_) {
+                                setState(() {
+                                  skip = const Color(0xFFaaaaaa);
+                                });
+                              },
+                              child: AnimatedContainer(
+                                margin: const EdgeInsets.only(top: 20),
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.ease,
+                                child: Text("Treceţi Peste",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6!
+                                        .copyWith(color: skip)),
+                              ),
+                            ),
+                          ),
+                          const Expanded(child: SizedBox()),
+                        ]),
+                  ),
+                ),
+                const Expanded(child: SizedBox()),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: size.width / 4),
+                  height: size.height / 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Text("Ce trebuie să fac?",
+                              style: Theme.of(context).textTheme.headline6!.copyWith(
+                                  color: Colors.grey, fontSize: size.width / 60)),
+                        ),
+                      ),
+                      const VerticalDivider(
+                        color: Colors.grey,
+                        width: 2,
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text("Arată răspunsul",
+                              style: Theme.of(context).textTheme.headline6!.copyWith(
+                                  color: Colors.grey, fontSize: size.width / 60)),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ]));
+    }
   }
 }
 

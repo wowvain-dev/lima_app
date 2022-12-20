@@ -9,6 +9,17 @@ enum Order {
   descending
 }
 
+/// U - unitati
+/// ZU - zeci, unitati
+/// SZU - sute, zeci, unitati
+/// MSZU - mii, sute, zeci unitati
+enum FormareType {
+  U,
+  ZU,
+  SZU,
+  MSZU
+}
+
 class Difficulty {
 
 }
@@ -86,10 +97,18 @@ class OrderDifficulty extends Difficulty {
   set allowedOrders(List<Order> a) => _allowedOrders = a;
 }
 
+class FormareDifficulty extends Difficulty {
+  FormareType _type = FormareType.ZU;
+
+  FormareType get type => _type;
+  set type(FormareType a) => _type = a;
+}
+
 
 
 class DifficultyManager {
   ExpressionDifficulty operatii = ExpressionDifficulty();
   FractionDifficulty fractii = FractionDifficulty();
   OrderDifficulty ordine = OrderDifficulty();
+  FormareDifficulty formare = FormareDifficulty();
 }

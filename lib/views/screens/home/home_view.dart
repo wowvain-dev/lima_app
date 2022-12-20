@@ -588,6 +588,8 @@ void difficultySetup(int a) {
         ..length = 7
         ..lowLimit = 0
         ..maxLimit = 10;
+      l<DifficultyManager>().formare = FormareDifficulty()
+        ..type = FormareType.ZU;
       break;
     default:
   }
