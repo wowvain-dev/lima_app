@@ -55,6 +55,7 @@ dependencies:
   reorderables: ^0.5.1
   audioplayers: ^1.1.1
   logging: ^1.1.0
+  virtual_keyboard_flutter: ^1.0.0
 
   # Components
 

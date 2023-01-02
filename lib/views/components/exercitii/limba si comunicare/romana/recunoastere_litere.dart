@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart';
+import 'package:lima/models/custom_keyboard_layout.dart';
 import 'package:lima/models/difficulty_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
@@ -16,6 +17,7 @@ import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:toast/toast.dart';
 import 'package:tuple/tuple.dart';
+import 'package:virtual_keyboard_flutter/virtual_keyboard_flutter.dart';
 
 import '../../../../screens/level1/materii/romana1_view.dart';
 
@@ -61,6 +63,7 @@ class _LitereState extends State<Litere>
   AnimationController? audioSizeAnimController;
   Animation<double?>? audioSizeAnim;
 
+  bool keyboardVisible = false;
 
   @override
   void initState() {
@@ -126,7 +129,8 @@ class _LitereState extends State<Litere>
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Expanded(child: SizedBox()),
+          keyboardVisible == false ? const Expanded(child: SizedBox())
+              : const SizedBox(height: 12),
           MouseRegion(
             onEnter: (_) {
               audioColorAnimController?.forward();
@@ -148,6 +152,9 @@ class _LitereState extends State<Litere>
             child: TextField(
               cursorColor: const Color(0xFFC89FEB),
               focusNode: f1_node,
+              onTap: () {setState(() {
+                keyboardVisible = true;
+              });},
               controller: controller1,
               decoration: InputDecoration(
                 hintText: f1_node.hasFocus ? '' : '?',
@@ -167,7 +174,8 @@ class _LitereState extends State<Litere>
                 )
               )
             ),
-          const Expanded(child: SizedBox()),
+          keyboardVisible == false ? const Expanded(child: SizedBox())
+          : const SizedBox(height: 12),
           Expanded(
               child: Column(
                   children: [
@@ -178,7 +186,6 @@ class _LitereState extends State<Litere>
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              const Expanded(child: SizedBox()),
                               MouseRegion(
                                   onExit: (_) {
                                     setState(() {
@@ -288,7 +295,7 @@ class _LitereState extends State<Litere>
                                         exercise: Litere(), modal: showLitereModal));
                                   },
                                   child: AnimatedContainer(
-                                    margin: const EdgeInsets.only(top: 20),
+                                    margin: const EdgeInsets.only(top: 10),
                                     duration: const Duration(milliseconds: 500),
                                     curve: Curves.ease,
                                     child: Text("Treceţi Peste",
@@ -299,7 +306,6 @@ class _LitereState extends State<Litere>
                                   ),
                                 ),
                               ),
-                              const Expanded(child: SizedBox()),
                             ]),
                       ),
                     ),
@@ -307,9 +313,52 @@ class _LitereState extends State<Litere>
                   ]
               )
           ),
+
+          keyboardVisible == true ? AnimatedOpacity(
+            opacity: keyboardVisible == true ? 1 : 0,
+            curve: Curves.ease,
+            duration: const Duration(milliseconds: 150),
+            child: SizedBox(
+            height: size.height / 4 + 2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: SizedBox()),
+                Container(
+                  // margin: EdgeInsets.only(bottom: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.white, width: 1, ),
+                  ),
+                  width: size.width / 2,
+                  child: VirtualKeyboard(
+                    height: size.height / 4,
+                    textColor: Colors.white,
+                    type: VirtualKeyboardType.Alphanumeric,
+                    textController: controller1,
+                    defaultLayouts: [
+                      VirtualKeyboardDefaultLayouts.English
+                    ],
+                    customLayoutKeys: VirtualKeyboardRomanianLayoutKeys(),
+                  ),
+                ),
+                Column(
+                  children: [
+                    IconButton(
+                      splashRadius: 30,
+                      onPressed: () => setState(() => keyboardVisible = false),
+                      icon: Icon(IconlyLight.close_square),
+                    ),
+                    Expanded(child: SizedBox())
+                  ],
+                ),
+                Expanded(child: SizedBox()),
+              ],
+            )
+          )) : SizedBox(),
           Container(
             margin: EdgeInsets.symmetric(horizontal: size.width / 4),
-            height: size.height / 20,
+            height: size.height / 24,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -318,7 +367,7 @@ class _LitereState extends State<Litere>
                   child: Center(
                     child: Text("Ce trebuie să fac?",
                         style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: Colors.grey, fontSize: size.width / 60)),
+                            color: Colors.grey, fontSize: size.width / 70)),
                   ),
                 ),
                 VerticalDivider(
@@ -329,7 +378,7 @@ class _LitereState extends State<Litere>
                   child: Center(
                     child: Text("Arată răspunsul",
                         style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: Colors.grey, fontSize: size.width / 60)),
+                            color: Colors.grey, fontSize: size.width / 70)),
                   ),
                 )
               ],

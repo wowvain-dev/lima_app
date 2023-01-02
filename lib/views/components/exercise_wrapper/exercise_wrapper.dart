@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/models/difficulty_manager.dart';
 import 'package:lima/models/expression_tree.dart';
+import 'package:lima/views/components/exercitii/limba%20si%20comunicare/romana/recunoastere_litere.dart';
 import 'package:lima/views/components/exercitii/matematica/aritmetica/formare.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
@@ -84,7 +85,7 @@ class _ExerciseWrapperState extends State<ExerciseWrapper> {
                         });
                       }
                     },
-                    child: GestureDetector(
+                    child: exercise.runtimeType != Litere ? GestureDetector(
                         onTap: () {
                           showSettingsModal(exercise, context, modal);
                         },
@@ -96,7 +97,7 @@ class _ExerciseWrapperState extends State<ExerciseWrapper> {
                               Iconsax.setting_2,
                               color: settingsColor,
                               size: 48,
-                            ))),
+                            ))) : const SizedBox(),
                   ),
                 )),
             Expanded(child: Container(child: exercise)),
