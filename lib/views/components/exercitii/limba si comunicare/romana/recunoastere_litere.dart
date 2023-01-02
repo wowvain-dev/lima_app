@@ -13,36 +13,25 @@ import 'package:lima/models/custom_keyboard_layout.dart';
 import 'package:lima/models/difficulty_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
+import 'package:lima/models/letter.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:toast/toast.dart';
-import 'package:tuple/tuple.dart';
 import 'package:virtual_keyboard_flutter/virtual_keyboard_flutter.dart';
 
 import '../../../../screens/level1/materii/romana1_view.dart';
 
-class Letter {
-  String? character;
-  String? audioPath;
-
-  Letter({this.character, this.audioPath});
+class ExercitiuLitere extends StatefulWidget {
+  ExercitiuLitere({Key? key});
 
   @override
-  String toString() => character ?? '';
-}
-
-class Litere extends StatefulWidget {
-  Litere({Key? key});
-
-  @override
-  createState() => _LitereState();
+  createState() => _ExercitiuLitereState();
 
 }
 
-class _LitereState extends State<Litere>
+class _ExercitiuLitereState extends State<ExercitiuLitere>
     with TickerProviderStateMixin {
 
-  _LitereState();
+  _ExercitiuLitereState();
 
   List<Letter> letters = List.empty(growable: true);
   final JsonDecoder decoder = JsonDecoder();
@@ -247,7 +236,7 @@ class _LitereState extends State<Litere>
                                           Navigator.pop(context);
                                           context.router.replace(
                                               ExerciseWrapper(
-                                                  exercise: Litere(),
+                                                  exercise: ExercitiuLitere(),
                                                   modal: showFractiiModal
                                               ));
                                         } else {
@@ -292,7 +281,7 @@ class _LitereState extends State<Litere>
                                 child: GestureDetector(
                                   onTap: () {
                                     context.router.push(ExerciseWrapper(
-                                        exercise: Litere(), modal: showLitereModal));
+                                        exercise: ExercitiuLitere(), modal: showLitereModal));
                                   },
                                   child: AnimatedContainer(
                                     margin: const EdgeInsets.only(top: 10),

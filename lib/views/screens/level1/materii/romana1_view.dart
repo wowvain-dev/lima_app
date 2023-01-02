@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/models/sidemenu_manager.dart';
 import 'package:lima/views/components/exercitii/limba%20si%20comunicare/romana/recunoastere_litere.dart';
+import 'package:lima/views/components/exercitii/limba%20si%20comunicare/romana/vocale_consoane.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:motion/motion.dart';
@@ -84,7 +85,7 @@ class Romana1ViewState extends State<Romana1View> {
                           opacity = 0;
                         });
                         context.router.replace(ExerciseWrapper(
-                            exercise: Litere(),
+                            exercise: ExercitiuLitere(),
                             modal: showLitereModal
                         ));
                       },
@@ -131,10 +132,10 @@ class Romana1ViewState extends State<Romana1View> {
                         setState(() {
                           opacity = 0;
                         });
-                        // context.router.replace(ExerciseWrapper(
-                        //     exercise: (),
-                        //     modal: showOperatiiModal
-                        // ));
+                        context.router.replace(ExerciseWrapper(
+                            exercise: ExercitiuVocale(),
+                            modal: showVocaleModal
+                        ));
                       },
                       onHelp: showVocaleModal),
                 ),

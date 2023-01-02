@@ -1,3 +1,5 @@
+// ignore_for_file: no_logic_in_create_state
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -85,7 +87,7 @@ class _ExerciseWrapperState extends State<ExerciseWrapper> {
                         });
                       }
                     },
-                    child: exercise.runtimeType != Litere ? GestureDetector(
+                    child: exercise.runtimeType != ExercitiuLitere ? GestureDetector(
                         onTap: () {
                           showSettingsModal(exercise, context, modal);
                         },
