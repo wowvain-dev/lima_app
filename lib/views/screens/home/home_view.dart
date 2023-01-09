@@ -402,7 +402,6 @@ class _Page2 extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              /// TODO(wowvain-dev): animate icons
                               Icon(Iconsax.teacher4,
                                 size: model.buttonSizes[2].iconSize,
                                 color: const Color(0xFF2A2B2A)),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:stack/stack.dart';
@@ -19,8 +20,28 @@ class Letters {
 
   Letters.initialize() {
     const JsonDecoder decoder = JsonDecoder();
-    var jsonString = File(".\\assets\\json\\litere.json")
-      .readAsStringSync();
+    String jsonString = "";
+
+    if (Platform.isWindows) {
+      log("Loading `./assets/json/litere.json`", time: DateTime.now(),
+        name: "Asset Loading"
+      );
+      jsonString = File(".\\assets\\json\\litere.json")
+          .readAsStringSync();
+      log("Loaded `./assets/json/litere.json`", time: DateTime.now(),
+          name: "Asset Loading"
+      );
+    } else if (Platform.isLinux) {
+      log("Loading `./assets/json/litere.json`", time: DateTime.now(),
+          name: "Asset Loading"
+      );
+      jsonString = File("./assets/json/litere.json")
+          .readAsStringSync();
+      log("Loaded `./assets/json/litere.json`", time: DateTime.now(),
+          name: "Asset Loading"
+      );
+    }
+
     final Map<String, dynamic> jsonMap = decoder.convert(jsonString);
 
     var value = jsonMap["letters"];

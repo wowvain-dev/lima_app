@@ -34,7 +34,10 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
 
   _ExercitiuVocaleState();
 
-  // TODO(wowvain-dev): start implementing the screen
+  var f1_node = FocusNode();
+  var controller1 = TextEditingController();
+
+  LinearGradient? buttonBG;
 
   void initState() {
 
@@ -42,6 +45,6 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
 
   @override
   Widget build(BuildContext context) {
-    return Text("Vocale");
+    return SizedBox();
   }
 }
