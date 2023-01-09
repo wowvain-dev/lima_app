@@ -35,7 +35,6 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
     with TickerProviderStateMixin {
   _ExercitiuLitereState();
 
-  List<Letter> letters = List.empty(growable: true);
   final AudioPlayer player = AudioPlayer();
 
   Letter? selectedLetter;
@@ -45,7 +44,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
 
   LinearGradient? buttonBG;
   Color skip = const Color(0xFFaaaaaa);
-  Color _audioColor = const Color(0xFF9E9E9E);
+  final Color _audioColor = const Color(0xFF9E9E9E);
 
   AnimationController? audioColorAnimController;
   Animation<Color?>? audioColorAnim;
@@ -195,7 +194,8 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                                 .headline6!
                                 .copyWith(fontSize: size.width / 60),
                           )),
-                      SkipButton(modal: showLitereModal, exercise: ExercitiuLitere())
+                      SkipButton(
+                          modal: showLitereModal, exercise: ExercitiuLitere())
                     ]),
               ),
             ),

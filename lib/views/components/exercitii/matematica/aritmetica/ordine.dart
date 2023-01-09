@@ -38,14 +38,6 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
 
   Color? skip;
 
-  // void _update(old, ew) {
-  //   setState(() {
-  //     var el = array[old];
-  //     array.removeAt(old);
-  //     array.insert(ew, el);
-  //   });
-  // }
-
   @override
   void initState() {
     print("Started - Array Orders");
@@ -119,11 +111,10 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
               // )
             ],
           ),
-              const SizedBox(height: 12),
-              Transform.rotate(
-                  angle: selectedOrder == Order.ascending ? pi/4 : 5*pi/4,
-                  child: const Icon(Iconsax.arrow_up_3, size: 48)
-              ),
+          const SizedBox(height: 12),
+          Transform.rotate(
+              angle: selectedOrder == Order.ascending ? pi / 4 : 5 * pi / 4,
+              child: const Icon(Iconsax.arrow_up_3, size: 48)),
           const Expanded(child: SizedBox()),
           ConstrainedBox(
             constraints: const BoxConstraints(
