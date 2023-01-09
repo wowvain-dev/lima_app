@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
-
 import 'package:auto_route/auto_route.dart';
-
 import '../../../app/router.gr.dart';
-import '../../screens/level1/materii/romana1_view.dart';
-import '../exercitii/limba si comunicare/romana/recunoastere_litere.dart';
 
 /// TODO(wowvain-dev):  MODULARIZE PROPERLY (WRAPPER AND MODALS)
 
 class SkipButton extends StatefulWidget {
-  SkipButton({required this.onPressed, required this.child});
+  SkipButton({required this.modal, required this.exercise});
 
-  void Function() onPressed;
-  Widget child;
+  void Function(BuildContext, void Function()) modal;
+  Widget exercise;
 
   @override
   // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() => _SkipButtonState(
-      onPressed, child
+      modal, exercise
   );
 }
 
 class _SkipButtonState extends State<SkipButton> {
-  _SkipButtonState(this.onPressed, this.child);
+  _SkipButtonState(this.modal, this.exercise);
 
-  void Function() onPressed;
-  Widget child;
+  void Function(BuildContext, void Function()) modal;
+  Widget exercise;
 
   LinearGradient _buttonBG = const LinearGradient(
       colors: [Color(0xFFFFFFFF)]
@@ -48,8 +44,7 @@ class _SkipButtonState extends State<SkipButton> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return
-      MouseRegion(
+    return MouseRegion(
         onEnter: (_) {
           setState(() {
             _skip = const Color(0xFFFEFEFE);
@@ -63,8 +58,8 @@ class _SkipButtonState extends State<SkipButton> {
         child: GestureDetector(
           onTap: () {
             context.router.push(ExerciseWrapper(
-                exercise: ExercitiuLitere(),
-                modal: showLitereModal));
+                exercise: exercise,
+                modal: modal));
           },
           child: AnimatedContainer(
             margin: const EdgeInsets.only(top: 10),

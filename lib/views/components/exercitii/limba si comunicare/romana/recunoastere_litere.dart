@@ -15,6 +15,7 @@ import 'package:lima/models/difficulty_manager.dart';
 import 'package:lima/models/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
+import 'package:lima/views/components/skip_button/skip_button.dart';
 import 'package:lima/views/components/verif_button/verif_button.dart';
 import 'package:lima/models/letter.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
@@ -85,9 +86,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
     audioColorAnimController?.addListener(() => setState(() {}));
     audioSizeAnimController?.addListener(() => setState(() {}));
 
-    // selectedLetter = letters[Random().nextInt(letters.length)];
     selectedLetter = Letters.letters[Random().nextInt(Letters.letters.length)];
-    print("Random letter picked");
 
     player.play(AssetSource(selectedLetter?.audioPath ?? ''));
   }
@@ -196,35 +195,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                                 .headline6!
                                 .copyWith(fontSize: size.width / 60),
                           )),
-                      MouseRegion(
-                        onEnter: (_) {
-                          setState(() {
-                            skip = const Color(0xFFFEFEFE);
-                          });
-                        },
-                        onExit: (_) {
-                          setState(() {
-                            skip = const Color(0xFFaaaaaa);
-                          });
-                        },
-                        child: GestureDetector(
-                          onTap: () {
-                            context.router.push(ExerciseWrapper(
-                                exercise: ExercitiuLitere(),
-                                modal: showLitereModal));
-                          },
-                          child: AnimatedContainer(
-                            margin: const EdgeInsets.only(top: 10),
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.ease,
-                            child: Text("Treceţi Peste",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(color: skip)),
-                          ),
-                        ),
-                      ),
+                      SkipButton(modal: showLitereModal, exercise: ExercitiuLitere())
                     ]),
               ),
             ),
