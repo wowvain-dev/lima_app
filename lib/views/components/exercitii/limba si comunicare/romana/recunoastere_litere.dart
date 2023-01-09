@@ -5,12 +5,12 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:iconly/iconly.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart';
 import 'package:lima/models/custom_keyboard_layout.dart';
 import 'package:lima/models/difficulty_manager.dart';
+import 'package:lima/models/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
 import 'package:lima/models/letter.dart';
@@ -96,7 +96,8 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
     audioColorAnimController?.addListener(() => setState(() {}));
     audioSizeAnimController?.addListener(() => setState(() {}));
 
-    selectedLetter = letters[Random().nextInt(letters.length)];
+    // selectedLetter = letters[Random().nextInt(letters.length)];
+    selectedLetter = Letters.letters[Random().nextInt(letters.length)];
 
     player.play(AssetSource(selectedLetter?.audioPath ?? ''));
   }
@@ -230,8 +231,17 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                                         /// TODO(wowvain-dev): CREATE SEPARATE SMALL HEIGHT LAYOUT
                                         /// TODO(wowvain-dev): MAKE ALL POSSIBLE CHECKS FOR THE VALUE INSIDE THE TextFields
                                         /// TODO(wowvain-dev): TRY ADDING TEXTURE FOR THE SLICES
-
+                                        print(value.toLowerCase());
                                         if (value.toLowerCase() == selectedLetter?.character) {
+                                          print ('BRAVO');
+                                          Navigator.pop(context);
+                                          context.router.replace(
+                                              ExerciseWrapper(
+                                                  exercise: ExercitiuLitere(),
+                                                  modal: showFractiiModal
+                                              ));
+                                        } else if ((value.toLowerCase() == 'â' || value.toLowerCase() == 'î')
+                                        && (selectedLetter?.character == 'â' || selectedLetter?.character == 'î')) {
                                           print ('BRAVO');
                                           Navigator.pop(context);
                                           context.router.replace(
@@ -313,14 +323,37 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(child: SizedBox()),
+                Column(
+                  children: [
+                    Opacity(
+                      opacity: 0,
+                      child: IconButton(
+                        splashRadius: 30,
+                        onPressed: () => setState(() => keyboardVisible = false),
+                        icon: Icon(IconlyLight.close_square),
+                      ),
+                    ),
+                    Expanded(child: SizedBox())
+                  ],
+                ),
                 Container(
                   // margin: EdgeInsets.only(bottom: 5),
                   decoration: BoxDecoration(
+                    color: const Color(0xFF2a2b2a),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x99000000),
+                        offset: Offset(0, 20),
+                        blurRadius: 10,
+
+                      )
+                    ],
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(color: Colors.white, width: 1, ),
                   ),
                   width: size.width / 2,
                   child: VirtualKeyboard(
+                    fontSize: 24,
                     height: size.height / 4,
                     textColor: Colors.white,
                     type: VirtualKeyboardType.Alphanumeric,
@@ -345,6 +378,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
               ],
             )
           )) : SizedBox(),
+          const SizedBox(height: 24),
           Container(
             margin: EdgeInsets.symmetric(horizontal: size.width / 4),
             height: size.height / 24,

@@ -3,6 +3,9 @@ description: Aplicatie cu exercitii interactive pentru copii.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
+module:
+  androidX: true
+
 version: 1.0.0+1
 
 environment:

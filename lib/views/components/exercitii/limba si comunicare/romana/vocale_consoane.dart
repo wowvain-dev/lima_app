@@ -34,10 +34,14 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
 
   _ExercitiuVocaleState();
 
+  // TODO(wowvain-dev): start implementing the screen
+
+  void initState() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Text("Vocale");
   }
-
-
 }
