@@ -10,7 +10,10 @@ import 'package:lima/app/router.gr.dart';
 import 'package:lima/models/difficulty_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
+import 'package:lima/views/components/skip_button/skip_button.dart';
+import 'package:lima/views/components/verif_button/verif_button.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
+import 'package:lima/views/components/help_section/help_section.dart';
 
 import 'package:lima/models/expression_tree.dart';
 
@@ -173,181 +176,123 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  MouseRegion(
-                      onExit: (_) {
-                        setState(() {
-                          buttonBG = const LinearGradient(
-                            colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          );
-                        });
-                      },
-                      onEnter: (_) {
-                        setState(() {
-                          buttonBG = const LinearGradient(
-                            colors: [
-                              Color(0xFF576182),
-                              Color(0xFF1FC5A8),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          );
-                        });
-                      },
-                      child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              Future.delayed(Duration.zero, () {
-                                buttonBG = const LinearGradient(
-                                    colors: [
-                                      Color(0xFF5D69BE),
-                                      Color(0xFFC89FEB)
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight);
-                              }).whenComplete(() {
-                                Future.delayed(
-                                    const Duration(milliseconds: 200), () {
-                                  setState(() {
-                                    buttonBG = const LinearGradient(
-                                      colors: [
-                                        Color(0xFF576182),
-                                        Color(0xFF1FC5A8),
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                    );
-                                  });
-                                });
-                              });
-                            });
-                            if (controller.text ==
-                                ExpressionTree.evaluate(tree.root).toString()) {
-                              print('BRAVO');
-                              Navigator.pop(context);
-                              context.router.replace(ExerciseWrapper(
-                                  exercise: Operatii(),
-                                  modal: showOperatiiModal));
-                            } else {
-                              showTryAgainModal(context);
-                            }
-                          },
-                          child: AnimatedContainer(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color(0x99000000),
-                                    spreadRadius: 2,
-                                    blurRadius: 20,
-                                    offset: Offset(0, 20),
-                                  )
-                                ],
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: buttonBG,
-                              ),
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.ease,
-                              child: Text("Verifică",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6!
-                                      .copyWith(fontSize: size.width / 60))))),
-                  GestureDetector(
-                    onTap: () {
-                      context.router.push(ExerciseWrapper(
-                          exercise: Operatii(), modal: showOperatiiModal));
-                    },
-                    child: MouseRegion(
-                      onEnter: (_) {
-                        setState(() {
-                          skip = const Color(0xFFFEFEFE);
-                        });
-                      },
-                      onExit: (_) {
-                        setState(() {
-                          skip = const Color(0xFFaaaaaa);
-                        });
-                      },
-                      child: AnimatedContainer(
-                        margin: const EdgeInsets.only(top: 20),
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.ease,
-                        child: Text("Treceţi Peste",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(color: skip)),
-                      ),
-                    ),
-                  )
+                  VerifButton(
+                    width: 200,
+                      onPressed: () {
+                          if (controller.text ==
+                              ExpressionTree.evaluate(tree.root).toString()) {
+                            print('BRAVO');
+                            Navigator.pop(context);
+                            context.router.replace(ExerciseWrapper(
+                                exercise: Operatii(),
+                                modal: showOperatiiModal));
+                          } else {
+                            showTryAgainModal(context);
+                          }
+            },
+                child:
+
+                    Text("Verifică",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6!
+                                        .copyWith(fontSize: size.width / 60))),
+                  // MouseRegion(
+                  //     onExit: (_) {
+                  //       setState(() {
+                  //         buttonBG = const LinearGradient(
+                  //           colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)],
+                  //           begin: Alignment.topLeft,
+                  //           end: Alignment.bottomRight,
+                  //         );
+                  //       });
+                  //     },
+                  //     onEnter: (_) {
+                  //       setState(() {
+                  //         buttonBG = const LinearGradient(
+                  //           colors: [
+                  //             Color(0xFF576182),
+                  //             Color(0xFF1FC5A8),
+                  //           ],
+                  //           begin: Alignment.topLeft,
+                  //           end: Alignment.bottomRight,
+                  //         );
+                  //       });
+                  //     },
+                  //     child: GestureDetector(
+                  //         onTap: () {
+                  //           setState(() {
+                  //             Future.delayed(Duration.zero, () {
+                  //               buttonBG = const LinearGradient(
+                  //                   colors: [
+                  //                     Color(0xFF5D69BE),
+                  //                     Color(0xFFC89FEB)
+                  //                   ],
+                  //                   begin: Alignment.topLeft,
+                  //                   end: Alignment.bottomRight);
+                  //             }).whenComplete(() {
+                  //               Future.delayed(
+                  //                   const Duration(milliseconds: 200), () {
+                  //                 setState(() {
+                  //                   buttonBG = const LinearGradient(
+                  //                     colors: [
+                  //                       Color(0xFF576182),
+                  //                       Color(0xFF1FC5A8),
+                  //                     ],
+                  //                     begin: Alignment.topLeft,
+                  //                     end: Alignment.bottomRight,
+                  //                   );
+                  //                 });
+                  //               });
+                  //             });
+                  //           });
+                  //           if (controller.text ==
+                  //               ExpressionTree.evaluate(tree.root).toString()) {
+                  //             print('BRAVO');
+                  //             Navigator.pop(context);
+                  //             context.router.replace(ExerciseWrapper(
+                  //                 exercise: Operatii(),
+                  //                 modal: showOperatiiModal));
+                  //           } else {
+                  //             showTryAgainModal(context);
+                  //           }
+                  //         },
+                  //         child: AnimatedContainer(
+                  //             padding: const EdgeInsets.symmetric(
+                  //               horizontal: 20,
+                  //               vertical: 10,
+                  //             ),
+                  //             decoration: BoxDecoration(
+                  //               boxShadow: const [
+                  //                 BoxShadow(
+                  //                   color: Color(0x99000000),
+                  //                   spreadRadius: 2,
+                  //                   blurRadius: 20,
+                  //                   offset: Offset(0, 20),
+                  //                 )
+                  //               ],
+                  //               borderRadius: BorderRadius.circular(15),
+                  //               gradient: buttonBG,
+                  //             ),
+                  //             duration: const Duration(milliseconds: 300),
+                  //             curve: Curves.ease,
+                  //             child: Text("Verifică",
+                  //                 style: Theme.of(context)
+                  //                     .textTheme
+                  //                     .headline6!
+                  //                     .copyWith(fontSize: size.width / 60))))),
+                  SizedBox(height: 50),
+                  SkipButton(modal: showOperatiiModal,
+                      exercise: Operatii())
                 ],
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: size.width / 4),
-            height: size.height / 20,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Center(
-                      child: MouseRegion(
-                    onEnter: (_) {
-                      _controller1?.forward();
-                    },
-                    onExit: (_) {
-                      _controller1?.reverse();
-                    },
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Text("Ce trebuie să fac?",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  color: animation1?.value,
-                                  fontSize: size.width / 60)),
-                    ),
-                  )),
-                ),
-                const VerticalDivider(
-                  color: Colors.grey,
-                  width: 2,
-                ),
-                Expanded(
-                  child: Center(
-                      child: MouseRegion(
-                    onEnter: (_) {
-                      _controller2?.forward();
-                    },
-                    onExit: (_) {
-                      _controller2?.reverse();
-                    },
-                    child: GestureDetector(
-                      onTap: () {
-                        controller.text =
-                            ExpressionTree.evaluate(tree.root).toString();
-                      },
-                      child: Text("Arată răspunsul",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  color: animation2?.value,
-                                  fontSize: size.width / 60)),
-                    ),
-                  )),
-                )
-              ],
-            ),
-          )
+          HelpSection(
+              showAnswer: () {
+                controller.text = ExpressionTree.evaluate(tree.root).toString();
+              },
+              modal: showOperatiiModal)
         ],
       )),
     );

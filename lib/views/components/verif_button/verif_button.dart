@@ -1,23 +1,40 @@
 import 'package:flutter/material.dart';
 
 class VerifButton extends StatefulWidget {
-  VerifButton({required this.onPressed, required this.child});
+  VerifButton({required this.onPressed, required this.child,
+    this.height, this.width
+  });
 
   void Function() onPressed;
   Widget child;
+  double? height;
+  double? width;
 
   @override
   // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() => _VerifButtonState(
-    onPressed, child
+    onPressed: onPressed,
+    child: child,
+    height: height,
+    width: width
   );
 }
 
 class _VerifButtonState extends State<VerifButton> {
-  _VerifButtonState(this.onPressed, this.child);
+  _VerifButtonState({
+    required this.onPressed,
+    required this.child,
+    this.height,
+    this.width,
+  });
 
   void Function() onPressed;
   Widget child;
+  double? height;
+  double? width;
+
+  double? heightRaport;
+  double? widthRaport;
 
   LinearGradient buttonBG = const LinearGradient(
     colors: [Color(0xFFFFFFFF)]
@@ -37,8 +54,15 @@ class _VerifButtonState extends State<VerifButton> {
   }
 
   @override
+  void didUpdateWidget(covariant VerifButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    width = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width;
+    height = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    /// TODO (wowvain): height rapports
     return MouseRegion(
           onExit: (_) {
             setState(() {
@@ -51,6 +75,7 @@ class _VerifButtonState extends State<VerifButton> {
           },
           onEnter: (_) {
             setState(() {
+              super.setState(() {});
               buttonBG = const LinearGradient(
                 colors: [
                   Color(0xFF576182),
@@ -93,6 +118,8 @@ class _VerifButtonState extends State<VerifButton> {
 
               },
               child: AnimatedContainer(
+                width: width,
+                height: height,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 10,
@@ -111,7 +138,7 @@ class _VerifButtonState extends State<VerifButton> {
                   ),
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.ease,
-                  child: child
+                  child: Center(child: child)
           )));
   }
 }

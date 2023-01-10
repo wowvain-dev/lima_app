@@ -65,7 +65,7 @@ class Level1View extends StatelessWidget {
                   lang: [
                     ItemComponents(
                         subject: Subject.romana,
-                        colorScheme: ItemColor.blue,
+                        colorScheme: ItemColor.purple,
                         icon: Iconsax.book_1,
                         text: 'Limba Română',
                         onPress: () {

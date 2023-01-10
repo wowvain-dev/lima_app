@@ -106,11 +106,19 @@ class _SideMenuItemState extends State<SideMenuItem>
     );
     controller!.addListener(() {setState((){});});
     if (colorScheme == ItemColor.blue) {
-      colors["background"] = const Color(0xFFE2EEFD);
+      colors["background"] = const Color(0xFFB2D2FA);
       colors["circle"] = const Color(0xFF1672EC);
       colors["text"] = const Color(0xFF0A3977);
       colors["icon"] = const Color(0xFFC5DCFA);
-      colors["hover"] = const Color(0xFFB2D2FA);
+      colors["hover"] = const Color(0xFFE2EEFD);
+    }
+
+    if (colorScheme == ItemColor.purple) {
+      colors["background"] = const Color(0xFFCB93FF);
+      colors["circle"] = const Color(0xFF9A0FBF);
+      colors["text"] = const Color(0xFF4D085F);
+      colors["icon"] = const Color(0xFFECB9F9);
+      colors["hover"] = const Color(0xBBD9B1FF);
     }
 
     super.initState();
@@ -156,7 +164,7 @@ class _SideMenuItemState extends State<SideMenuItem>
                 width: onHoverAnimation!.value, 
                 height: height / 10,
                   decoration: BoxDecoration(
-                      color: colors["background"],
+                      color: colors["hover"],
                       borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(10),
@@ -172,7 +180,7 @@ class _SideMenuItemState extends State<SideMenuItem>
                   decoration: BoxDecoration(
                       color:
                           l<SideMenuManager>().subject == subject 
-                          ? colors["hover"] : const Color(0x00000000),
+                          ? colors["background"] : const Color(0x00000000),
                       borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(10),

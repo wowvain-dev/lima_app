@@ -1,4 +1,4 @@
-enum Type {
+enum LetterType {
   vowel,
   consonant
 }
@@ -13,11 +13,11 @@ class Letter {
   String? character;
   String? audioPath;
 
-  Type get type {
+  LetterType get letterType {
     if (['a', 'e', 'i', 'o', 'u', 'î', 'ă', 'â'].contains(character)) {
-      return Type.vowel;
+      return LetterType.vowel;
     }
-    return Type.consonant;
+    return LetterType.consonant;
   }
 
   @override

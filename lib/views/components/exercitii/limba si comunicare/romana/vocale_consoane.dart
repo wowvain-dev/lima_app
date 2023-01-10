@@ -15,8 +15,10 @@ import 'package:lima/models/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
 import 'package:lima/models/letter.dart';
+import 'package:lima/views/components/help_section/help_section.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:resize/resize.dart';
 import 'package:toast/toast.dart';
 import 'package:tuple/tuple.dart';
 import 'package:virtual_keyboard_flutter/virtual_keyboard_flutter.dart';
@@ -42,6 +44,7 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
   var controller1 = TextEditingController();
 
   Letter? selectedLetter;
+  BuildContext? _context;
 
   void initState() {
     f1_node.addListener(() {
@@ -62,95 +65,114 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     var size = MediaQuery.of(context).size;
-    return Container(
-        child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-          const Expanded(child: SizedBox()),
-          MouseRegion(
-              // onEnter: (_) {
-              //   audioColorAnimController?.forward();
-              // },
-              // onExit: (_) {
-              //   audioColorAnimController?.reverse();
-              // },
-              child: GestureDetector(
-                  onTap: () {
-                    // audioSizeAnimController
-                    //     ?.forward()
-                    //     .whenComplete(() => audioSizeAnimController?.reverse());
-                    player.play(AssetSource(selectedLetter?.audioPath ?? ''));
-                  },
-                  child: Icon(LineIcon.music().icon,
-                      size: 200, color: const Color(0xFFCCCCCC)))),
-          const SizedBox(height: 48),
-          Container(
-              width: 100,
-              child: TextField(
-                  cursorColor: const Color(0xFFc89FEB),
-                  focusNode: f1_node,
-                  controller: controller1,
-                  decoration: InputDecoration(
-                      hintText: f1_node.hasFocus ? '' : '?',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(
-                              color: Color(0xFFC89FEB), width: 2))),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(fontSize: size.width / 40))),
-          Expanded(
-              child: Column(children: [
-            Container(
-              height: 100,
-              child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      VerifButton(
-                          onPressed: () {
-                            var value = controller1.text;
-                            if (value.toLowerCase() ==
-                                selectedLetter?.character) {
-                              print('BRAVO');
-                              Navigator.pop(context);
-                              context.router.replace(ExerciseWrapper(
-                                  exercise: ExercitiuVocale(),
-                                  modal: showVocaleModal));
-                            } else if ((value.toLowerCase() == 'â' ||
-                                    value.toLowerCase() == 'î') &&
-                                (selectedLetter?.character == 'â' ||
-                                    selectedLetter?.character == 'î')) {
-                              Navigator.pop(context);
-                              context.router.replace(ExerciseWrapper(
-                                  exercise: ExercitiuVocale(),
-                                  modal: showFractiiModal));
-                            } else {
-                              showTryAgainModal(context);
-                            }
-                          },
-                          child: Text(
-                            "Verifica",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(fontSize: size.width / 60),
-                          )),
-                      SkipButton(
-                          modal: showLitereModal, exercise: ExercitiuVocale())
-                    ]),
-              ),
-            ),
-          ]))
-        ]));
+        return Container(
+            child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child :Column(
+                          children: [
+                            const Expanded(child: SizedBox()),
+                            MouseRegion(
+                              // onEnter: (_) {
+                              //   audioColorAnimController?.forward();
+                              // },
+                              // onExit: (_) {
+                              //   audioColorAnimController?.reverse();
+                              // },
+                                child: GestureDetector(
+                                    onTap: () {
+                                      // audioSizeAnimController
+                                      //     ?.forward()
+                                      //     .whenComplete(() => audioSizeAnimController?.reverse());
+                                      player.play(AssetSource(selectedLetter?.audioPath ?? ''));
+                                    },
+                                    child: Text(selectedLetter!.character?.toUpperCase() ?? '',
+                                        style: Theme.of(context).textTheme.headline6!
+                                            .copyWith(fontSize: size.width / 10)
+                                    ))),
+                            const Expanded(child: SizedBox())
+                          ]
+                      )),
+                  Expanded(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              child: Center(
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      Container(
+                                        width: size.width / 2,
+                                        child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              VerifButton(
+                                                  height: 100,
+                                                  width: 250,
+                                                  onPressed: () {
+                                                    if (selectedLetter!.letterType ==
+                                                        LetterType.vowel
+                                                    ) {
+                                                      Navigator.pop(context);
+                                                      context.router.replace(ExerciseWrapper(
+                                                          exercise: ExercitiuVocale(),
+                                                          modal: showFractiiModal));
+                                                    } else {
+                                                      showTryAgainModal(context);
+                                                    }
+                                                  },
+                                                  child: Text(
+                                                    "VOCALA",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline6!
+                                                        .copyWith(fontSize: size.width / 60),
+                                                  )),
+                                              VerifButton(
+                                                height: 100,
+                                                width: 250,
+                                                onPressed: () {
+                                                  if (selectedLetter!.letterType ==
+                                                      LetterType.consonant
+                                                  ) {
+                                                    Navigator.pop(context);
+                                                    context.router.replace(ExerciseWrapper(
+                                                        exercise: ExercitiuVocale(),
+                                                        modal: showFractiiModal));
+                                                  } else {
+                                                    showTryAgainModal(context);
+                                                  }
+                                                },
+                                                child: Text(
+                                                    "CONSOANA",
+                                                    style: Theme.of(context).textTheme.
+                                                    headline6!.copyWith(fontSize: size.width / 60)
+                                                ),
+                                              )
+                                            ]
+                                        ),
+                                      ),
+                                      const SizedBox(height: 40),
+                                      SkipButton(
+                                          modal: showLitereModal, exercise: ExercitiuVocale())
+                                    ]),
+                              ),
+                            ),
+                          ])),
+                  HelpSection(
+                      showAnswer: () {
+
+                      },
+                      modal: showVocaleModal)
+                ]));
   }
 }

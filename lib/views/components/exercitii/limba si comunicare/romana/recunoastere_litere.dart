@@ -286,7 +286,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                             color: Colors.grey, fontSize: size.width / 70)),
                   ),
                 ),
-                VerticalDivider(
+                const VerticalDivider(
                   color: Colors.grey,
                   width: 2,
                 ),
