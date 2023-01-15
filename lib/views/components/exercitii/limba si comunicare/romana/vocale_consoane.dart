@@ -10,13 +10,16 @@ import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
 import 'package:lima/models/classes/letter.dart';
 import 'package:lima/views/components/help_section/help_section.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
+import 'package:toast/toast.dart';
 
 import '../../../../screens/level1/materii/romana1_view.dart';
 import '../../../skip_button/skip_button.dart';
 import '../../../verif_button/verif_button.dart';
 
 class ExercitiuVocale extends StatefulWidget {
-  ExercitiuVocale({Key? key});
+  ExercitiuVocale({Key? key, required this.level});
+
+  int level;
 
   @override
   createState() => _ExercitiuVocaleState();
@@ -30,6 +33,9 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
 
   var f1_node = FocusNode();
   var controller1 = TextEditingController();
+
+  bool _usedCheat = false;
+
 
   Letter? selectedLetter;
   BuildContext? _context;
@@ -54,6 +60,8 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var progress = ProgressStorage.levels[widget.level-1].comunicare
+      .parts["romana"]!.parts["vocale"]!;
         return Container(
             child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -96,18 +104,7 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
                                               VerifButton(
                                                   height: size.height / 15,
                                                   width: size.width / 7,
-                                                  onPressed: () {
-                                                    if (selectedLetter!.letterType ==
-                                                        LetterType.vowel
-                                                    ) {
-                                                      Navigator.pop(context);
-                                                      context.router.replace(ExerciseWrapper(
-                                                          exercise: ExercitiuVocale(),
-                                                          modal: showFractiiModal));
-                                                    } else {
-                                                      showTryAgainModal(context);
-                                                    }
-                                                  },
+                                                  onPressed: () => _verify(LetterType.vowel),
                                                   child: Text(
                                                     "VOCALA",
                                                     style: Theme.of(context)
@@ -118,18 +115,7 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
                                               VerifButton(
                                                 height: size.height / 15,
                                                 width: size.width / 7,
-                                                onPressed: () {
-                                                  if (selectedLetter!.letterType ==
-                                                      LetterType.consonant
-                                                  ) {
-                                                    Navigator.pop(context);
-                                                    context.router.replace(ExerciseWrapper(
-                                                        exercise: ExercitiuVocale(),
-                                                        modal: showFractiiModal));
-                                                  } else {
-                                                    showTryAgainModal(context);
-                                                  }
-                                                },
+                                                onPressed: () => _verify(LetterType.consonant),
                                                 child: Text(
                                                     "CONSOANA",
                                                     style: Theme.of(context).textTheme.
@@ -141,16 +127,80 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
                                       ),
                                       const SizedBox(height: 40),
                                       SkipButton(
-                                          modal: showLitereModal, exercise: ExercitiuVocale())
+                                          modal: showLitereModal, exercise: ExercitiuVocale(
+                                        level: widget.level
+                                      ))
                                     ]),
                               ),
                             ),
                           ])),
                   HelpSection(
                       showAnswer: () {
-
+                        _usedCheat = true;
                       },
                       modal: showVocaleModal)
                 ]));
   }
-}
+
+  void _verify(LetterType _type) {
+    var progress = ProgressStorage.levels[widget.level-1].comunicare
+      .parts["romana"]!.parts["vocale"]!;
+    if (selectedLetter!.letterType ==
+        _type
+    ) {
+      if (_usedCheat) {
+        Navigator.pop(context);
+        context.router.replace(ExerciseWrapper(
+            exercise: ExercitiuVocale(level: widget.level),
+            modal: showFractiiModal));
+        return;
+      }
+      if (progress.current < progress.total) {
+        progress.current += 1;
+        print("${progress.current}/${progress.total}");
+      } else {
+        if (progress.current > progress.total) {
+          Navigator.pop(context);
+          context.router.replace(ExerciseWrapper(
+              exercise: ExercitiuVocale(level: widget.level),
+              modal: showOperatiiModal));
+          return;
+        }
+        progress.current += 1;
+        // TODO: add CONFETII for completing the exercise
+        ToastContext().init(context);
+        Toast.show(
+            "Felicitări! Ai terminat capitolul.\nPoţi continua să exersezi sau poţi trece la următorul.",
+            duration: 5,
+            gravity: Toast.top,
+            backgroundRadius: 10,
+            backgroundColor: const Color(0xFFFFFFFF),
+            textStyle: Theme
+                .of(context)
+                .textTheme
+                .headline6!
+                .copyWith(
+                color: const Color(0xFF000000),
+                fontFamily: "Dosis",
+                fontSize: 25
+            ),
+            border: Border.all(
+                width: 2,
+                color: const Color(0xFF000000)
+            )
+        );
+        Navigator.pop(context);
+        context.router.replace(ExerciseWrapper(
+            exercise: ExercitiuVocale(level: widget.level),
+            modal: showFractiiModal));
+      }
+      Navigator.pop(context);
+      context.router.replace(ExerciseWrapper(
+          exercise: ExercitiuVocale(level: widget.level),
+          modal: showFractiiModal));
+
+    } else {
+      showTryAgainModal(context);
+    }
+  }
+    }

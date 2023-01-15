@@ -39,6 +39,8 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
   int? end;
   int? length;
 
+  bool _usedCheat = false;
+
   List<int> array = List.empty(growable: true);
   List<Widget> listChildren = List.empty(growable: true);
   List<Gradient> gradients = List.empty(growable: true);
@@ -141,10 +143,6 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
                       .textTheme
                       .headline6!
                       .copyWith(fontSize: size.width / 50)),
-              // Transform.rotate(
-              //   angle: pi/4,
-              //   child: const Icon(Iconsax.arrow_up_3)
-              // )
             ],
           ),
           const SizedBox(height: 12),
@@ -212,6 +210,7 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
           ),
           const Expanded(child: SizedBox()),
           HelpSection(showAnswer: () => setState(() {
+            _usedCheat = true;
             showAnswer(selectedOrder!, elements, array);
           } ), modal: showOrdiniModal,
           )
@@ -242,6 +241,7 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
       });
     });
 
+
     if (selectedOrder == Order.ascending) {
       List<int> _temp = [...array];
       _temp.sort();
@@ -252,6 +252,14 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
           return;
         }
       }
+
+      if (_usedCheat) {
+        Navigator.pop(context);
+        context.router.replace(
+            ExerciseWrapper(exercise: OrdiniSiruri(level: widget.level), modal: showOperatiiModal));
+        return;
+      }
+
       if (progress.current < progress.total) {
         progress.current += 1;
         print("${progress.current}/${progress.total}");

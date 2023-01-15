@@ -11,6 +11,7 @@ import 'package:iconly/iconly.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/models/classes/sidemenu_manager.dart';
 import 'package:lima/views/components/custom_icon_button/custom_icon_button.dart';
+import 'package:lima/views/components/progress_bar/progress_bar.dart';
 import 'package:lima/views/components/sidemenu/sidemenu_item.dart';
 import 'package:lima/views/components/sidemenu/sidemenu_view.dart';
 import 'package:stacked/stacked.dart';
@@ -44,6 +45,9 @@ class _Level1ViewState extends State<Level1View> {
     return ViewModelBuilder.reactive(
         viewModelBuilder: () => Level1ViewModel(),
         builder: (context, model, child) {
+          var size = MediaQuery.of(context).size;
+          var matematica = ProgressStorage.levels[0].matematica;
+          var comunicare = ProgressStorage.levels[0].comunicare;
           return Container(
             child: Scaffold(
                 backgroundColor: const Color(0xFF2A2B2A),
@@ -198,14 +202,147 @@ class _Level1ViewState extends State<Level1View> {
                                           ),
                                         ),
                                         const Expanded(child: SizedBox()),
-                                        Text("Mate Total: ${ProgressStorage.levels[0].matematica.parts["aritmetica"]}"),
-                                        Text("\t-Operatii: ${ProgressStorage.levels[0].matematica.parts["aritmetica"]!.parts["operatii"]}"),
-                                        Text("\t-Fractii: ${ProgressStorage.levels[0].matematica.parts["aritmetica"]!.parts["fractii"]}"),
-                                        Text("\t-Siruri: ${ProgressStorage.levels[0].matematica.parts["aritmetica"]!.parts["siruri"]}"),
-                                        Text("\t-Formare: ${ProgressStorage.levels[0].matematica.parts["aritmetica"]!.parts["formare"]}"),
+                                        LayoutBuilder(builder: (context, constraints) => Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                            Row(
+                                              children: [
+                                                Text("Matematică",
+                                                    textAlign: TextAlign.start,
+                                                    style: Theme
+                                                .of(context).textTheme.headline6!.
+                                                copyWith(
+                                                  fontSize: size.width / 40,
+                                                      fontFamily: 'Dosis'
+                                                )),
+                                                const Expanded(child: SizedBox()),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    ProgressBar(
+                                                      percentage: matematica.parts["aritmetica"]!.percentage,
+                                                      height: size.height * 0.08,
+                                                      width: constraints.maxWidth / 2.3,
+                                                      gradient: const LinearGradient(
+                                                          colors:[
+                                                            Color(0xFFff1d25),
+                                                            Color(0xFF6049b0),
+                                                            Color(0xFF0082e6)
+                                                          ]
+                                                      ),
+                                                      gradientFull: const LinearGradient(
+                                                        colors: [
+                                                          Color(0xFFe5405e),
+                                                          Color(0xFFffdb3a),
+                                                          Color(0xFF50d5b7),
+                                                          Color(0xFF3fffa2)
+                                                        ], stops: [
+                                                          0, .33, .66, 1
+                                                      ]
+                                                      )
+                                                    ),
+                                                    Text("aritmetică", style:
+                                                    Theme.of(context).textTheme.headline6!.
+                                                    copyWith(
+                                                        fontSize: 25
+                                                    ))
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    ProgressBar(
+                                                        percentage: matematica.parts["geometrie"]!.percentage,
+                                                        height: size.height * 0.08,
+                                                        width: constraints.maxWidth / 2.3,
+                                                        gradient: const LinearGradient(
+                                                            colors:[
+                                                              Color(0xFFff1d25),
+                                                              Color(0xFF6049b0),
+                                                              Color(0xFF0082e6)
+                                                            ]
+                                                        ),
+                                                        gradientFull: const LinearGradient(
+                                                            colors: [
+                                                              Color(0xFFe5405e),
+                                                              Color(0xFFffdb3a),
+                                                              Color(0xFF50d5b7),
+                                                              Color(0xFF3fffa2)
+                                                            ], stops: [
+                                                          0, .33, .66, 1
+                                                        ]
+                                                        )
+                                                    ),
+                                                    Text("geometrie", style:
+                                                      Theme.of(context).textTheme.headline6!.
+                                                        copyWith(
+                                                        fontSize: 25
+                                                      )
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 50),
+                                            Row(
+                                              children: [
+                                                Text("Limbă şi Comunicare",
+                                                    textAlign: TextAlign.start,
+                                                    style: Theme
+                                                        .of(context).textTheme.headline6!.
+                                                    copyWith(
+                                                      fontSize: size.width / 40,
+                                                        fontFamily: 'Dosis'
+                                                    )),
+                                                const Expanded(child: SizedBox()),
+                                              ]
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    ProgressBar(
+                                                        percentage: comunicare.parts["romana"]!.percentage,
+                                                        height: size.height * 0.08,
+                                                        width: constraints.maxWidth,
+                                                        gradient: const LinearGradient(
+                                                            colors:[
+                                                              Color(0xFFff1d25),
+                                                              Color(0xFF6049b0),
+                                                              Color(0xFF0082e6)
+                                                            ]
+                                                        ),
+                                                        gradientFull: const LinearGradient(
+                                                            colors: [
+                                                              Color(0xFFe5405e),
+                                                              Color(0xFFffdb3a),
+                                                              Color(0xFF50d5b7),
+                                                              Color(0xFF3fffa2)
+                                                            ], stops: [
+                                                          0, .33, .66, 1
+                                                        ]
+                                                        )
+                                                    ),
+                                                    Text("română", style:
+                                                    Theme.of(context).textTheme.headline6!.
+                                                    copyWith(
+                                                        fontSize: 25
+                                                    ))
+                                                  ],
+                                                ),
+
+                                              ]
+                                            )
+                                          ]
+                                        )),
+                                        Container(),
                                         const Expanded(child: SizedBox()),
                                         Container(
-                                          padding: const EdgeInsets.only(bottom: 75),
+                                          padding: const EdgeInsets.only(bottom: 50),
                                           height: MediaQuery.of(context).size.height / 5,
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.start,

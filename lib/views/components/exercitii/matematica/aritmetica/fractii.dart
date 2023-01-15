@@ -51,6 +51,8 @@ class _FractiiState extends State<Fractii> {
   bool? allowWholes;
   bool? onlySubunit;
 
+  bool _usedCheat = false;
+
   Color skip = const Color(0xFFaaaaaa);
 
   @override
@@ -194,6 +196,16 @@ class _FractiiState extends State<Fractii> {
                                       /// TODO(wowvain-dev): TRY ADDING TEXTURE FOR THE SLICES
 
                                       if (value == frac!.toDouble()) {
+                                        if (_usedCheat) {
+                                          Navigator.pop(context);
+                                          context.router.replace(
+                                              ExerciseWrapper(
+                                                  exercise: Fractii(level: widget.level),
+                                                  modal: showFractiiModal
+                                              ));
+                                          return;
+                                        }
+
                                         if (progress.current < progress.total) {
                                           progress.current += 1;
                                           print("${progress.current}/${progress.total}");
@@ -238,6 +250,7 @@ class _FractiiState extends State<Fractii> {
                   setState(() {
                     controller1.text = frac!.numerator.toString();
                     controller2.text = frac!.denominator.toString();
+                    _usedCheat = true;
                   });
                 }, modal: showFractiiModal)
               ]));
@@ -333,6 +346,16 @@ class _FractiiState extends State<Fractii> {
                                 /// TODO(wowvain-dev): TRY ADDING TEXTURE FOR THE SLICES
 
                                 if (value == frac!.toDouble()) {
+                                  if (_usedCheat) {
+                                    Navigator.pop(context);
+                                    context.router.replace(
+                                        ExerciseWrapper(
+                                            exercise: Fractii(level: widget.level),
+                                            modal: showFractiiModal
+                                        ));
+                                    return;
+                                  }
+
                                   if (progress.current < progress.total) {
                                     progress.current += 1;
                                     print("${progress.current}/${progress.total}");
@@ -372,6 +395,7 @@ class _FractiiState extends State<Fractii> {
                   setState(() {
                     controller1.text = frac!.numerator.toString();
                     controller2.text = frac!.denominator.toString();
+                    _usedCheat = true;
                   });
                 }, modal: showFractiiModal)
               ]));

@@ -61,6 +61,7 @@ dependencies:
   virtual_keyboard_flutter: ^1.0.0
   resize: ^1.0.0
   icon_decoration: ^1.0.1
+  widget_mask: ^1.0.0+0
 
   # Components
 

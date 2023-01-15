@@ -128,7 +128,7 @@ class Romana1ViewState extends State<Romana1View> {
                           opacity = 0;
                         });
                         context.router.replace(ExerciseWrapper(
-                            exercise: ExercitiuVocale(),
+                            exercise: ExercitiuVocale(level: 1),
                             modal: showVocaleModal
                         ));
                       },

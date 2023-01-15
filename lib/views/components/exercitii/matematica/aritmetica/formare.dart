@@ -36,6 +36,8 @@ class _FormareState extends State<Formare> {
 
   int number = 0;
 
+  bool _usedCheat = false;
+
   final LinearGradient mainPoleColor = const LinearGradient(
     colors: [Color(0xFF1c94b3), Color(0xFF1c94b3)],
     begin: Alignment.topLeft,
@@ -576,7 +578,10 @@ class _FormareState extends State<Formare> {
             ),
           ),
           SizedBox(height: size.height / 30),
-          HelpSection(showAnswer: () {}, modal: showFormareModal)
+          HelpSection(showAnswer: () {
+            _usedCheat = true;
+            _showAnswer();
+          }, modal: showFormareModal)
         ]));
   }
 
@@ -587,6 +592,13 @@ class _FormareState extends State<Formare> {
     print("${progress.current}/${progress.total}");
 
     if (value == number) {
+      if (_usedCheat) {
+        Navigator.pop(context);
+        context.router.replace(ExerciseWrapper(
+            exercise: Formare(level: widget.level),
+            modal: showFormareModal));
+        return;
+      }
       print('BRAVO');
       progress.current++;
       Navigator.pop(context);
@@ -596,6 +608,22 @@ class _FormareState extends State<Formare> {
     } else {
       showTryAgainModal(context);
     }
+  }
+
+  void _showAnswer() {
+    setState(() {
+      int nrCif = 0;
+      int numCpy = number;
+      while (numCpy > 0) {
+        numCpy ~/= 10;
+        nrCif++;
+      }
+      u = nrCif >= 1 ? (number % 10)            : 0;
+      z = nrCif >= 2 ? (number % 100) ~/ 10     : 0;
+      s = nrCif >= 3 ? (number % 1000) ~/ 100   : 0;
+      m = nrCif == 4 ? (number ~/ 1000)         : 0;
+      print("$m, $s, $z, $u");
+    });
   }
 }
 

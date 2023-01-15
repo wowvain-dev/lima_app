@@ -94,15 +94,18 @@ class ProgressStorage {
     levels.add(LevelProgress());
 
     levels[0].comunicare.parts["romana"] = CollectionProgress();
-    levels[0].comunicare.parts["romana"]!.parts["litere"] = Progress(31, 23);
-    levels[0].comunicare.parts["romana"]!.parts["vocale"] = Progress(31, 15);
+    levels[0].comunicare.parts["romana"]!.parts["litere"] = Progress(31, 0);
+    levels[0].comunicare.parts["romana"]!.parts["vocale"] = Progress(31, 0);
 
     levels[0].matematica.parts["aritmetica"] = CollectionProgress();
-    levels[0].matematica.parts["aritmetica"]!.parts["operatii"] = Progress(25, 20);
+    levels[0].matematica.parts["aritmetica"]!.parts["operatii"] = Progress(25, 0);
     levels[0].matematica.parts["aritmetica"]!.parts["fractii"] = Progress(25, 0);
     levels[0].matematica.parts["aritmetica"]!.parts["siruri"] = Progress(25, 0);
     levels[0].matematica.parts["aritmetica"]!.parts["formare"] = Progress(25, 0);
     levels[0].matematica.parts["geometrie"] = CollectionProgress();
+    levels[0].matematica.parts["geometrie"]!.parts["culori"] = Progress(25, 0);
+    levels[0].matematica.parts["geometrie"]!.parts["regula_siruri"] = Progress(25, 0);
+    levels[0].matematica.parts["geometrie"]!.parts["comparare"] = Progress(25, 0);
 
     levels.add(LevelProgress());
     levels.add(LevelProgress());

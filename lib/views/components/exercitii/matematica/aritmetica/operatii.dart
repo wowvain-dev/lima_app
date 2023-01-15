@@ -61,11 +61,13 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
   Animation<Color?>? animation1;
   Animation<Color?>? animation2;
 
+  bool _usedCheat = false;
+
   @override
   void initState() {
+    super.initState();
     var props = l<DifficultyManager>().operatii;
     sign = props.allowedOperators;
-    print(sign);
     start = props.lowLimit;
     end = props.maxLimit;
     depth = props.depth;
@@ -122,9 +124,6 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
     while (ExpressionTree.getDepth(tree.root) <= 1) {
       tree = ExpressionTree.randomUsingSource(tree);
     }
-
-    print("\n\nEXPRESSIONS:\n${tree.expression}");
-    print("\n\nVALUE:\n${ExpressionTree.evaluate(tree.root)}");
 
     enterNode.requestFocus();
 
@@ -186,6 +185,13 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
                         if (controller.text ==
                               ExpressionTree.evaluate(tree.root).toString()) {
                             print('BRAVO');
+                            if (_usedCheat) {
+                              Navigator.pop(context);
+                              context.router.replace(ExerciseWrapper(
+                                  exercise: Operatii(level: 1),
+                                  modal: showOperatiiModal));
+                              return;
+                            }
                             if (progress.current < progress.total) {
                               progress.current += 1;
                               print("${progress.current}/${progress.total}");
@@ -241,6 +247,7 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
           HelpSection(
               showAnswer: () {
                 controller.text = ExpressionTree.evaluate(tree.root).toString();
+                _usedCheat = true;
               },
               modal: showOperatiiModal)
         ],

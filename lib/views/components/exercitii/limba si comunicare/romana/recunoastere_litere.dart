@@ -21,6 +21,7 @@ import 'package:lima/views/components/verif_button/verif_button.dart';
 import 'package:lima/models/classes/letter.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:toast/toast.dart';
 import 'package:virtual_keyboard_flutter/virtual_keyboard_flutter.dart';
 
 import '../../../../screens/level1/materii/romana1_view.dart';
@@ -55,10 +56,12 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
   AnimationController? audioSizeAnimController;
   Animation<double?>? audioSizeAnim;
 
-  bool keyboardVisible = false;
+  bool _keyboardVisible = false;
+  bool _usedCheat = false;
 
   @override
   void initState() {
+    super.initState();
     audioColorAnimController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 250));
     audioSizeAnimController = AnimationController(
@@ -96,23 +99,22 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
   @override
   void dispose() {
     player.dispose();
+    audioColorAnimController!.dispose();
+    audioSizeAnimController!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     var progress = ProgressStorage.levels[widget.level-1].comunicare.parts["romana"]!.parts["litere"]!;
-    // print(selectedLetter?.audioPath);
-    // player.play(AssetSource(selectedLetter?.audioPath ?? ''));
     return Container(
         child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-          keyboardVisible == false
+          _keyboardVisible == false
               ? const Expanded(child: SizedBox())
               : const SizedBox(height: 12),
           MouseRegion(
@@ -140,7 +142,8 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                   focusNode: f1_node,
                   onTap: () {
                     setState(() {
-                      keyboardVisible = true;
+                      _keyboardVisible = true;
+                      f1_node.requestFocus();
                     });
                   },
                   controller: controller1,
@@ -158,12 +161,12 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                       .textTheme
                       .headline6!
                       .copyWith(fontSize: size.width / 40))),
-          keyboardVisible == false
+          _keyboardVisible == false
               ? const SizedBox(height: 25)
               : const SizedBox(height: 12),
+          Text("${progress.current}",style: Theme.of(context).textTheme.headline6),
           Expanded(
-              child: Column(children: [
-            Container(
+              child: Column(children: [Container(
               height: size.height / 6,
               child: Center(
                 child: Column(
@@ -177,6 +180,48 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                             var value = controller1.text;
                             if (value.toLowerCase() ==
                                 selectedLetter?.character) {
+
+                              // If the user revealed the answer ignore progression
+                              // gains.
+                              if (_usedCheat == true) {
+                                Navigator.pop(context);
+                                context.router.replace(ExerciseWrapper(
+                                    exercise: ExercitiuLitere(level: widget.level),
+                                    modal: showFractiiModal));
+                                return;
+                              }
+
+                              if (progress.current < progress.total) {
+                                progress.current += 1;
+                                print("${progress.current}/${progress.total}");
+                              } else {
+                                if (progress.current > progress.total) {
+                                  Navigator.pop(context);
+                                  context.router.replace(ExerciseWrapper(
+                                      exercise: ExercitiuLitere(level: widget.level),
+                                      modal: showOperatiiModal));
+                                  return;
+                                }
+                                progress.current += 1;
+                                ToastContext().init(context);
+                                Toast.show(
+                                    "Felicitări! Ai terminat capitolul.\nPoţi continua să exersezi sau poţi trece la următorul.",
+                                    duration: 5,
+                                    gravity: Toast.top,
+                                    backgroundRadius: 10,
+                                    backgroundColor: const Color(0xFFFFFFFF),
+                                    textStyle: Theme.of(context).textTheme.headline6!.copyWith(
+                                        color: const Color(0xFF000000),
+                                        fontFamily: "Dosis",
+                                        fontSize: 25
+                                    ),
+                                    border: Border.all(
+                                        width: 2,
+                                        color: const Color(0xFF000000)
+                                    )
+                                );
+                              }
+
                               print('BRAVO');
                               Navigator.pop(context);
                               context.router.replace(ExerciseWrapper(
@@ -207,17 +252,17 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
               ),
             ),
           ])),
-          keyboardVisible == true
+          _keyboardVisible == true
               ? AnimatedOpacity(
-                  opacity: keyboardVisible == true ? 1 : 0,
+                  opacity: _keyboardVisible == true ? 1 : 0,
                   curve: Curves.ease,
                   duration: const Duration(milliseconds: 150),
                   child: SizedBox(
-                      height: size.height / 4 + 2,
+                      height: size.height / 5 + 2,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Column(
                             children: [
                               Opacity(
@@ -225,11 +270,11 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                                 child: IconButton(
                                   splashRadius: 30,
                                   onPressed: () =>
-                                      setState(() => keyboardVisible = false),
-                                  icon: Icon(IconlyLight.close_square),
+                                      setState(() => _keyboardVisible = false),
+                                  icon: const Icon(IconlyLight.close_square),
                                 ),
                               ),
-                              Expanded(child: SizedBox())
+                              const Expanded(child: SizedBox())
                             ],
                           ),
                           Container(
@@ -252,7 +297,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                             width: size.width / 2,
                             child: VirtualKeyboard(
                               fontSize: 24,
-                              height: size.height / 4,
+                              height: size.height / 5,
                               textColor: Colors.white,
                               type: VirtualKeyboardType.Alphanumeric,
                               textController: controller1,
@@ -268,7 +313,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                               IconButton(
                                 splashRadius: 30,
                                 onPressed: () =>
-                                    setState(() => keyboardVisible = false),
+                                    setState(() => _keyboardVisible = false),
                                 icon: Icon(IconlyLight.close_square),
                               ),
                               const Expanded(child: SizedBox())
@@ -279,7 +324,10 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                       )))
               : const SizedBox(),
           const SizedBox(height: 24),
-          HelpSection(showAnswer: () {},
+          HelpSection(showAnswer: () {
+            controller1.text = selectedLetter!.character!;
+            _usedCheat = true;
+            },
               modal: showLitereModal)
         ]));
   }

@@ -65,6 +65,13 @@ class _HelpSectionState extends State<HelpSection>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _controller1!.dispose();
+    _controller2!.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 

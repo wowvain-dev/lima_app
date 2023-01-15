@@ -139,10 +139,10 @@ class _CustomIconState extends State<CustomIconButton>
 
   @override
   void dispose() {
-    super.dispose();
     _mainController!.dispose();
     _onPressController!.dispose();
     _rotationController!.dispose();
+    super.dispose();
   }
 
   @override
