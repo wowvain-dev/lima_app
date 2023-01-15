@@ -6,8 +6,9 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:iconly/iconly.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
-import 'package:lima/models/difficulty_manager.dart';
-import 'package:lima/models/expression_tree.dart';
+import 'package:lima/models/classes/difficulty_manager.dart';
+import 'package:lima/models/classes/expression_tree.dart';
+import 'package:lima/views/components/custom_icon_button/custom_icon_button.dart';
 import 'package:lima/views/components/exercitii/limba%20si%20comunicare/romana/recunoastere_litere.dart';
 import 'package:lima/views/components/exercitii/matematica/aritmetica/formare.dart';
 import 'package:line_icons/line_icon.dart';
@@ -68,40 +69,24 @@ class _ExerciseWrapperState extends State<ExerciseWrapper> {
             bottom: constraints.maxHeight / 25,
           ),
           child: Column(children: [
-            SizedBox(
-                height: constraints.maxHeight / 30 + constraints.maxHeight / 25,
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: MouseRegion(
-                    onEnter: (_) {
-                      if (mounted) {
-                        setState(() {
-                          settingsColor = const Color(0xFFFEFEFE);
-                        });
-                      }
-                    },
-                    onExit: (_) {
-                      if (mounted) {
-                        setState(() {
-                          settingsColor = const Color(0xFFAAAAAA);
-                        });
-                      }
-                    },
-                    child: exercise.runtimeType != ExercitiuLitere ? GestureDetector(
-                        onTap: () {
-                          showSettingsModal(exercise, context, modal);
-                        },
-                        child: AnimatedContainer(
-                            margin: const EdgeInsets.only(right: 24, top: 10),
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.ease,
-                            child: Icon(
-                              Iconsax.setting_2,
-                              color: settingsColor,
-                              size: 48,
-                            ))) : const SizedBox(),
-                  ),
-                )),
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                width: 100,
+                height: 75,
+                margin: const EdgeInsets.only(right: 25),
+                child: CustomIconButton(
+                  duration: const Duration(milliseconds: 100),
+                  onPressed: () => showSettingsModal(exercise, context, modal),
+                  icon: Iconsax.setting_2,
+                  size: 0.025 * MediaQuery.of(context).size.width,
+                  sizeEnd: 0.03 * MediaQuery.of(context).size.width,
+                  background: const Color(0xFFaaaaaa),
+                  backgroundEnd: const Color(0xFFfefefe),
+                  rotate: false,
+                ),
+              ),
+            ),
             Expanded(child: Container(child: exercise)),
           ]));
     });

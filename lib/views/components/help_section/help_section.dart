@@ -78,6 +78,7 @@ class _HelpSectionState extends State<HelpSection>
           Expanded(
             child: Center(
                 child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
                   onEnter: (_) {
                     _controller1?.forward();
                   },
@@ -86,7 +87,7 @@ class _HelpSectionState extends State<HelpSection>
                   },
                   child: GestureDetector(
                     onTap: () {
-                      modal;
+                      modal(context, () {});
                     },
                     child: Text("Ce trebuie să fac?",
                         style: Theme.of(context)
@@ -105,6 +106,7 @@ class _HelpSectionState extends State<HelpSection>
           Expanded(
             child: Center(
                 child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
                   onEnter: (_) {
                     _controller2?.forward();
                   },

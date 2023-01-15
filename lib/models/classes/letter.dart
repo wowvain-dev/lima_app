@@ -23,3 +23,17 @@ class Letter {
   @override
   String toString() => character ?? '';
 }
+
+/// Class used to contain fun facts written in the assets/json/stiati_ca.json
+/// asset file.
+class FunFact {
+  FunFact({
+    this.text, this.audioPath
+  });
+
+  String? text;
+  String? audioPath;
+
+  @override
+  String toString() => text ?? '';
+}

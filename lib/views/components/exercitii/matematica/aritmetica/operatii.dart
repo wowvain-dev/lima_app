@@ -7,7 +7,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart';
-import 'package:lima/models/difficulty_manager.dart';
+import 'package:lima/models/classes/difficulty_manager.dart';
+import 'package:lima/models/classes/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
 import 'package:lima/views/components/skip_button/skip_button.dart';
@@ -15,12 +16,16 @@ import 'package:lima/views/components/verif_button/verif_button.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 import 'package:lima/views/components/help_section/help_section.dart';
 
-import 'package:lima/models/expression_tree.dart';
+import 'package:lima/models/classes/expression_tree.dart';
+import 'package:toast/toast.dart';
 
 class Operatii extends StatefulWidget {
   Operatii({
     Key? key,
+    required this.level
   });
+
+  int level;
 
   @override
   // ignore: no_logic_in_create_state
@@ -128,7 +133,7 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
 
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
+    var progress = ProgressStorage.levels[widget.level-1].matematica.parts["aritmetica"]!.parts["operatii"]!;
     return Focus(
       focusNode: enterNode,
       child: Container(
@@ -141,7 +146,6 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Expanded(child: GestureDetector(onTap: () => {})),
                 Text(tree.expression,
                     style: Theme.of(context)
                         .textTheme
@@ -169,7 +173,6 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
                           .headline6!
                           .copyWith(fontSize: size.width / 20)),
                 ),
-                // Expanded(child: GestureDetector(onTap: () => {})),
               ]),
           Expanded(
             child: Center(
@@ -177,113 +180,60 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   VerifButton(
-                    width: 200,
+                      height: size.height / 15,
+                      width: size.width / 7,
                       onPressed: () {
-                          if (controller.text ==
+                        if (controller.text ==
                               ExpressionTree.evaluate(tree.root).toString()) {
                             print('BRAVO');
+                            if (progress.current < progress.total) {
+                              progress.current += 1;
+                              print("${progress.current}/${progress.total}");
+                            } else {
+                              if (progress.current > progress.total) {
+                                Navigator.pop(context);
+                                context.router.replace(ExerciseWrapper(
+                                    exercise: Operatii(level: widget.level),
+                                    modal: showOperatiiModal));
+                                return;
+                              }
+                              progress.current += 1;
+                              // TODO: add CONFETII for completing the exercise
+                              ToastContext().init(context);
+                              Toast.show(
+                                "Felicitări! Ai terminat capitolul.\nPoţi continua să exersezi sau poţi trece la următorul.",
+                                duration: 5,
+                                gravity: Toast.top,
+                                backgroundRadius: 10,
+                                backgroundColor: const Color(0xFFFFFFFF),
+                                textStyle: Theme.of(context).textTheme.headline6!.copyWith(
+                                  color: const Color(0xFF000000),
+                                  fontFamily: "Dosis",
+                                  fontSize: 25
+                                ),
+                                border: Border.all(
+                                  width: 2,
+                                  color: const Color(0xFF000000)
+                                )
+                              );
+                            }
                             Navigator.pop(context);
                             context.router.replace(ExerciseWrapper(
-                                exercise: Operatii(),
+                                exercise: Operatii(level: 1),
                                 modal: showOperatiiModal));
                           } else {
                             showTryAgainModal(context);
                           }
             },
                 child:
-
-                    Text("Verifică",
-                                    style: Theme.of(context)
+                    Text("VERIFICĂ",
+                        style: Theme.of(context)
                                         .textTheme
                                         .headline6!
                                         .copyWith(fontSize: size.width / 60))),
-                  // MouseRegion(
-                  //     onExit: (_) {
-                  //       setState(() {
-                  //         buttonBG = const LinearGradient(
-                  //           colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)],
-                  //           begin: Alignment.topLeft,
-                  //           end: Alignment.bottomRight,
-                  //         );
-                  //       });
-                  //     },
-                  //     onEnter: (_) {
-                  //       setState(() {
-                  //         buttonBG = const LinearGradient(
-                  //           colors: [
-                  //             Color(0xFF576182),
-                  //             Color(0xFF1FC5A8),
-                  //           ],
-                  //           begin: Alignment.topLeft,
-                  //           end: Alignment.bottomRight,
-                  //         );
-                  //       });
-                  //     },
-                  //     child: GestureDetector(
-                  //         onTap: () {
-                  //           setState(() {
-                  //             Future.delayed(Duration.zero, () {
-                  //               buttonBG = const LinearGradient(
-                  //                   colors: [
-                  //                     Color(0xFF5D69BE),
-                  //                     Color(0xFFC89FEB)
-                  //                   ],
-                  //                   begin: Alignment.topLeft,
-                  //                   end: Alignment.bottomRight);
-                  //             }).whenComplete(() {
-                  //               Future.delayed(
-                  //                   const Duration(milliseconds: 200), () {
-                  //                 setState(() {
-                  //                   buttonBG = const LinearGradient(
-                  //                     colors: [
-                  //                       Color(0xFF576182),
-                  //                       Color(0xFF1FC5A8),
-                  //                     ],
-                  //                     begin: Alignment.topLeft,
-                  //                     end: Alignment.bottomRight,
-                  //                   );
-                  //                 });
-                  //               });
-                  //             });
-                  //           });
-                  //           if (controller.text ==
-                  //               ExpressionTree.evaluate(tree.root).toString()) {
-                  //             print('BRAVO');
-                  //             Navigator.pop(context);
-                  //             context.router.replace(ExerciseWrapper(
-                  //                 exercise: Operatii(),
-                  //                 modal: showOperatiiModal));
-                  //           } else {
-                  //             showTryAgainModal(context);
-                  //           }
-                  //         },
-                  //         child: AnimatedContainer(
-                  //             padding: const EdgeInsets.symmetric(
-                  //               horizontal: 20,
-                  //               vertical: 10,
-                  //             ),
-                  //             decoration: BoxDecoration(
-                  //               boxShadow: const [
-                  //                 BoxShadow(
-                  //                   color: Color(0x99000000),
-                  //                   spreadRadius: 2,
-                  //                   blurRadius: 20,
-                  //                   offset: Offset(0, 20),
-                  //                 )
-                  //               ],
-                  //               borderRadius: BorderRadius.circular(15),
-                  //               gradient: buttonBG,
-                  //             ),
-                  //             duration: const Duration(milliseconds: 300),
-                  //             curve: Curves.ease,
-                  //             child: Text("Verifică",
-                  //                 style: Theme.of(context)
-                  //                     .textTheme
-                  //                     .headline6!
-                  //                     .copyWith(fontSize: size.width / 60))))),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 15),
                   SkipButton(modal: showOperatiiModal,
-                      exercise: Operatii())
+                      exercise: Operatii(level: widget.level))
                 ],
               ),
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lima/app/locator.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:lima/models/sidemenu_manager.dart';
+import 'package:lima/models/classes/sidemenu_manager.dart';
 
 enum ItemColor {
   lightBlue,

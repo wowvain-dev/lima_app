@@ -8,14 +8,22 @@ import 'package:iconly/iconly.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart';
-import 'package:lima/models/difficulty_manager.dart';
+import 'package:lima/models/classes/difficulty_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
+import 'package:lima/views/components/help_section/help_section.dart';
+import 'package:lima/views/components/skip_button/skip_button.dart';
+import 'package:lima/views/components/verif_button/verif_button.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 import 'package:reorderables/reorderables.dart';
+import 'package:toast/toast.dart';
+
+import '../../../../../models/classes/storage_manager.dart';
 
 class OrdiniSiruri extends StatefulWidget {
-  OrdiniSiruri({Key? key});
+  OrdiniSiruri({Key? key, required this.level});
+
+  int level;
 
   @override
   // ignore: no_logic_in_create_state
@@ -89,14 +97,42 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
 
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var progress = ProgressStorage.levels[widget.level-1].matematica.parts["aritmetica"]!
+      .parts["siruri"]!;
+
+    List<Widget> elements = List.empty(growable: true);
+    for (int i = 0; i < array.length; i++) {
+      elements.add(MouseRegion(
+        key: ValueKey(DateTime.now().millisecondsSinceEpoch),
+        cursor: SystemMouseCursors.move,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.ease,
+          decoration: BoxDecoration(
+            gradient: gradients[i],
+            borderRadius: BorderRadius.circular(5),
+          ),
+          width: size.width / 15,
+          height: size.width / 15,
+          margin: const EdgeInsets.all(10),
+          child: Center(
+              child: Text(
+                "${array[i]}",
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                    fontSize: size.width / 40,
+                    color: const Color(0xFF2a2b2a)),
+              )),
+        ),
+      ));
+    }
     return Container(
         child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-          const Expanded(child: SizedBox()),
-          Row(
+              const Expanded(child: SizedBox()),
+              Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
@@ -129,130 +165,61 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
                   array.insert(newIndex, el);
                 });
               },
-              children: [
-                for (var i = 0; i < array.length; i++)
-                  AnimatedContainer(
-                    key: ValueKey(DateTime.now().millisecondsSinceEpoch),
-                    duration: const Duration(milliseconds: 250),
-                    curve: Curves.ease,
-                    decoration: BoxDecoration(
-                      gradient: gradients[i],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    width: 100,
-                    height: 100,
-                    margin: const EdgeInsets.all(10),
-                    child: Center(
-                        child: Text(
-                      "${array[i]}",
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
-                          fontSize: size.width / 50,
-                          color: const Color(0xFF2a2b2a)),
-                    )),
-                  )
-              ],
+              children: elements
+              // [
+                // for (var i = 0; i < array.length; i++)
+                //   MouseRegion(
+                //     key: ValueKey(DateTime.now().millisecondsSinceEpoch),
+                //     cursor: SystemMouseCursors.move,
+                //     child: AnimatedContainer(
+                //       duration: const Duration(milliseconds: 250),
+                //       curve: Curves.ease,
+                //       decoration: BoxDecoration(
+                //         gradient: gradients[i],
+                //         borderRadius: BorderRadius.circular(5),
+                //       ),
+                //       width: 100,
+                //       height: 100,
+                //       margin: const EdgeInsets.all(10),
+                //       child: Center(
+                //           child: Text(
+                //         "${array[i]}",
+                //         style: Theme.of(context).textTheme.headline6!.copyWith(
+                //             fontSize: size.width / 50,
+                //             color: const Color(0xFF2a2b2a)),
+                //       )),
+                //     ),
+                //   )
+              //
+              // ],
             ),
           ),
           const Expanded(child: SizedBox()),
-          MouseRegion(
-            onEnter: (_) {
-              setState(() {
-                buttonBG = const LinearGradient(
-                    colors: [Color(0xFF576182), Color(0xFF1FC5A8)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight);
-              });
-            },
-            onExit: (_) {
-              setState(() {
-                buttonBG = const LinearGradient(
-                    colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight);
-              });
-            },
-            child: GestureDetector(
-              onTap: _verify,
-              child: AnimatedContainer(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  decoration: BoxDecoration(
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0x99000000),
-                        spreadRadius: 2,
-                        blurRadius: 20,
-                        offset: Offset(0, 20),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(15),
-                    gradient: buttonBG,
-                  ),
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.ease,
-                  child: Text("Verifică",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(fontSize: size.width / 60))),
-            ),
-          ),
-          const SizedBox(height: 12),
-          MouseRegion(
-              onEnter: (_) {
-                setState(() {
-                  skip = const Color(0xFFFEFEFE);
-                });
-              },
-              onExit: (_) {
-                setState(() {
-                  skip = const Color(0xFFaaaaaa);
-                });
-              },
-              child: GestureDetector(
-                onTap: () {
-                  context.router.push(ExerciseWrapper(
-                      exercise: OrdiniSiruri(), modal: showOrdiniModal));
-                },
-                child: Text("Treceţi Peste",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(color: skip)),
-              )),
-          const Expanded(child: SizedBox()),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: size.width / 4),
-            height: size.height / 20,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Text("Ce trebuie să fac?",
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: Colors.grey, fontSize: size.width / 60)),
-                  ),
-                ),
-                const VerticalDivider(
-                  color: Colors.grey,
-                  width: 2,
-                ),
-                Expanded(
-                  child: Center(
-                    child: Text("Arată răspunsul",
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: Colors.grey, fontSize: size.width / 60)),
-                  ),
+          VerifButton(
+              height: size.height / 15,
+              width: size.width / 7,
+              onPressed: _verify,
+              child: Text("VERIFICĂ",
+                style: Theme.of(context).textTheme.headline6!
+                  .copyWith(
+                  fontSize: size.width / 60
                 )
-              ],
-            ),
+              )),
+          const SizedBox(height: 12),
+          SkipButton(
+              modal: showOrdiniModal,
+              exercise: OrdiniSiruri(level: widget.level)
+          ),
+          const Expanded(child: SizedBox()),
+          HelpSection(showAnswer: () => setState(() {
+            showAnswer(selectedOrder!, elements, array);
+          } ), modal: showOrdiniModal,
           )
         ]));
   }
 
   void _verify() {
+    var progress = ProgressStorage.levels[widget.level-1].matematica.parts["aritmetica"]!.parts["siruri"]!;
     setState(() {
       Future.delayed(Duration.zero, () {
         buttonBG = const LinearGradient(
@@ -285,10 +252,41 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
           return;
         }
       }
+      if (progress.current < progress.total) {
+        progress.current += 1;
+        print("${progress.current}/${progress.total}");
+      } else {
+        if (progress.current > progress.total) {
+          Navigator.pop(context);
+          context.router.replace(ExerciseWrapper(
+              exercise: OrdiniSiruri(level: widget.level),
+              modal: showOperatiiModal));
+          return;
+        }
+        progress.current += 1;
+        // TODO: add CONFETII for completing the exercise
+        ToastContext().init(context);
+        Toast.show(
+            "Felicitări! Ai terminat capitolul.\nPoţi continua să exersezi sau poţi trece la următorul.",
+            duration: 5,
+            gravity: Toast.top,
+            backgroundRadius: 10,
+            backgroundColor: const Color(0xFFFFFFFF),
+            textStyle: Theme.of(context).textTheme.headline6!.copyWith(
+                color: const Color(0xFF000000),
+                fontFamily: "Dosis",
+                fontSize: 25
+            ),
+            border: Border.all(
+                width: 2,
+                color: const Color(0xFF000000)
+            )
+        );
+      }
       print('BRAVO');
       Navigator.pop(context);
       context.router.replace(
-          ExerciseWrapper(exercise: OrdiniSiruri(), modal: showOperatiiModal));
+          ExerciseWrapper(exercise: OrdiniSiruri(level: widget.level), modal: showOperatiiModal));
     }
 
     if (selectedOrder == Order.descending) {
@@ -301,10 +299,39 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
           return;
         }
       }
+
       print('BRAVO');
       Navigator.pop(context);
       context.router.replace(
-          ExerciseWrapper(exercise: OrdiniSiruri(), modal: showOperatiiModal));
+          ExerciseWrapper(exercise: OrdiniSiruri(level: widget.level), modal: showOperatiiModal));
+    }
+  }
+
+  void showAnswer(Order order, List<Widget> widgets, List<int> mappingList) {
+    var length = widgets.length;
+    bool ordered = false;
+
+    while (!ordered) {
+      ordered = true;
+      for (int i = 0; i < length - 1; i++) {
+        if (order == Order.ascending && mappingList[i] > mappingList[i+1]) {
+          var auxW = widgets[i];
+          var auxI = mappingList[i];
+          widgets[i] = widgets[i+1];
+          widgets[i+1] = auxW;
+          mappingList[i] = mappingList[i+1];
+          mappingList[i+1] = auxI;
+          ordered = false;
+        } else if (order == Order.descending && mappingList[i] < mappingList[i+1]) {
+          var auxW = widgets[i];
+          var auxI = mappingList[i];
+          widgets[i] = widgets[i+1];
+          widgets[i+1] = auxW;
+          mappingList[i] = mappingList[i+1];
+          mappingList[i+1] = auxI;
+          ordered = false;
+        }
+      }
     }
   }
 }

@@ -60,6 +60,7 @@ dependencies:
   logging: ^1.1.0
   virtual_keyboard_flutter: ^1.0.0
   resize: ^1.0.0
+  icon_decoration: ^1.0.1
 
   # Components
 
@@ -144,6 +145,34 @@ flutter:
         - asset: assets/fonts/Poppins-BlackItalic.ttf
           weight: 900
           style: italic
+
+    - family: Dosis
+      fonts:
+        # REGULAR
+        - asset: assets/fonts/Dosis-Regular.ttf
+
+        # EXTRALIGHT
+        - asset: assets/fonts/Dosis-ExtraLight.ttf
+          weight: 200
+
+        # LIGHT
+        - asset: assets/fonts/Dosis-Light.ttf
+          weight: 300
+
+        # MEDIUM
+        - asset: assets/fonts/Dosis-Medium.ttf
+          weight: 500
+
+        # SEMIBOLD
+        - asset: assets/fonts/Dosis-SemiBold.ttf
+          weight: 600
+
+        # BOLD
+        - asset: assets/fonts/Dosis-Bold.ttf
+          weight: 700
+
+        - asset: assets/fonts/Dosis-ExtraBold.ttf
+          weight: 800
 
 
     - family: Manrope

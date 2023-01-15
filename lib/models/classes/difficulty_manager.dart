@@ -2,7 +2,7 @@
 
 import 'dart:collection';
 
-import 'package:lima/models/expression_tree.dart';
+import 'package:lima/models/classes/expression_tree.dart';
 
 enum Order {
   ascending, 

@@ -7,8 +7,9 @@ import 'package:iconsax/iconsax.dart';
 
 /// Architectural Dependencies
 import 'package:lima/app/locator.dart';
-import 'package:lima/models/difficulty_manager.dart';
-import 'package:lima/models/expression_tree.dart';
+import 'package:lima/models/classes/difficulty_manager.dart';
+import 'package:lima/models/classes/expression_tree.dart';
+import 'package:lima/models/classes/storage_manager.dart';
 import 'package:stacked/stacked.dart';
 import 'package:lima/app/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
@@ -346,8 +347,6 @@ class _Page2 extends StatelessWidget {
                 MouseRegion(
                   onEnter: (event) {
                     model.buttonSizes[2].containerSize = Size(size.width / 4, size.width / 5);
-                    model.buttonSizes[2].iconSize = size.width / 17;
-                    model.buttonSizes[2].fontSize = size.width / 47;
                     model.isMouseOverButton = true;
                     model.notifyListeners();
                   },

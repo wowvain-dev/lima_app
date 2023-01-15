@@ -91,7 +91,7 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                         });
                                         context.router.replace(ExerciseWrapper(
                                             exercise:
-                                                Operatii(),
+                                                Operatii(level: 1),
                                             modal: showOperatiiModal
                                              ));
                                       },
@@ -125,7 +125,7 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                         });
                                         context.router.replace(ExerciseWrapper(
                                             exercise:
-                                                Fractii(),
+                                                Fractii(level: 1),
                                             modal: showFractiiModal
                                              ));
                                     },
@@ -148,7 +148,7 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                         });
                                         context.router.replace(ExerciseWrapper(
                                             exercise:
-                                                Fractii(),
+                                                Fractii(level: 1),
                                             modal: showFractiiModal
                                              ));
                                       },
@@ -202,7 +202,7 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                         });
                                         context.router.replace(ExerciseWrapper(
                                             exercise:
-                                                OrdiniSiruri(),
+                                                OrdiniSiruri(level: 1),
                                             modal: showFractiiModal
                                              ));
                                       },
@@ -249,7 +249,7 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                       onStart: () => {
                                         context.router.replace(
                                           ExerciseWrapper(
-                                              exercise: Formare(),
+                                              exercise: Formare(level: 1),
                                               modal: showFormareModal)
                                         )
                                       },

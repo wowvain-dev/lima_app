@@ -1,14 +1,9 @@
 /// Flutter
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:lima/app/locator.dart';
-import 'package:lima/models/sidemenu_manager.dart';
 import 'package:lima/views/components/exercitii/limba%20si%20comunicare/romana/recunoastere_litere.dart';
 import 'package:lima/views/components/exercitii/limba%20si%20comunicare/romana/vocale_consoane.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:motion/motion.dart';
 
 import '../../../components/exercise_card/exercise_card.dart';
@@ -85,7 +80,7 @@ class Romana1ViewState extends State<Romana1View> {
                           opacity = 0;
                         });
                         context.router.replace(ExerciseWrapper(
-                            exercise: ExercitiuLitere(),
+                            exercise: ExercitiuLitere(level: 1),
                             modal: showLitereModal
                         ));
                       },

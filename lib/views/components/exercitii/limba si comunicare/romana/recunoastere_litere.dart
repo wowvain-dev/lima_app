@@ -10,14 +10,15 @@ import 'package:flutter/services.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart';
-import 'package:lima/models/custom_keyboard_layout.dart';
-import 'package:lima/models/difficulty_manager.dart';
-import 'package:lima/models/storage_manager.dart';
+import 'package:lima/models/classes/custom_keyboard_layout.dart';
+import 'package:lima/models/classes/difficulty_manager.dart';
+import 'package:lima/models/classes/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
+import 'package:lima/views/components/help_section/help_section.dart';
 import 'package:lima/views/components/skip_button/skip_button.dart';
 import 'package:lima/views/components/verif_button/verif_button.dart';
-import 'package:lima/models/letter.dart';
+import 'package:lima/models/classes/letter.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:virtual_keyboard_flutter/virtual_keyboard_flutter.dart';
@@ -25,7 +26,9 @@ import 'package:virtual_keyboard_flutter/virtual_keyboard_flutter.dart';
 import '../../../../screens/level1/materii/romana1_view.dart';
 
 class ExercitiuLitere extends StatefulWidget {
-  ExercitiuLitere({Key? key});
+  ExercitiuLitere({Key? key, required this.level});
+
+  int level;
 
   @override
   createState() => _ExercitiuLitereState();
@@ -99,6 +102,8 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    var progress = ProgressStorage.levels[widget.level-1].comunicare.parts["romana"]!.parts["litere"]!;
     // print(selectedLetter?.audioPath);
     // player.play(AssetSource(selectedLetter?.audioPath ?? ''));
     return Container(
@@ -154,18 +159,20 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                       .headline6!
                       .copyWith(fontSize: size.width / 40))),
           keyboardVisible == false
-              ? const Expanded(child: SizedBox())
+              ? const SizedBox(height: 25)
               : const SizedBox(height: 12),
           Expanded(
               child: Column(children: [
             Container(
-              height: 100,
+              height: size.height / 6,
               child: Center(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       VerifButton(
+                          height: size.height / 15,
+                          width: size.width / 7,
                           onPressed: () {
                             var value = controller1.text;
                             if (value.toLowerCase() ==
@@ -173,7 +180,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                               print('BRAVO');
                               Navigator.pop(context);
                               context.router.replace(ExerciseWrapper(
-                                  exercise: ExercitiuLitere(),
+                                  exercise: ExercitiuLitere(level: widget.level),
                                   modal: showFractiiModal));
                             } else if ((value.toLowerCase() == 'â' ||
                                     value.toLowerCase() == 'î') &&
@@ -181,7 +188,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                                     selectedLetter?.character == 'î')) {
                               Navigator.pop(context);
                               context.router.replace(ExerciseWrapper(
-                                  exercise: ExercitiuLitere(),
+                                  exercise: ExercitiuLitere(level: widget.level),
                                   modal: showFractiiModal));
                             } else {
                               showTryAgainModal(context);
@@ -195,7 +202,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                                 .copyWith(fontSize: size.width / 60),
                           )),
                       SkipButton(
-                          modal: showLitereModal, exercise: ExercitiuLitere())
+                          modal: showLitereModal, exercise: ExercitiuLitere(level: widget.level))
                     ]),
               ),
             ),
@@ -272,34 +279,8 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                       )))
               : const SizedBox(),
           const SizedBox(height: 24),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: size.width / 4),
-            height: size.height / 24,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Text("Ce trebuie să fac?",
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: Colors.grey, fontSize: size.width / 70)),
-                  ),
-                ),
-                const VerticalDivider(
-                  color: Colors.grey,
-                  width: 2,
-                ),
-                Expanded(
-                  child: Center(
-                    child: Text("Arată răspunsul",
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: Colors.grey, fontSize: size.width / 70)),
-                  ),
-                )
-              ],
-            ),
-          )
+          HelpSection(showAnswer: () {},
+              modal: showLitereModal)
         ]));
   }
 }

@@ -1,27 +1,15 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:iconly/iconly.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart';
-import 'package:lima/models/custom_keyboard_layout.dart';
-import 'package:lima/models/difficulty_manager.dart';
-import 'package:lima/models/storage_manager.dart';
+import 'package:lima/models/classes/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
-import 'package:lima/models/letter.dart';
+import 'package:lima/models/classes/letter.dart';
 import 'package:lima/views/components/help_section/help_section.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:resize/resize.dart';
-import 'package:toast/toast.dart';
-import 'package:tuple/tuple.dart';
-import 'package:virtual_keyboard_flutter/virtual_keyboard_flutter.dart';
 
 import '../../../../screens/level1/materii/romana1_view.dart';
 import '../../../skip_button/skip_button.dart';
@@ -65,7 +53,6 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
     var size = MediaQuery.of(context).size;
         return Container(
             child: Column(
@@ -78,17 +65,8 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
                           children: [
                             const Expanded(child: SizedBox()),
                             MouseRegion(
-                              // onEnter: (_) {
-                              //   audioColorAnimController?.forward();
-                              // },
-                              // onExit: (_) {
-                              //   audioColorAnimController?.reverse();
-                              // },
                                 child: GestureDetector(
                                     onTap: () {
-                                      // audioSizeAnimController
-                                      //     ?.forward()
-                                      //     .whenComplete(() => audioSizeAnimController?.reverse());
                                       player.play(AssetSource(selectedLetter?.audioPath ?? ''));
                                     },
                                     child: Text(selectedLetter!.character?.toUpperCase() ?? '',
@@ -116,8 +94,8 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: [
                                               VerifButton(
-                                                  height: 100,
-                                                  width: 250,
+                                                  height: size.height / 15,
+                                                  width: size.width / 7,
                                                   onPressed: () {
                                                     if (selectedLetter!.letterType ==
                                                         LetterType.vowel
@@ -138,8 +116,8 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
                                                         .copyWith(fontSize: size.width / 60),
                                                   )),
                                               VerifButton(
-                                                height: 100,
-                                                width: 250,
+                                                height: size.height / 15,
+                                                width: size.width / 7,
                                                 onPressed: () {
                                                   if (selectedLetter!.letterType ==
                                                       LetterType.consonant

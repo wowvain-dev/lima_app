@@ -1,9 +1,9 @@
 /// Inversion of Control dependency
 
 import 'package:get_it/get_it.dart';
-import 'package:lima/models/difficulty_manager.dart';
-import 'package:lima/models/sidemenu_manager.dart';
-import 'package:lima/models/storage_manager.dart';
+import 'package:lima/models/classes/difficulty_manager.dart';
+import 'package:lima/models/classes/sidemenu_manager.dart';
+import 'package:lima/models/classes/storage_manager.dart';
 
 
 final l = GetIt.instance;

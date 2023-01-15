@@ -55,6 +55,7 @@ class _SkipButtonState extends State<SkipButton> with TickerProviderStateMixin {
         setState(() {});
       });
     return MouseRegion(
+      cursor: SystemMouseCursors.click,
       onEnter: (_) {
         setState(() {
           _controller!.forward();

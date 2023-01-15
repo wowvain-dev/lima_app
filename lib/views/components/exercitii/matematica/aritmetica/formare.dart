@@ -6,16 +6,23 @@ import 'package:flutter/services.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart';
-import 'package:lima/models/difficulty_manager.dart';
+import 'package:lima/models/classes/difficulty_manager.dart';
+import 'package:lima/models/classes/progress_manager.dart';
+import 'package:lima/models/classes/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
+import 'package:lima/views/components/help_section/help_section.dart';
+import 'package:lima/views/components/skip_button/skip_button.dart';
+import 'package:lima/views/components/verif_button/verif_button.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:toast/toast.dart';
 import 'package:tuple/tuple.dart';
 
 class Formare extends StatefulWidget {
-  Formare({Key? key});
+  Formare({Key? key, required this.level});
+
+  int level;
 
   @override
   // ignore: no_logic_in_create_state
@@ -28,25 +35,6 @@ class _FormareState extends State<Formare> {
   LinearGradient? buttonBG;
 
   int number = 0;
-
-  // final LinearGradient plusDefault = const LinearGradient(
-  //     colors: [Color(0xFF757F9A), Color(0xFFD7DDE8)],
-  //     begin: Alignment.topLeft,
-  //     end: Alignment.bottomRight);
-  // final LinearGradient plusHover = const LinearGradient(
-  //     colors: [Color(0xFF757F9A - 0x00222222), Color(0xFFD7DDE8 - 0x00222222)],
-  //     begin: Alignment.topLeft,
-  //     end: Alignment.bottomRight);
-  //
-  // final LinearGradient minusDefault = const LinearGradient(colors: [
-  //   Color(0xFFDE6262),
-  //   Color(0xFFFFB88C),
-  // ], begin: Alignment.topLeft, end: Alignment.bottomRight);
-  //
-  // final LinearGradient minusHover = const LinearGradient(colors: [
-  //   Color(0xFFDE6262 - 0x00222222),
-  //   Color(0xFFFFB88C - 0x00222222),
-  // ], begin: Alignment.topLeft, end: Alignment.bottomRight);
 
   final LinearGradient mainPoleColor = const LinearGradient(
     colors: [Color(0xFF1c94b3), Color(0xFF1c94b3)],
@@ -119,6 +107,7 @@ class _FormareState extends State<Formare> {
 
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var progress = ProgressStorage.levels[widget.level-1].matematica.parts["aritmetica"]!.parts["formare"]!;
     return Container(
         child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -152,6 +141,7 @@ class _FormareState extends State<Formare> {
                   ),
                   Row(children: [
                     MouseRegion(
+                        cursor: SystemMouseCursors.click,
                         onEnter: (_) {
                           setState(() {
                             buttonColors[3] =
@@ -189,10 +179,11 @@ class _FormareState extends State<Formare> {
                                     borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(5),
                                     ),
-                                    gradient: buttonColors[0].item1),
+                                    gradient: buttonColors[3].item1),
                                 child: Center(
                                   child: Icon(LineIcon.plus().icon))))),
                     MouseRegion(
+                      cursor: SystemMouseCursors.click,
                       onEnter: (_) {
                         setState(() {
                           buttonColors[3] =
@@ -258,6 +249,7 @@ class _FormareState extends State<Formare> {
                   ),
                   Row(children: [
                     MouseRegion(
+                        cursor: SystemMouseCursors.click,
                         onEnter: (_) {
                           setState(() {
                             buttonColors[2] =
@@ -295,10 +287,11 @@ class _FormareState extends State<Formare> {
                                     borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(5),
                                     ),
-                                    gradient: buttonColors[0].item1),
+                                    gradient: buttonColors[2].item1),
                                 child: Center(
                                     child: Icon(LineIcon.plus().icon))))),
                     MouseRegion(
+                      cursor: SystemMouseCursors.click,
                       onEnter: (_) {
                         setState(() {
                           buttonColors[2] =
@@ -333,7 +326,7 @@ class _FormareState extends State<Formare> {
                                 borderRadius: const BorderRadius.only(
                                   bottomRight: Radius.circular(5),
                                 ),
-                                gradient: buttonColors[0].item2),
+                                gradient: buttonColors[2].item2),
                             child: Center(
                               child: Icon(LineIcon.minus().icon))),
                       ),
@@ -366,6 +359,7 @@ class _FormareState extends State<Formare> {
                   ),
                   Row(children: [
                     MouseRegion(
+                        cursor: SystemMouseCursors.click,
                         onEnter: (_) {
                           setState(() {
                             buttonColors[1] =
@@ -408,6 +402,7 @@ class _FormareState extends State<Formare> {
                                     child: Icon(LineIcon.plus().icon)
                                 )))),
                     MouseRegion(
+                      cursor: SystemMouseCursors.click,
                       onEnter: (_) {
                         setState(() {
                           buttonColors[1] =
@@ -472,6 +467,7 @@ class _FormareState extends State<Formare> {
                 ),
                 Row(children: [
                   MouseRegion(
+                      cursor: SystemMouseCursors.click,
                       onEnter: (_) {
                         setState(() {
                           buttonColors[0] =
@@ -513,6 +509,7 @@ class _FormareState extends State<Formare> {
                               child:
                                   Center(child: Icon(LineIcon.plus().icon))))),
                   MouseRegion(
+                    cursor: SystemMouseCursors.click,
                     onEnter: (_) {
                       setState(() {
                         buttonColors[0] =
@@ -555,165 +552,50 @@ class _FormareState extends State<Formare> {
               ]),
             )
           ]),
-          const Expanded(child: SizedBox()),
+          SizedBox(height: size.height / 17),
           Container(
-            height: 100,
+            height: size.height / 6.5,
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    MouseRegion(
-                        onExit: (_) {
-                          setState(() {
-                            buttonBG = const LinearGradient(
-                              colors: [Color(0xFF5D69BE), Color(0xFFC89FEB)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            );
-                          });
-                        },
-                        onEnter: (_) {
-                          setState(() {
-                            buttonBG = const LinearGradient(
-                              colors: [
-                                Color(0xFF576182),
-                                Color(0xFF1FC5A8),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            );
-                          });
-                        },
-                        child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                Future.delayed(Duration.zero, () {
-                                  buttonBG = const LinearGradient(
-                                      colors: [
-                                        Color(0xFF5D69BE),
-                                        Color(0xFFC89FEB)
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight);
-                                }).whenComplete(() {
-                                  Future.delayed(
-                                      const Duration(milliseconds: 200), () {
-                                    setState(() {
-                                      buttonBG = const LinearGradient(
-                                        colors: [
-                                          Color(0xFF576182),
-                                          Color(0xFF1FC5A8),
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      );
-                                    });
-                                  });
-                                });
-                              });
-
-                              var value = m * 1000 + s * 100 + z * 10 + u;
-
-                              /// TODO(wowvain-dev): MAKE ALL POSSIBLE CHECKS FOR THE VALUE INSIDE THE TextFields
-                              /// TODO(wowvain-dev): TRY ADDING TEXTURE FOR THE SLICES
-
-                              if (value == number) {
-                                print('BRAVO');
-                                Navigator.pop(context);
-                                context.router.replace(ExerciseWrapper(
-                                    exercise: Formare(),
-                                    modal: showFormareModal));
-                              } else {
-                                showTryAgainModal(context);
-                              }
-                            },
-                            child: AnimatedContainer(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x99000000),
-                                      spreadRadius: 2,
-                                      blurRadius: 20,
-                                      offset: Offset(0, 20),
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(15),
-                                  gradient: buttonBG,
-                                ),
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.ease,
-                                child: Text("Verifică",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline6!
-                                        .copyWith(
-                                            fontSize: size.width / 60))))),
-                    GestureDetector(
-                      onTap: () {
-                        context.router.push(ExerciseWrapper(
-                            exercise: Formare(), modal: showFormareModal));
-                      },
-                      child: MouseRegion(
-                        onEnter: (_) {
-                          setState(() {
-                            skip = const Color(0xFFFEFEFE);
-                          });
-                        },
-                        onExit: (_) {
-                          setState(() {
-                            skip = const Color(0xFFaaaaaa);
-                          });
-                        },
-                        child: AnimatedContainer(
-                          margin: const EdgeInsets.only(top: 20),
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease,
-                          child: Text("Treceţi Peste",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(color: skip)),
-                        ),
-                      ),
+                    VerifButton(
+                        height: size.height / 15,
+                        width: size.width / 7,
+                        onPressed: () => _verify(), child:
+                        Text("VERIFICĂ", style:
+                        Theme.of(context).textTheme.headline6!
+                          .copyWith(
+                          fontSize: size.width / 60
+                        )
+                      )
                     ),
+                    SkipButton(modal: showFormareModal, exercise: Formare(level: widget.level)),
                     const Expanded(child: SizedBox()),
                   ]),
             ),
           ),
-          const Expanded(child: SizedBox()),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: size.width / 4),
-            height: size.height / 20,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Text("Ce trebuie să fac?",
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: Colors.grey, fontSize: size.width / 60)),
-                  ),
-                ),
-                const VerticalDivider(
-                  color: Colors.grey,
-                  width: 2,
-                ),
-                Expanded(
-                  child: Center(
-                    child: Text("Arată răspunsul",
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: Colors.grey, fontSize: size.width / 60)),
-                  ),
-                )
-              ],
-            ),
-          )
+          SizedBox(height: size.height / 30),
+          HelpSection(showAnswer: () {}, modal: showFormareModal)
         ]));
+  }
+
+  void _verify() {
+    var progress = ProgressStorage.levels[widget.level-1].matematica.parts["aritmetica"]!.parts["formare"]!;
+    var value = m * 1000 + s * 100 + z * 10 + u;
+
+    print("${progress.current}/${progress.total}");
+
+    if (value == number) {
+      print('BRAVO');
+      progress.current++;
+      Navigator.pop(context);
+      context.router.replace(ExerciseWrapper(
+          exercise: Formare(level: widget.level),
+          modal: showFormareModal));
+    } else {
+      showTryAgainModal(context);
+    }
   }
 }
 
