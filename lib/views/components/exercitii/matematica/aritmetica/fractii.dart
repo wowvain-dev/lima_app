@@ -7,7 +7,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fraction/fraction.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
-import 'package:lima/app/router.gr.dart';
+import 'package:lima/app/router.gr.dart' as routes;
 import 'package:lima/models/classes/difficulty_manager.dart';
 import 'package:lima/models/classes/progress_manager.dart';
 import 'package:lima/models/classes/storage_manager.dart';
@@ -17,6 +17,7 @@ import 'package:lima/views/components/help_section/help_section.dart';
 import 'package:lima/views/components/skip_button/skip_button.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 
+import '../../../custom_icon_button/custom_icon_button.dart';
 import '../../../verif_button/verif_button.dart';
 
 class Fractii extends StatefulWidget {
@@ -116,6 +117,25 @@ class _FractiiState extends State<Fractii> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    width: 100,
+                    height: 75,
+                    margin: const EdgeInsets.only(right: 25),
+                    child: CustomIconButton(
+                      duration: const Duration(milliseconds: 100),
+                      onPressed: () => showSettingsModal(widget, context,
+                          showFractiiModal),
+                      icon: Iconsax.setting_2,
+                      size: 0.025 * MediaQuery.of(context).size.width,
+                      sizeEnd: 0.03 * MediaQuery.of(context).size.width,
+                      background: const Color(0xFFaaaaaa),
+                      backgroundEnd: const Color(0xFFfefefe),
+                      rotate: false,
+                    ),
+                  ),
+                ),
                 SizedBox(height: MediaQuery.of(context).size.height / 20),
                 Container(
                   width: 200, height: 200,
@@ -197,12 +217,9 @@ class _FractiiState extends State<Fractii> {
 
                                       if (value == frac!.toDouble()) {
                                         if (_usedCheat) {
-                                          Navigator.pop(context);
+                                          context.router.pop(context);
                                           context.router.replace(
-                                              ExerciseWrapper(
-                                                  exercise: Fractii(level: widget.level),
-                                                  modal: showFractiiModal
-                                              ));
+                                                  routes.Fractii(level: widget.level));
                                           return;
                                         }
 
@@ -211,20 +228,14 @@ class _FractiiState extends State<Fractii> {
                                           print("${progress.current}/${progress.total}");
                                         } else {
                                           if (progress.current > progress.total) {
-                                            Navigator.pop(context);
+                                            context.router.pop(context);
                                             context.router.replace(
-                                                ExerciseWrapper(
-                                                    exercise: Fractii(level: widget.level),
-                                                    modal: showFractiiModal
-                                                ));
+                                                    routes.Fractii(level: widget.level));
                                           }
                                         }
-                                        Navigator.pop(context);
+                                        context.router.pop(context);
                                         context.router.replace(
-                                            ExerciseWrapper(
-                                                exercise: Fractii(level: widget.level),
-                                                modal: showFractiiModal
-                                            ));
+                                                routes.Fractii(level: widget.level));
                                       } else {
                                         showTryAgainModal(context);
                                       }
@@ -236,7 +247,7 @@ class _FractiiState extends State<Fractii> {
                                             .copyWith(fontSize: size.width / 60))),
                                 SkipButton(
                                     modal: showFractiiModal,
-                                    exercise: Fractii(level: widget.level)
+                                    exercise: routes.Fractii(level: widget.level)
                                 ),
                                 const Expanded(child: SizedBox()),
                               ]),
@@ -261,7 +272,26 @@ class _FractiiState extends State<Fractii> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                const Expanded(child: SizedBox()),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    width: 100,
+                    height: 75,
+                    margin: const EdgeInsets.only(right: 25),
+                    child: CustomIconButton(
+                      duration: const Duration(milliseconds: 100),
+                      onPressed: () => showSettingsModal(widget, context,
+                          showFractiiModal),
+                      icon: Iconsax.setting_2,
+                      size: 0.025 * MediaQuery.of(context).size.width,
+                      sizeEnd: 0.03 * MediaQuery.of(context).size.width,
+                      background: const Color(0xFFaaaaaa),
+                      backgroundEnd: const Color(0xFFfefefe),
+                      rotate: false,
+                    ),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 20),
                 const Expanded(child: SizedBox()),
                 Row(
                   mainAxisSize: MainAxisSize.max,
@@ -347,12 +377,9 @@ class _FractiiState extends State<Fractii> {
 
                                 if (value == frac!.toDouble()) {
                                   if (_usedCheat) {
-                                    Navigator.pop(context);
+                                    context.router.pop(context);
                                     context.router.replace(
-                                        ExerciseWrapper(
-                                            exercise: Fractii(level: widget.level),
-                                            modal: showFractiiModal
-                                        ));
+                                            routes.Fractii(level: widget.level),);
                                     return;
                                   }
 
@@ -361,20 +388,14 @@ class _FractiiState extends State<Fractii> {
                                     print("${progress.current}/${progress.total}");
                                   } else {
                                     if (progress.current > progress.total) {
-                                      Navigator.pop(context);
+                                      context.router.pop(context);
                                       context.router.replace(
-                                          ExerciseWrapper(
-                                              exercise: Fractii(level: widget.level),
-                                              modal: showFractiiModal
-                                          ));
+                                              routes.Fractii(level: widget.level));
                                     }
                                   }
-                                  Navigator.pop(context);
+                                  context.router.pop(context);
                                   context.router.replace(
-                                      ExerciseWrapper(
-                                          exercise: Fractii(level: widget.level),
-                                          modal: showFractiiModal
-                                      ));
+                                          routes.Fractii(level: widget.level));
                                 } else {
                                   showTryAgainModal(context);
                                 }
@@ -384,7 +405,7 @@ class _FractiiState extends State<Fractii> {
                                       .textTheme
                                       .headline6!
                                       .copyWith(fontSize: size.width / 60))),
-                          SkipButton(modal: showFractiiModal, exercise: Fractii(level: widget.level)),
+                          SkipButton(modal: showFractiiModal, exercise: routes.Fractii(level: widget.level)),
                           const Expanded(child: SizedBox()),
                         ]),
                   ),

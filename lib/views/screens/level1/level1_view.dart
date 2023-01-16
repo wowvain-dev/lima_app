@@ -9,8 +9,11 @@ import 'package:iconly/iconly.dart';
 
 /// Architectural Dependencies
 import 'package:lima/app/locator.dart';
+import 'package:lima/models/classes/header_manager.dart';
 import 'package:lima/models/classes/sidemenu_manager.dart';
 import 'package:lima/views/components/custom_icon_button/custom_icon_button.dart';
+import 'package:lima/views/components/header_breadcrumbs/breadcrumb_element.dart';
+import 'package:lima/views/components/header_breadcrumbs/header_breadcrumbs.dart';
 import 'package:lima/views/components/progress_bar/progress_bar.dart';
 import 'package:lima/views/components/sidemenu/sidemenu_item.dart';
 import 'package:lima/views/components/sidemenu/sidemenu_view.dart';
@@ -41,13 +44,28 @@ class _Level1ViewState extends State<Level1View> {
   ].text ?? '';
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    l<HeaderManager>().removeListener(() => setState(() {}));
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
         viewModelBuilder: () => Level1ViewModel(),
         builder: (context, model, child) {
+          // l<HeaderManager>().addListener(() {
+          //   model.notifyListeners();
+          // });
           var size = MediaQuery.of(context).size;
           var matematica = ProgressStorage.levels[0].matematica;
           var comunicare = ProgressStorage.levels[0].comunicare;
+          print(context.router.stack);
           return Container(
             child: Scaffold(
                 backgroundColor: const Color(0xFF2A2B2A),
@@ -62,12 +80,13 @@ class _Level1ViewState extends State<Level1View> {
                         colorScheme: ItemColor.blue,
                         icon: Iconsax.math,
                         text: 'Aritmetică',
-                        // toggled: l<SideMenuManager>().subject == Subject.aritmetica,
                         onPress: () {
                           l<SideMenuManager>().currentSubject =
                               Subject.aritmetica;
-                          Navigator.pop(context);
-                          context.router.pushNamed('/level1/aritmetica');
+                          context.router.push(Aritmetica1View());
+                          context.router.pop();
+                          l<HeaderManager>().removeToRoot();
+                          l<HeaderManager>().addCrumb("aritmetica");
                         }),
                     ItemComponents(
                         subject: Subject.geometrie,
@@ -75,10 +94,11 @@ class _Level1ViewState extends State<Level1View> {
                         icon: Iconsax.shapes,
                         text: 'Geometrie',
                         onPress: () {
-                          l<SideMenuManager>().currentSubject =
-                              Subject.geometrie;
-                          Navigator.pop(context);
-                          context.router.pushNamed('/level1/geometrie');
+                          l<SideMenuManager>().currentSubject = Subject.geometrie;
+                          context.router.push(Geometrie1View());
+                          context.router.pop();
+                          l<HeaderManager>().removeToRoot();
+                          l<HeaderManager>().addCrumb("geometrie");
                         }),
                   ],
                   lang: [
@@ -89,8 +109,10 @@ class _Level1ViewState extends State<Level1View> {
                         text: 'Limba Română',
                         onPress: () {
                           l<SideMenuManager>().currentSubject = Subject.romana;
-                          Navigator.pop(context);
-                          context.router.pushNamed('/level1/romana');
+                          context.router.push(Romana1View());
+                          context.router.pop();
+                          l<HeaderManager>().removeToRoot();
+                          l<HeaderManager>().addCrumb("romana");
                         })
                   ],
                   title: 'Culegerea învăţăcelului',
@@ -115,41 +137,29 @@ class _Level1ViewState extends State<Level1View> {
                                 )),
                               child: Row(
                                 children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    child: CustomIconButton(
-                                      onPressed: () {
-                                        if (l<SideMenuManager>().navHistory.isNotEmpty) {
-                                          l<SideMenuManager>().pop();
-                                        }
-                                        Navigator.pop(context);
-                                      },
-                                      icon: Iconsax.arrow_left_1,
-                                      duration: const Duration(milliseconds: 150),
-                                      background: const Color(0xFFffffff),
-                                      backgroundEnd: const Color(0xFFffffff),
-                                      size: 35,
-                                      sizeEnd: 45,
-                                    )
+                                  // Container(
+                                  //   height: 50,
+                                  //   width: 50,
+                                  //   child: CustomIconButton(
+                                  //     onPressed: () {
+                                  //       if (l<SideMenuManager>().navHistory.isNotEmpty) {
+                                  //         l<SideMenuManager>().pop();
+                                  //       }
+                                  //       Navigator.pop(context);
+                                  //     },
+                                  //     icon: Iconsax.arrow_left_1,
+                                  //     duration: const Duration(milliseconds: 150),
+                                  //     background: const Color(0xFFffffff),
+                                  //     backgroundEnd: const Color(0xFFffffff),
+                                  //     size: 35,
+                                  //     sizeEnd: 45,
+                                  //   )
+                                  // ),
+                                  HeaderBreadcrumbs(currentPath:
+                                    context.router.current.router.currentPath
                                   ),
-                                  Container(
-                                      height: 50,
-                                      width: 50,
-                                      child: CustomIconButton(
-                                        onPressed: () {
-                                          l<SideMenuManager>().clearChoice();
-                                          context.router
-                                              .replace(HomeView(initialIndex: 1));
-                                        },
-                                        icon: IconlyLight.home,
-                                        duration: const Duration(milliseconds: 150),
-                                        background: const Color(0xFFffffff),
-                                        backgroundEnd: const Color(0xFFffffff),
-                                        size: 35,
-                                        sizeEnd: 45,
-                                      )
-                                  ),
+                                  // Text("/", style: Theme.of(context).textTheme.headline6),
+                                  // BreadcrumbElement(label: "Aritmetica", route: Aritmetica1View()),
                                 ],
                               ),
                             ),

@@ -87,7 +87,8 @@ class _ExerciseWrapperState extends State<ExerciseWrapper> {
                 ),
               ),
             ),
-            Expanded(child: Container(child: exercise)),
+            AutoRouter(),
+            // Expanded(child: Container(child: exercise)),
           ]));
     });
   }

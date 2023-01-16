@@ -363,7 +363,6 @@ class ExpressionTree {
       int maxDepth) {
     ExpressionTree expression = ExpressionTree();
     do {
-      print(expression.root);
       var lastNode = getFirstFreeOperatorLeafNode(expression.root);
       if (lastNode == null) {
         expression.addLeafNode(ExpressionNode(
@@ -384,11 +383,9 @@ class ExpressionTree {
       // TODO(wowvain-dev): finishing touches required
 
       if (lastNode == ExpressionNode(Operator.minus, null)) {
-        print("the left side of the minus is ${lastNode.left}");
         lastNode.right = val >= 1
             ? ExpressionNode(null, Random().nextInt(val))
             : ExpressionNode(null, 0);
-        print("left side of minus: ${ExpressionTree.evaluate(lastNode.left)}");
         continue;
       }
 
@@ -403,7 +400,6 @@ class ExpressionTree {
           continue;
         }
 
-        print("val: $val");
         List<int> divisors = List.empty(growable: true);
 
         int i = 1;
@@ -414,7 +410,6 @@ class ExpressionTree {
               break;
             }
             divisors.addAll([i, val ~/ i]);
-            print(divisors);
           }
           i++;
         }

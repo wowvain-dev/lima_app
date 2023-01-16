@@ -8,18 +8,15 @@ class SkipButton extends StatefulWidget {
   SkipButton({required this.modal, required this.exercise});
 
   void Function(BuildContext, void Function()) modal;
-  Widget exercise;
+  PageRouteInfo<dynamic> exercise;
 
   @override
   // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => _SkipButtonState(modal, exercise);
+  State<StatefulWidget> createState() => _SkipButtonState();
 }
 
 class _SkipButtonState extends State<SkipButton> with TickerProviderStateMixin {
-  _SkipButtonState(this.modal, this.exercise);
-
-  void Function(BuildContext, void Function()) modal;
-  Widget exercise;
+  _SkipButtonState();
 
   Color _skip = const Color(0xFFaaaaaa);
   AnimationController? _controller;
@@ -70,8 +67,9 @@ class _SkipButtonState extends State<SkipButton> with TickerProviderStateMixin {
       },
       child: GestureDetector(
         onTap: () {
+          context.router.pop(context);
           context.router
-              .push(ExerciseWrapper(exercise: exercise, modal: modal));
+              .replace(widget.exercise);
         },
         child: AnimatedContainer(
           height: 50,

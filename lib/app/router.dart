@@ -1,10 +1,18 @@
 /// Auto Router Imports
 import 'package:auto_route/annotations.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart';
+import 'package:lima/views/components/exercitii/limba%20si%20comunicare/romana/recunoastere_litere.dart';
+import 'package:lima/views/components/exercitii/limba%20si%20comunicare/romana/vocale_consoane.dart';
+import 'package:lima/views/components/exercitii/matematica/aritmetica/formare.dart';
+import 'package:lima/views/components/exercitii/matematica/aritmetica/formare_route.dart';
+import 'package:lima/views/components/exercitii/matematica/aritmetica/fractii.dart';
+import 'package:lima/views/components/exercitii/matematica/aritmetica/ordine.dart';
 
 /// Pages
 import 'package:lima/views/screens/home/home_view.dart';
 import 'package:stacked/stacked.dart';
+
+import '../views/components/exercitii/matematica/aritmetica/operatii.dart';
 
 /// Screens
 import '../views/screens/level1/level1_view.dart';
@@ -32,17 +40,37 @@ import '../views/screens/level3/level3_view.dart';
   /// The three pages coresponding to the difficulty levels
   CustomRoute(
     page: Level1View,
+    name: 'level1View',
     path: '/level1',
     children: [
       CustomRoute(
-        path: 'aritmetica',
-        page: Aritmetica1View,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
-        durationInMilliseconds: 300,
+          path: 'aritmetica',
+          page: Aritmetica1View,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          durationInMilliseconds: 300,
       ),
       CustomRoute(
-          path: 'exercitii',
-          page: ExerciseWrapper,
+          path: 'operatii',
+          name: 'operatii',
+          page: Operatii,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          durationInMilliseconds: 300),
+      CustomRoute(
+          path: 'fractii',
+          name: 'fractii',
+          page: Fractii,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          durationInMilliseconds: 300),
+      CustomRoute(
+          path: 'siruri',
+          name: 'siruri',
+          page: OrdiniSiruri,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          durationInMilliseconds: 300),
+      CustomRoute(
+          path: 'formare',
+          name: 'formare',
+          page: Formare,
           transitionsBuilder: TransitionsBuilders.fadeIn,
           durationInMilliseconds: 300),
       CustomRoute(
@@ -56,6 +84,18 @@ import '../views/screens/level3/level3_view.dart';
         page: Romana1View,
         transitionsBuilder: TransitionsBuilders.fadeIn,
         durationInMilliseconds: 300,
+      ),
+      CustomRoute(
+        path: 'litere',
+        page: ExercitiuLitere,
+        transitionsBuilder: TransitionsBuilders.fadeIn,
+        durationInMilliseconds: 300
+      ),
+      CustomRoute(
+        path: 'vocale',
+        page: ExercitiuVocale,
+        transitionsBuilder: TransitionsBuilders.fadeIn,
+        durationInMilliseconds: 300
       )
     ],
     transitionsBuilder: TransitionsBuilders.fadeIn,

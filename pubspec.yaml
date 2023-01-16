@@ -147,6 +147,55 @@ flutter:
           weight: 900
           style: italic
 
+    - family: CartographCF
+      fonts:
+        # THIN
+        - asset: assets/fonts/CartographCF-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/CartographCF-ThinItalic.ttf
+          weight: 100
+          style: italic
+
+        # EXTRALIGHT
+        - asset: assets/fonts/CartographCF-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/CartographCF-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+
+        # LIGHT
+        - asset: assets/fonts/CartographCF-Light.ttf
+          weight: 300
+        - asset: assets/fonts/CartographCF-LightItalic.ttf
+          weight: 300
+          style: italic
+
+        # REGULAR
+        - asset: assets/fonts/CartographCF-Regular.ttf
+        - asset: assets/fonts/CartographCF-RegularItalic.ttf
+          style: italic
+
+        # SEMIBOLD
+        - asset: assets/fonts/CartographCF-DemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/CartographCF-DemiBoldItalic.ttf
+          weight: 600
+          style: italic
+
+        # BOLD
+        - asset: assets/fonts/CartographCF-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/CartographCF-BoldItalic.ttf
+          style: italic
+          weight: 700
+
+        # EXTRABOLD
+        - asset: assets/fonts/CartographCF-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/CartographCF-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+
     - family: Dosis
       fonts:
         # REGULAR

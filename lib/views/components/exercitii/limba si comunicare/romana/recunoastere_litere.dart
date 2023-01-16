@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:lima/app/locator.dart';
-import 'package:lima/app/router.gr.dart';
+import 'package:lima/app/router.gr.dart' as routes;
 import 'package:lima/models/classes/custom_keyboard_layout.dart';
 import 'package:lima/models/classes/difficulty_manager.dart';
 import 'package:lima/models/classes/storage_manager.dart';
@@ -185,9 +185,8 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                               // gains.
                               if (_usedCheat == true) {
                                 Navigator.pop(context);
-                                context.router.replace(ExerciseWrapper(
-                                    exercise: ExercitiuLitere(level: widget.level),
-                                    modal: showFractiiModal));
+                                context.router.replace(
+                                    routes.ExercitiuLitere(level: widget.level));
                                 return;
                               }
 
@@ -196,10 +195,8 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                                 print("${progress.current}/${progress.total}");
                               } else {
                                 if (progress.current > progress.total) {
-                                  Navigator.pop(context);
-                                  context.router.replace(ExerciseWrapper(
-                                      exercise: ExercitiuLitere(level: widget.level),
-                                      modal: showOperatiiModal));
+                                  context.router.replace(
+                                      routes.ExercitiuLitere(level: widget.level));
                                   return;
                                 }
                                 progress.current += 1;
@@ -223,18 +220,14 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                               }
 
                               print('BRAVO');
-                              Navigator.pop(context);
-                              context.router.replace(ExerciseWrapper(
-                                  exercise: ExercitiuLitere(level: widget.level),
-                                  modal: showFractiiModal));
+                              context.router.replace(
+                                  routes.ExercitiuLitere(level: widget.level));
                             } else if ((value.toLowerCase() == 'â' ||
                                     value.toLowerCase() == 'î') &&
                                 (selectedLetter?.character == 'â' ||
                                     selectedLetter?.character == 'î')) {
-                              Navigator.pop(context);
-                              context.router.replace(ExerciseWrapper(
-                                  exercise: ExercitiuLitere(level: widget.level),
-                                  modal: showFractiiModal));
+                              context.router.replace(
+                                  routes.ExercitiuLitere(level: widget.level));
                             } else {
                               showTryAgainModal(context);
                             }
@@ -247,7 +240,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                                 .copyWith(fontSize: size.width / 60),
                           )),
                       SkipButton(
-                          modal: showLitereModal, exercise: ExercitiuLitere(level: widget.level))
+                          modal: showLitereModal, exercise: routes.ExercitiuLitere(level: 1))
                     ]),
               ),
             ),

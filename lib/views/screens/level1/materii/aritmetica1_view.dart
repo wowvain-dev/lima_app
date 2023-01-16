@@ -3,7 +3,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:lima/app/router.gr.dart';
+import 'package:lima/app/router.gr.dart' as routes;
+import 'package:lima/models/classes/header_manager.dart';
 import 'package:lima/views/components/exercise_card/exercise_card.dart';
 import 'package:lima/views/components/exercitii/matematica/aritmetica/formare.dart';
 import 'package:lima/views/components/exercitii/matematica/aritmetica/fractii.dart';
@@ -11,6 +12,10 @@ import 'package:lima/views/components/exercitii/matematica/aritmetica/operatii.d
 import 'package:lima/views/components/exercitii/matematica/aritmetica/ordine.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:motion/motion.dart';
+import 'package:lima/views/components/header_breadcrumbs/breadcrumb_element.dart';
+
+import '../../../../app/locator.dart';
+import '../../../components/exercitii/matematica/aritmetica/formare_route.dart';
 
 class Aritmetica1View extends StatefulWidget {
   Aritmetica1View({Key? key}) : super(key: key);
@@ -89,11 +94,11 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                         setState(() {
                                           opacity = 0;
                                         });
-                                        context.router.replace(ExerciseWrapper(
-                                            exercise:
-                                                Operatii(level: 1),
-                                            modal: showOperatiiModal
-                                             ));
+                                        context.router.replace(
+                                          routes.Operatii(level: 1)
+                                          // "/level1/aritmetica/exercitii/operatii"
+                                        );
+                                        l<HeaderManager>().addCrumb("operatii");
                                       },
                                       onHelp: showOperatiiModal),
                                 ),
@@ -123,11 +128,10 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                         setState(() {
                                           opacity = 0;
                                         });
-                                        context.router.replace(ExerciseWrapper(
-                                            exercise:
-                                                Fractii(level: 1),
-                                            modal: showFractiiModal
-                                             ));
+                                        context.router.replace(
+                                            routes.Fractii(level: 1)
+                                        );
+                                        l<HeaderManager>().addCrumb("fractii");
                                     },
                               ))
                             : Motion(
@@ -146,11 +150,10 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                         setState(() {
                                           opacity = 0;
                                         });
-                                        context.router.replace(ExerciseWrapper(
-                                            exercise:
-                                                Fractii(level: 1),
-                                            modal: showFractiiModal
-                                             ));
+                                        context.router.replace(
+                                            routes.Fractii(level: 1)
+                                        );
+                                        l<HeaderManager>().addCrumb("fractii");
                                       },
                                       ),
                                 ),
@@ -200,11 +203,10 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                         setState(() {
                                           opacity = 0;
                                         });
-                                        context.router.replace(ExerciseWrapper(
-                                            exercise:
-                                                OrdiniSiruri(level: 1),
-                                            modal: showFractiiModal
-                                             ));
+                                        context.router.replace(
+                                            routes.Siruri(level: 1)
+                                        );
+                                        l<HeaderManager>().addCrumb("siruri");
                                       },
                                       ),
                                 ),
@@ -246,12 +248,14 @@ class Aritmetica1ViewState extends State<Aritmetica1View> {
                                   child: ExerciseCard(
                                       label: 'Formarea numerelor',
                                       icon: Iconsax.data,
-                                      onStart: () => {
+                                      onStart: () {
+                                        setState(() {
+                                          opacity = 0;
+                                        });
                                         context.router.replace(
-                                          ExerciseWrapper(
-                                              exercise: Formare(level: 1),
-                                              modal: showFormareModal)
-                                        )
+                                              routes.Formare(level: 1)
+                                        );
+                                        l<HeaderManager>().addCrumb("formare");
                                       },
                                           ),
                                 ),

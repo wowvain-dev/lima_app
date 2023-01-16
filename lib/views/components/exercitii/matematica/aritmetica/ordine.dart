@@ -7,7 +7,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:iconly/iconly.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
-import 'package:lima/app/router.gr.dart';
+import 'package:lima/app/router.gr.dart' as routes;
 import 'package:lima/models/classes/difficulty_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
@@ -19,6 +19,7 @@ import 'package:reorderables/reorderables.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../../models/classes/storage_manager.dart';
+import '../../../custom_icon_button/custom_icon_button.dart';
 
 class OrdiniSiruri extends StatefulWidget {
   OrdiniSiruri({Key? key, required this.level});
@@ -133,6 +134,25 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  width: 100,
+                  height: 75,
+                  margin: const EdgeInsets.only(right: 25),
+                  child: CustomIconButton(
+                    duration: const Duration(milliseconds: 100),
+                    onPressed: () => showSettingsModal(widget, context,
+                        showOrdiniModal),
+                    icon: Iconsax.setting_2,
+                    size: 0.025 * MediaQuery.of(context).size.width,
+                    sizeEnd: 0.03 * MediaQuery.of(context).size.width,
+                    background: const Color(0xFFaaaaaa),
+                    backgroundEnd: const Color(0xFFfefefe),
+                    rotate: false,
+                  ),
+                ),
+              ),
               const Expanded(child: SizedBox()),
               Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -164,32 +184,6 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
                 });
               },
               children: elements
-              // [
-                // for (var i = 0; i < array.length; i++)
-                //   MouseRegion(
-                //     key: ValueKey(DateTime.now().millisecondsSinceEpoch),
-                //     cursor: SystemMouseCursors.move,
-                //     child: AnimatedContainer(
-                //       duration: const Duration(milliseconds: 250),
-                //       curve: Curves.ease,
-                //       decoration: BoxDecoration(
-                //         gradient: gradients[i],
-                //         borderRadius: BorderRadius.circular(5),
-                //       ),
-                //       width: 100,
-                //       height: 100,
-                //       margin: const EdgeInsets.all(10),
-                //       child: Center(
-                //           child: Text(
-                //         "${array[i]}",
-                //         style: Theme.of(context).textTheme.headline6!.copyWith(
-                //             fontSize: size.width / 50,
-                //             color: const Color(0xFF2a2b2a)),
-                //       )),
-                //     ),
-                //   )
-              //
-              // ],
             ),
           ),
           const Expanded(child: SizedBox()),
@@ -206,7 +200,7 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
           const SizedBox(height: 12),
           SkipButton(
               modal: showOrdiniModal,
-              exercise: OrdiniSiruri(level: widget.level)
+              exercise: routes.Siruri(level: widget.level)
           ),
           const Expanded(child: SizedBox()),
           HelpSection(showAnswer: () => setState(() {
@@ -254,9 +248,9 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
       }
 
       if (_usedCheat) {
-        Navigator.pop(context);
+        context.router.pop(context);
         context.router.replace(
-            ExerciseWrapper(exercise: OrdiniSiruri(level: widget.level), modal: showOperatiiModal));
+            routes.Siruri(level: widget.level));
         return;
       }
 
@@ -265,10 +259,9 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
         print("${progress.current}/${progress.total}");
       } else {
         if (progress.current > progress.total) {
-          Navigator.pop(context);
-          context.router.replace(ExerciseWrapper(
-              exercise: OrdiniSiruri(level: widget.level),
-              modal: showOperatiiModal));
+          context.router.pop(context);
+          context.router.replace(
+              routes.Siruri(level: widget.level));
           return;
         }
         progress.current += 1;
@@ -292,9 +285,9 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
         );
       }
       print('BRAVO');
-      Navigator.pop(context);
+      context.router.pop(context);
       context.router.replace(
-          ExerciseWrapper(exercise: OrdiniSiruri(level: widget.level), modal: showOperatiiModal));
+          routes.Siruri(level: widget.level));
     }
 
     if (selectedOrder == Order.descending) {
@@ -309,9 +302,9 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
       }
 
       print('BRAVO');
-      Navigator.pop(context);
+      context.router.pop(context);
       context.router.replace(
-          ExerciseWrapper(exercise: OrdiniSiruri(level: widget.level), modal: showOperatiiModal));
+          routes.Siruri(level: widget.level));
     }
   }
 

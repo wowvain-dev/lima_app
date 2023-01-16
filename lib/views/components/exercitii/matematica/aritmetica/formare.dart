@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:lima/app/locator.dart';
-import 'package:lima/app/router.gr.dart';
+import 'package:lima/app/router.gr.dart' as routes;
 import 'package:lima/models/classes/difficulty_manager.dart';
 import 'package:lima/models/classes/progress_manager.dart';
 import 'package:lima/models/classes/storage_manager.dart';
@@ -572,7 +572,7 @@ class _FormareState extends State<Formare> {
                         )
                       )
                     ),
-                    SkipButton(modal: showFormareModal, exercise: Formare(level: widget.level)),
+                    SkipButton(modal: showFormareModal, exercise: routes.Formare(level: widget.level)),
                     const Expanded(child: SizedBox()),
                   ]),
             ),
@@ -594,17 +594,17 @@ class _FormareState extends State<Formare> {
     if (value == number) {
       if (_usedCheat) {
         Navigator.pop(context);
-        context.router.replace(ExerciseWrapper(
-            exercise: Formare(level: widget.level),
-            modal: showFormareModal));
+        context.router.replace(
+            routes.Formare(level: widget.level)
+        );
         return;
       }
       print('BRAVO');
       progress.current++;
       Navigator.pop(context);
-      context.router.replace(ExerciseWrapper(
-          exercise: Formare(level: widget.level),
-          modal: showFormareModal));
+      context.router.replace(
+          routes.Formare(level: widget.level)
+      );
     } else {
       showTryAgainModal(context);
     }

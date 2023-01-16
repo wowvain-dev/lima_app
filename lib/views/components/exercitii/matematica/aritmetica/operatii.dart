@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
-import 'package:lima/app/router.gr.dart';
+import 'package:lima/app/router.gr.dart' as routes;
 import 'package:lima/models/classes/difficulty_manager.dart';
 import 'package:lima/models/classes/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
@@ -18,6 +18,8 @@ import 'package:lima/views/components/help_section/help_section.dart';
 
 import 'package:lima/models/classes/expression_tree.dart';
 import 'package:toast/toast.dart';
+
+import '../../../custom_icon_button/custom_icon_button.dart';
 
 class Operatii extends StatefulWidget {
   Operatii({
@@ -140,6 +142,25 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
           child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              width: 100,
+              height: 75,
+              margin: const EdgeInsets.only(right: 25),
+              child: CustomIconButton(
+                duration: const Duration(milliseconds: 100),
+                onPressed: () => showSettingsModal(widget, context,
+                    showOperatiiModal),
+                icon: Iconsax.setting_2,
+                size: 0.025 * MediaQuery.of(context).size.width,
+                sizeEnd: 0.03 * MediaQuery.of(context).size.width,
+                background: const Color(0xFFaaaaaa),
+                backgroundEnd: const Color(0xFFfefefe),
+                rotate: false,
+              ),
+            ),
+          ),
           const Expanded(child: SizedBox()),
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -184,12 +205,11 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
                       onPressed: () {
                         if (controller.text ==
                               ExpressionTree.evaluate(tree.root).toString()) {
-                            print('BRAVO');
                             if (_usedCheat) {
-                              Navigator.pop(context);
-                              context.router.replace(ExerciseWrapper(
-                                  exercise: Operatii(level: 1),
-                                  modal: showOperatiiModal));
+                              context.router.pop(context);
+                              context.router.replace(
+                                  routes.Operatii(level: 1)
+                              );
                               return;
                             }
                             if (progress.current < progress.total) {
@@ -197,10 +217,10 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
                               print("${progress.current}/${progress.total}");
                             } else {
                               if (progress.current > progress.total) {
-                                Navigator.pop(context);
-                                context.router.replace(ExerciseWrapper(
-                                    exercise: Operatii(level: widget.level),
-                                    modal: showOperatiiModal));
+                                context.router.pop(context);
+                                context.router.replace(
+                                    routes.Operatii(level: widget.level)
+                                );
                                 return;
                               }
                               progress.current += 1;
@@ -223,10 +243,9 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
                                 )
                               );
                             }
-                            Navigator.pop(context);
-                            context.router.replace(ExerciseWrapper(
-                                exercise: Operatii(level: 1),
-                                modal: showOperatiiModal));
+                            context.router.pop(context);
+                            context.router.replace(
+                                routes.Operatii(level: 1));
                           } else {
                             showTryAgainModal(context);
                           }
@@ -239,7 +258,7 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
                                         .copyWith(fontSize: size.width / 60))),
                   const SizedBox(height: 15),
                   SkipButton(modal: showOperatiiModal,
-                      exercise: Operatii(level: widget.level))
+                      exercise: routes.Operatii(level: widget.level))
                 ],
               ),
             ),

@@ -225,6 +225,7 @@ class _Page2 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MouseRegion(
+                  cursor: SystemMouseCursors.click,
                     onEnter: (event) {
                       model.buttonSizes[0].containerSize =
                           Size(size.width / 4, size.width / 5);
@@ -252,7 +253,7 @@ class _Page2 extends StatelessWidget {
                             showModal(context,
                                 level: 'învăţăcel',
                                 callback: () {
-                                  context.router.push(const Level1View());
+                                  context.router.replace(Level1View());
                                   difficultySetup(1);
                                 });
                           });
@@ -286,6 +287,7 @@ class _Page2 extends StatelessWidget {
                     )),
                 SizedBox(width: size.width / 35),
                 MouseRegion(
+                  cursor: SystemMouseCursors.click,
                   onEnter: (event) {
                     model.buttonSizes[1].containerSize = Size(size.width / 4, size.width / 5);
                     model.isMouseOverButton = true;
@@ -311,7 +313,7 @@ class _Page2 extends StatelessWidget {
                             showModal(context,
                                 level: 'cunoscător',
                                 callback: () {
-                                    context.router.push(const Level2View());
+                                    context.router.replace(const Level2View());
                                     difficultySetup(2);
                                 });
                           });
@@ -345,6 +347,7 @@ class _Page2 extends StatelessWidget {
                 ),
                 SizedBox(width: size.width / 35),
                 MouseRegion(
+                  cursor: SystemMouseCursors.click,
                   onEnter: (event) {
                     model.buttonSizes[2].containerSize = Size(size.width / 4, size.width / 5);
                     model.isMouseOverButton = true;
@@ -383,7 +386,7 @@ class _Page2 extends StatelessWidget {
                             showModal(context,
                                 level: 'cunoscător',
                                 callback: () {
-                                    context.router.push(const Level3View());
+                                    context.router.replace(const Level3View());
                                     difficultySetup(3);
                                 });
                           });

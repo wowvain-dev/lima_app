@@ -3,7 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:lima/app/router.gr.dart';
+import 'package:lima/app/router.gr.dart' as routes;
 import 'package:lima/models/classes/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
@@ -127,9 +127,8 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
                                       ),
                                       const SizedBox(height: 40),
                                       SkipButton(
-                                          modal: showLitereModal, exercise: ExercitiuVocale(
-                                        level: widget.level
-                                      ))
+                                          modal: showLitereModal, exercise: routes.ExercitiuVocale(level: 1)
+                                      ),
                                     ]),
                               ),
                             ),
@@ -149,10 +148,8 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
         _type
     ) {
       if (_usedCheat) {
-        Navigator.pop(context);
-        context.router.replace(ExerciseWrapper(
-            exercise: ExercitiuVocale(level: widget.level),
-            modal: showFractiiModal));
+        context.router.replace(
+            routes.ExercitiuVocale(level: widget.level));
         return;
       }
       if (progress.current < progress.total) {
@@ -160,10 +157,8 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
         print("${progress.current}/${progress.total}");
       } else {
         if (progress.current > progress.total) {
-          Navigator.pop(context);
-          context.router.replace(ExerciseWrapper(
-              exercise: ExercitiuVocale(level: widget.level),
-              modal: showOperatiiModal));
+          context.router.replace(
+              routes.ExercitiuVocale(level: widget.level));
           return;
         }
         progress.current += 1;
@@ -189,15 +184,11 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
                 color: const Color(0xFF000000)
             )
         );
-        Navigator.pop(context);
-        context.router.replace(ExerciseWrapper(
-            exercise: ExercitiuVocale(level: widget.level),
-            modal: showFractiiModal));
+        context.router.replace(
+            routes.ExercitiuVocale(level: widget.level));
       }
-      Navigator.pop(context);
-      context.router.replace(ExerciseWrapper(
-          exercise: ExercitiuVocale(level: widget.level),
-          modal: showFractiiModal));
+      context.router.replace(
+          routes.ExercitiuVocale(level: widget.level));
 
     } else {
       showTryAgainModal(context);

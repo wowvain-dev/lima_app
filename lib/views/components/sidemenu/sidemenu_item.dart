@@ -98,6 +98,12 @@ class _SideMenuItemState extends State<SideMenuItem>
   };
 
   @override
+  void dispose() {
+    controller!.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     /// Initialize animation controller
     controller = AnimationController(

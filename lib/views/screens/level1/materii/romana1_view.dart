@@ -7,7 +7,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:motion/motion.dart';
 
 import '../../../components/exercise_card/exercise_card.dart';
-import 'package:lima/app/router.gr.dart';
+import 'package:lima/app/router.gr.dart' as routes;
 
 class Romana1View extends StatefulWidget {
   Romana1View({Key? key}) : super(key: key);
@@ -79,10 +79,8 @@ class Romana1ViewState extends State<Romana1View> {
                         setState(() {
                           opacity = 0;
                         });
-                        context.router.replace(ExerciseWrapper(
-                            exercise: ExercitiuLitere(level: 1),
-                            modal: showLitereModal
-                        ));
+                        // context.router.replace(
+                        //     routes.Litere(level: 1));
                       },
                       onHelp: showLitereModal),
                 ),
@@ -127,10 +125,8 @@ class Romana1ViewState extends State<Romana1View> {
                         setState(() {
                           opacity = 0;
                         });
-                        context.router.replace(ExerciseWrapper(
-                            exercise: ExercitiuVocale(level: 1),
-                            modal: showVocaleModal
-                        ));
+                        // context.router.replace(
+                        //     routes.ExercitiuVocale(level: 1)));
                       },
                       onHelp: showVocaleModal),
                 ),
