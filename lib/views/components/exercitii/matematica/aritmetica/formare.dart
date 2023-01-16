@@ -18,6 +18,7 @@ import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:toast/toast.dart';
 import 'package:tuple/tuple.dart';
+import 'package:lima/models/classes/header_manager.dart';
 
 class Formare extends StatefulWidget {
   Formare({Key? key, required this.level});
@@ -111,6 +112,7 @@ class _FormareState extends State<Formare> {
     var size = MediaQuery.of(context).size;
     var progress = ProgressStorage.levels[widget.level-1].matematica.parts["aritmetica"]!.parts["formare"]!;
     return Container(
+        color: const Color(0xFF2a2b2a),
         child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -586,10 +588,11 @@ class _FormareState extends State<Formare> {
   }
 
   void _verify() {
+    l<HeaderManager>().update();
     var progress = ProgressStorage.levels[widget.level-1].matematica.parts["aritmetica"]!.parts["formare"]!;
     var value = m * 1000 + s * 100 + z * 10 + u;
 
-    print("${progress.current}/${progress.total}");
+    print("${progress.ogCurrent}/${progress.ogTotal}");
 
     if (value == number) {
       if (_usedCheat) {
@@ -600,7 +603,7 @@ class _FormareState extends State<Formare> {
         return;
       }
       print('BRAVO');
-      progress.current++;
+      progress.ogCurrent++;
       Navigator.pop(context);
       context.router.replace(
           routes.Formare(level: widget.level)

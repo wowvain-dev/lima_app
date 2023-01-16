@@ -105,8 +105,6 @@ class AppRouter extends _i14.RootStackRouter {
           key: args.key,
           level: args.level,
         ),
-        transitionsBuilder: _i16.TransitionsBuilders.fadeIn,
-        durationInMilliseconds: 300,
         opaque: true,
         barrierDismissible: false,
       );
@@ -119,8 +117,6 @@ class AppRouter extends _i14.RootStackRouter {
           key: args.key,
           level: args.level,
         ),
-        transitionsBuilder: _i16.TransitionsBuilders.fadeIn,
-        durationInMilliseconds: 300,
         opaque: true,
         barrierDismissible: false,
       );
@@ -133,8 +129,6 @@ class AppRouter extends _i14.RootStackRouter {
           key: args.key,
           level: args.level,
         ),
-        transitionsBuilder: _i16.TransitionsBuilders.fadeIn,
-        durationInMilliseconds: 300,
         opaque: true,
         barrierDismissible: false,
       );
@@ -147,8 +141,6 @@ class AppRouter extends _i14.RootStackRouter {
           key: args.key,
           level: args.level,
         ),
-        transitionsBuilder: _i16.TransitionsBuilders.fadeIn,
-        durationInMilliseconds: 300,
         opaque: true,
         barrierDismissible: false,
       );
@@ -185,8 +177,6 @@ class AppRouter extends _i14.RootStackRouter {
           key: args.key,
           level: args.level,
         ),
-        transitionsBuilder: _i16.TransitionsBuilders.fadeIn,
-        durationInMilliseconds: 300,
         opaque: true,
         barrierDismissible: false,
       );
@@ -199,8 +189,6 @@ class AppRouter extends _i14.RootStackRouter {
           key: args.key,
           level: args.level,
         ),
-        transitionsBuilder: _i16.TransitionsBuilders.fadeIn,
-        durationInMilliseconds: 300,
         opaque: true,
         barrierDismissible: false,
       );

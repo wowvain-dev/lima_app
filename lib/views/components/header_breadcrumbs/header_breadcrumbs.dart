@@ -42,12 +42,15 @@ class HeaderBreadcrumbState extends State<HeaderBreadcrumbs> {
   List<Widget> _list = List.empty(growable: true);
 
   void _managerListener() {
-    setState(() {});
+    if (mounted)
+      setState(() {});
   }
 
   @override
   void initState() {
-    l<HeaderManager>().addListener(() => setState(() {}));
+    l<HeaderManager>().addListener(() {
+      _managerListener();
+    });
     super.initState();
   }
 

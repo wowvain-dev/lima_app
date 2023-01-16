@@ -9,6 +9,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart' as routes;
 import 'package:lima/models/classes/difficulty_manager.dart';
+import 'package:lima/models/classes/header_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
 import 'package:lima/views/components/help_section/help_section.dart';
@@ -129,6 +130,7 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
       ));
     }
     return Container(
+      color: const Color(0xFF2a2b2a),
         child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -158,7 +160,7 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                  "Reordonaţi numerele pentru a le avea aranjate în ordine ${selectedOrder == Order.ascending ? "crescătoare" : "descrescătoare"}",
+                  "Aranjaţi numerele în ordine ${selectedOrder == Order.ascending ? "crescătoare" : "descrescătoare"}",
                   style: Theme.of(context)
                       .textTheme
                       .headline6!
@@ -212,6 +214,7 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
   }
 
   void _verify() {
+    l<HeaderManager>().update();
     var progress = ProgressStorage.levels[widget.level-1].matematica.parts["aritmetica"]!.parts["siruri"]!;
     setState(() {
       Future.delayed(Duration.zero, () {
@@ -249,22 +252,22 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
 
       if (_usedCheat) {
         context.router.pop(context);
-        context.router.replace(
+        context.router.push(
             routes.Siruri(level: widget.level));
         return;
       }
 
-      if (progress.current < progress.total) {
-        progress.current += 1;
-        print("${progress.current}/${progress.total}");
+      if (progress.ogCurrent < progress.ogTotal) {
+        progress.ogCurrent += 1;
+        print("${progress.ogCurrent}/${progress.ogTotal}");
       } else {
-        if (progress.current > progress.total) {
+        if (progress.ogCurrent > progress.ogTotal) {
           context.router.pop(context);
-          context.router.replace(
+          context.router.push(
               routes.Siruri(level: widget.level));
           return;
         }
-        progress.current += 1;
+        progress.ogCurrent += 1;
         // TODO: add CONFETII for completing the exercise
         ToastContext().init(context);
         Toast.show(
@@ -286,8 +289,9 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
       }
       print('BRAVO');
       context.router.pop(context);
-      context.router.replace(
+      context.router.push(
           routes.Siruri(level: widget.level));
+      return;
     }
 
     if (selectedOrder == Order.descending) {
@@ -301,10 +305,48 @@ class _OrdiniSiruriState extends State<OrdiniSiruri> {
         }
       }
 
+      if (_usedCheat) {
+        context.router.pop(context);
+        context.router.push(
+            routes.Siruri(level: widget.level));
+        return;
+      }
+
+      if (progress.ogCurrent < progress.ogTotal) {
+        progress.ogCurrent += 1;
+        print("${progress.ogCurrent}/${progress.ogTotal}");
+      } else {
+        if (progress.ogCurrent > progress.ogTotal) {
+          context.router.pop(context);
+          context.router.push(
+              routes.Siruri(level: widget.level));
+          return;
+        }
+        progress.ogCurrent += 1;
+        // TODO: add CONFETII for completing the exercise
+        ToastContext().init(context);
+        Toast.show(
+            "Felicitări! Ai terminat capitolul.\nPoţi continua să exersezi sau poţi trece la următorul.",
+            duration: 5,
+            gravity: Toast.top,
+            backgroundRadius: 10,
+            backgroundColor: const Color(0xFFFFFFFF),
+            textStyle: Theme.of(context).textTheme.headline6!.copyWith(
+                color: const Color(0xFF000000),
+                fontFamily: "Dosis",
+                fontSize: 25
+            ),
+            border: Border.all(
+                width: 2,
+                color: const Color(0xFF000000)
+            )
+        );
+      }
       print('BRAVO');
       context.router.pop(context);
-      context.router.replace(
+      context.router.push(
           routes.Siruri(level: widget.level));
+      return;
     }
   }
 

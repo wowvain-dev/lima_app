@@ -53,26 +53,22 @@ import '../views/screens/level3/level3_view.dart';
           path: 'operatii',
           name: 'operatii',
           page: Operatii,
-          transitionsBuilder: TransitionsBuilders.fadeIn,
-          durationInMilliseconds: 300),
+      ),
       CustomRoute(
           path: 'fractii',
           name: 'fractii',
           page: Fractii,
-          transitionsBuilder: TransitionsBuilders.fadeIn,
-          durationInMilliseconds: 300),
+      ),
       CustomRoute(
           path: 'siruri',
           name: 'siruri',
           page: OrdiniSiruri,
-          transitionsBuilder: TransitionsBuilders.fadeIn,
-          durationInMilliseconds: 300),
+      ),
       CustomRoute(
           path: 'formare',
           name: 'formare',
           page: Formare,
-          transitionsBuilder: TransitionsBuilders.fadeIn,
-          durationInMilliseconds: 300),
+      ),
       CustomRoute(
         path: 'geometrie',
         page: Geometrie1View,
@@ -88,14 +84,10 @@ import '../views/screens/level3/level3_view.dart';
       CustomRoute(
         path: 'litere',
         page: ExercitiuLitere,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
-        durationInMilliseconds: 300
       ),
       CustomRoute(
         path: 'vocale',
         page: ExercitiuVocale,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
-        durationInMilliseconds: 300
       )
     ],
     transitionsBuilder: TransitionsBuilders.fadeIn,

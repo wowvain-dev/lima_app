@@ -12,6 +12,7 @@ import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart' as routes;
 import 'package:lima/models/classes/custom_keyboard_layout.dart';
 import 'package:lima/models/classes/difficulty_manager.dart';
+import 'package:lima/models/classes/header_manager.dart';
 import 'package:lima/models/classes/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
@@ -109,6 +110,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
     var size = MediaQuery.of(context).size;
     var progress = ProgressStorage.levels[widget.level-1].comunicare.parts["romana"]!.parts["litere"]!;
     return Container(
+        color: const Color(0xFF2a2b2a),
         child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -164,7 +166,6 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
           _keyboardVisible == false
               ? const SizedBox(height: 25)
               : const SizedBox(height: 12),
-          Text("${progress.current}",style: Theme.of(context).textTheme.headline6),
           Expanded(
               child: Column(children: [Container(
               height: size.height / 6,
@@ -177,6 +178,7 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                           height: size.height / 15,
                           width: size.width / 7,
                           onPressed: () {
+                            l<HeaderManager>().update();
                             var value = controller1.text;
                             if (value.toLowerCase() ==
                                 selectedLetter?.character) {
@@ -184,22 +186,23 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                               // If the user revealed the answer ignore progression
                               // gains.
                               if (_usedCheat == true) {
-                                Navigator.pop(context);
-                                context.router.replace(
-                                    routes.ExercitiuLitere(level: widget.level));
+                                context.router.pop(context);
+                                context.router.push(
+                                  routes.ExercitiuLitere(level: widget.level));
                                 return;
                               }
 
-                              if (progress.current < progress.total) {
-                                progress.current += 1;
-                                print("${progress.current}/${progress.total}");
+                              if (progress.ogCurrent < progress.ogTotal) {
+                                progress.ogCurrent += 1;
+                                print("${progress.ogCurrent}/${progress.ogTotal}");
                               } else {
-                                if (progress.current > progress.total) {
-                                  context.router.replace(
+                                if (progress.ogCurrent > progress.ogTotal) {
+                                  context.router.pop(context);
+                                  context.router.push(
                                       routes.ExercitiuLitere(level: widget.level));
                                   return;
                                 }
-                                progress.current += 1;
+                                progress.ogCurrent += 1;
                                 ToastContext().init(context);
                                 Toast.show(
                                     "Felicitări! Ai terminat capitolul.\nPoţi continua să exersezi sau poţi trece la următorul.",
@@ -220,13 +223,15 @@ class _ExercitiuLitereState extends State<ExercitiuLitere>
                               }
 
                               print('BRAVO');
-                              context.router.replace(
+                              context.router.pop(context);
+                              context.router.push(
                                   routes.ExercitiuLitere(level: widget.level));
                             } else if ((value.toLowerCase() == 'â' ||
                                     value.toLowerCase() == 'î') &&
                                 (selectedLetter?.character == 'â' ||
                                     selectedLetter?.character == 'î')) {
-                              context.router.replace(
+                              context.router.pop(context);
+                              context.router.push(
                                   routes.ExercitiuLitere(level: widget.level));
                             } else {
                               showTryAgainModal(context);

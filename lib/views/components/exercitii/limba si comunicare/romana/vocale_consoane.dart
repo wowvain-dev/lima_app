@@ -11,6 +11,8 @@ import 'package:lima/models/classes/letter.dart';
 import 'package:lima/views/components/help_section/help_section.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
 import 'package:toast/toast.dart';
+import 'package:lima/app/locator.dart';
+import 'package:lima/models/classes/header_manager.dart';
 
 import '../../../../screens/level1/materii/romana1_view.dart';
 import '../../../skip_button/skip_button.dart';
@@ -53,6 +55,9 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
 
   @override
   void dispose() {
+    f1_node.removeListener(() {setState(() {
+
+    });});
     player.dispose();
     super.dispose();
   }
@@ -63,6 +68,7 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
     var progress = ProgressStorage.levels[widget.level-1].comunicare
       .parts["romana"]!.parts["vocale"]!;
         return Container(
+            color: const Color(0xFF2a2b2a),
             child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,26 +148,29 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
   }
 
   void _verify(LetterType _type) {
+    l<HeaderManager>().update();
     var progress = ProgressStorage.levels[widget.level-1].comunicare
       .parts["romana"]!.parts["vocale"]!;
     if (selectedLetter!.letterType ==
         _type
     ) {
       if (_usedCheat) {
-        context.router.replace(
+        context.router.pop(context);
+        context.router.push(
             routes.ExercitiuVocale(level: widget.level));
         return;
       }
-      if (progress.current < progress.total) {
-        progress.current += 1;
-        print("${progress.current}/${progress.total}");
+      if (progress.ogCurrent < progress.ogTotal) {
+        progress.ogCurrent += 1;
+        print("${progress.ogCurrent}/${progress.ogTotal}");
       } else {
-        if (progress.current > progress.total) {
-          context.router.replace(
+        if (progress.ogCurrent > progress.ogTotal) {
+          context.router.pop(context);
+          context.router.push(
               routes.ExercitiuVocale(level: widget.level));
           return;
         }
-        progress.current += 1;
+        progress.ogCurrent += 1;
         // TODO: add CONFETII for completing the exercise
         ToastContext().init(context);
         Toast.show(
@@ -184,12 +193,15 @@ class _ExercitiuVocaleState extends State<ExercitiuVocale>
                 color: const Color(0xFF000000)
             )
         );
-        context.router.replace(
+        context.router.pop(context);
+        context.router.push(
             routes.ExercitiuVocale(level: widget.level));
+        return;
       }
-      context.router.replace(
+      context.router.pop(context);
+      context.router.push(
           routes.ExercitiuVocale(level: widget.level));
-
+      return;
     } else {
       showTryAgainModal(context);
     }

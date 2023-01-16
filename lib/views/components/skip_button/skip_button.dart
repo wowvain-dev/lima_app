@@ -68,8 +68,7 @@ class _SkipButtonState extends State<SkipButton> with TickerProviderStateMixin {
       child: GestureDetector(
         onTap: () {
           context.router.pop(context);
-          context.router
-              .replace(widget.exercise);
+          context.router.push(widget.exercise);
         },
         child: AnimatedContainer(
           height: 50,

@@ -87,8 +87,9 @@ class _BreadcrumbElementState extends State<BreadcrumbElement> with
               () => clickController!.reverse()
           );
           hoverController!.reverse();
-          l<HeaderManager>().removeUntil(widget.route.path);
-          context.router.replace(widget.route);
+          var x = l<HeaderManager>().removeUntil(widget.route.path);
+          context.router.popUntilRouteWithPath('/level1');
+          context.router.push(widget.route);
           print(l<HeaderManager>().routes);
         },
         child: Transform.scale(

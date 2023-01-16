@@ -17,6 +17,7 @@ class HeaderManager extends ChangeNotifier{
   Map<String, BreadcrumbElement> elements = Map.identity();
 
   HeaderManager.init() {
+
     elements = <String, BreadcrumbElement>{
       "romana": BreadcrumbElement(label: "Română", route: Romana1View()),
       "aritmetica": BreadcrumbElement(label: "Aritmetică", route: Aritmetica1View()),
@@ -24,8 +25,14 @@ class HeaderManager extends ChangeNotifier{
       "operatii": BreadcrumbElement(label: "Operaţii", route: Operatii(level: level)),
       "fractii": BreadcrumbElement(label: "Fracţii", route: Fractii(level: level)),
       "siruri": BreadcrumbElement(label: "Şiruri", route: Fractii(level: level)),
-      "formare": BreadcrumbElement(label: "Formare Numere", route: Formare(level: 1))
+      "formare": BreadcrumbElement(label: "Formare Numere", route: Formare(level: level)),
+      "litere": BreadcrumbElement(label: "Litere", route: ExercitiuLitere(level: level)),
+      "vocale": BreadcrumbElement(label: "Vocale & Consoane", route: ExercitiuVocale(level: level))
     };
+  }
+
+  void update() {
+    notifyListeners();
   }
 
   void addCrumb(String route) {
@@ -60,8 +67,8 @@ class HeaderManager extends ChangeNotifier{
     notifyListeners();
   }
 
-  void removeUntil(String routeName) {
-    if (_path.isEmpty) return;
+  int removeUntil(String routeName) {
+    if (_path.isEmpty) return 0;
     int cnt = 0;
     for (int i = _path.length-1 ; i >= 0; i--) {
       if (_path[i].item1 == routeName) break;
@@ -72,18 +79,6 @@ class HeaderManager extends ChangeNotifier{
       _path.removeLast();
     }
     notifyListeners();
+    return cnt;
   }
-
-  // void populateHeader(String currentPath) {
-  //   print(currentPath);
-  //     routes.clear();
-  //     var paths = currentPath.split('/');
-  //     paths.removeAt(0);
-  //     paths.removeAt(0);
-  //
-  //     paths.forEach((element) {
-  //       routes.add(elements[element]!);
-  //     });
-  //   notifyListeners();
-  // }
 }

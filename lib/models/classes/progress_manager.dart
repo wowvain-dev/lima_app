@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 
 class Progress {
   Progress(
-      this.total, this.current
+      this.ogTotal, this.ogCurrent
       );
 
-  int total;
-  int current;
+  int ogTotal;
+  int ogCurrent;
 
-  double get percentage => current / total;
+  int get total => ogTotal;
+  int get current {
+    print("getting current");
+    return ogCurrent > ogTotal ? ogTotal : ogCurrent;
+  }
+
+  double get percentage => ogCurrent / ogTotal >= 1 ? 1 : ogCurrent / ogTotal;
   set percentage(double a) {
-    current = (a * total).floor();
+    ogCurrent = (a * ogTotal).floor();
   }
 
   @override
@@ -22,20 +28,20 @@ class CollectionProgress {
 
   Map<String, Progress> parts = Map.identity();
 
-  int get sumTotal {
+  int get total {
     int total = 0;
-    parts.forEach((_, val) {total += val.total;});
+    parts.forEach((_, val) {total += val.ogTotal;});
     return total;
   }
 
-  int get sumCurrent {
+  int get current {
     int current = 0;
-    parts.forEach((_, val) {current += val.current;});
-    return current;
+    parts.forEach((_, val) {current += val.ogCurrent;});
+    return current > total ? total : current;
   }
 
   double get percentage {
-    return sumCurrent / sumTotal;
+    return current / total >= 1 ? 1 : current / total;
   }
 
   @override
@@ -47,20 +53,20 @@ class SubjectProgress {
 
   Map<String, CollectionProgress> parts = Map.identity();
 
-  int get sumTotal {
+  int get total {
     int total = 0;
-    parts.forEach((_, val) => total += val.sumTotal);
+    parts.forEach((_, val) => total += val.total);
     return total;
   }
 
-  int get sumCurrent {
+  int get current {
     int current = 0;
-    parts.forEach((_, val) => current += val.sumCurrent);
-    return current;
+    parts.forEach((_, val) => current += val.current);
+    return current > total ? total : current;
   }
 
   double get percentage {
-    return sumCurrent / sumTotal;
+    return current / total >= 1 ? 1 : current / total;
   }
 
   @override
@@ -73,12 +79,22 @@ class LevelProgress {
   SubjectProgress comunicare = SubjectProgress();
   SubjectProgress matematica = SubjectProgress();
 
+  int get current {
+    int current = 0;
+    comunicare.parts.forEach((_, val) {current += val.current;});
+    matematica.parts.forEach((_, val) {current += val.current;});
+    return current > total ? total : current;
+  }
+
+  int get total {
+    int total = 0;
+    comunicare.parts.forEach((_, val) {total += val.total;});
+    matematica.parts.forEach((_, val) {total += val.total;});
+    return total;
+  }
+
   double get percentage {
-    double total = 0;
-    double current = 0;
-    comunicare.parts.forEach((_, val) {total += val.sumTotal; current += val.sumCurrent;});
-    matematica.parts.forEach((_, val) {total += val.sumTotal; current += val.sumCurrent;});
-    return current / total;
+    return (current / total) >= 1 ? 1 : current / total;
   }
 
   @override

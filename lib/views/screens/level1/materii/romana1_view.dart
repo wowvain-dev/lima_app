@@ -1,6 +1,8 @@
 /// Flutter
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:lima/app/locator.dart';
+import 'package:lima/models/classes/header_manager.dart';
 import 'package:lima/views/components/exercitii/limba%20si%20comunicare/romana/recunoastere_litere.dart';
 import 'package:lima/views/components/exercitii/limba%20si%20comunicare/romana/vocale_consoane.dart';
 import 'package:line_icons/line_icon.dart';
@@ -31,8 +33,8 @@ class Romana1ViewState extends State<Romana1View> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      double cardWidth = constraints.maxWidth / 3.5 + 20;
-      double cardHeight = constraints.maxWidth / 4 + 20;
+      double cardWidth = constraints.maxWidth / 3.2 + 20;
+      double cardHeight = constraints.maxHeight / 2.5 + 20;
       return AnimatedOpacity(
         opacity: opacity,
         duration: const Duration(milliseconds: 300),
@@ -58,6 +60,8 @@ class Romana1ViewState extends State<Romana1View> {
                 width: cardWidth,
                 height: cardHeight,
                 child: ExerciseCard(
+                    route: '/level1/litere',
+                    barColor: Colors.pink[300]!,
                   label: 'Recunoaşterea Literelor',
                   icon: LineIcon.pen().icon!,
                   onStart: () {}
@@ -73,14 +77,18 @@ class Romana1ViewState extends State<Romana1View> {
                   width: cardWidth,
                   height: cardHeight,
                   child: ExerciseCard(
+                      route: '/level1/litere',
+                      barColor: Colors.pink[300]!,
                       label: 'Recunoaşterea Literelor',
                       icon: LineIcon.pen().icon!,
                       onStart: () {
                         setState(() {
                           opacity = 0;
                         });
-                        // context.router.replace(
-                        //     routes.Litere(level: 1));
+                        context.router.replace(
+                          routes.ExercitiuLitere(level: 1)
+                        );
+                        l<HeaderManager>().addCrumb("litere");
                       },
                       onHelp: showLitereModal),
                 ),
@@ -104,6 +112,8 @@ class Romana1ViewState extends State<Romana1View> {
                 width: cardWidth,
                 height: cardHeight,
                 child: ExerciseCard(
+                    route: '/level1/vocale',
+                    barColor: Colors.pink[300]!,
                     label: 'Vocale şi Consoane',
                     icon: LineIcon.book().icon!,
                     onStart: () {}
@@ -119,14 +129,17 @@ class Romana1ViewState extends State<Romana1View> {
                   width: cardWidth,
                   height: cardHeight,
                   child: ExerciseCard(
+                      route: '/level1/vocale',
+                      barColor: Colors.pink[300]!,
                       label: 'Vocale şi Consoane',
                       icon: LineIcon.book().icon!,
                       onStart: () {
                         setState(() {
                           opacity = 0;
                         });
-                        // context.router.replace(
-                        //     routes.ExercitiuVocale(level: 1)));
+                        context.router.replace(
+                            routes.ExercitiuVocale(level: 1));
+                        l<HeaderManager>().addCrumb('vocale');
                       },
                       onHelp: showVocaleModal),
                 ),

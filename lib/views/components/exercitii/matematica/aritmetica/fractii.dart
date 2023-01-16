@@ -9,6 +9,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart' as routes;
 import 'package:lima/models/classes/difficulty_manager.dart';
+import 'package:lima/models/classes/header_manager.dart';
 import 'package:lima/models/classes/progress_manager.dart';
 import 'package:lima/models/classes/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
@@ -16,6 +17,7 @@ import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
 import 'package:lima/views/components/help_section/help_section.dart';
 import 'package:lima/views/components/skip_button/skip_button.dart';
 import 'package:lima/views/screens/level1/materii/aritmetica1_view.dart';
+import 'package:toast/toast.dart';
 
 import '../../../custom_icon_button/custom_icon_button.dart';
 import '../../../verif_button/verif_button.dart';
@@ -112,6 +114,7 @@ class _FractiiState extends State<Fractii> {
     print(size.height);
     if (size.height > 950) {
       return Container(
+        color: const Color(0xFF2a2b2a),
           child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -210,6 +213,7 @@ class _FractiiState extends State<Fractii> {
                                     height: size.height / 15,
                                     width: size.width / 7,
                                     onPressed: () {
+                                      l<HeaderManager>().update();
                                       var value = int.parse(controller1.text) / int.parse(controller2.text);
 
                                       /// TODO(wowvain-dev): MAKE ALL POSSIBLE CHECKS FOR THE VALUE INSIDE THE TextFields
@@ -218,24 +222,42 @@ class _FractiiState extends State<Fractii> {
                                       if (value == frac!.toDouble()) {
                                         if (_usedCheat) {
                                           context.router.pop(context);
-                                          context.router.replace(
+                                          context.router.push(
                                                   routes.Fractii(level: widget.level));
                                           return;
                                         }
 
-                                        if (progress.current < progress.total) {
-                                          progress.current += 1;
-                                          print("${progress.current}/${progress.total}");
+                                        if (progress.ogCurrent < progress.ogTotal) {
+                                          progress.ogCurrent += 1;
+                                          print("${progress.ogCurrent}/${progress.ogTotal}");
                                         } else {
-                                          if (progress.current > progress.total) {
+                                          if (progress.ogCurrent > progress.ogTotal) {
                                             context.router.pop(context);
-                                            context.router.replace(
-                                                    routes.Fractii(level: widget.level));
+                                            context.router.push(
+                                                routes.Fractii(level: widget.level));
+                                            return;
                                           }
+                                          ToastContext().init(context);
+                                          Toast.show(
+                                              "Felicitări! Ai terminat capitolul.\nPoţi continua să exersezi sau poţi trece la următorul.",
+                                              duration: 5,
+                                              gravity: Toast.top,
+                                              backgroundRadius: 10,
+                                              backgroundColor: const Color(0xFFFFFFFF),
+                                              textStyle: Theme.of(context).textTheme.headline6!.copyWith(
+                                                  color: const Color(0xFF000000),
+                                                  fontFamily: "Dosis",
+                                                  fontSize: 25
+                                              ),
+                                              border: Border.all(
+                                                  width: 2,
+                                                  color: const Color(0xFF000000)
+                                              )
+                                          );
                                         }
                                         context.router.pop(context);
-                                        context.router.replace(
-                                                routes.Fractii(level: widget.level));
+                                        context.router.push(
+                                            routes.Fractii(level: widget.level));
                                       } else {
                                         showTryAgainModal(context);
                                       }
@@ -267,6 +289,7 @@ class _FractiiState extends State<Fractii> {
               ]));
     } else {
       return Container(
+          color: const Color(0xFF2a2b2a),
           child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -370,6 +393,7 @@ class _FractiiState extends State<Fractii> {
                               height: size.height / 15,
                               width: size.width / 7,
                               onPressed: () {
+                                l<HeaderManager>().update();
                                 var value = int.parse(controller1.text) / int.parse(controller2.text);
 
                                 /// TODO(wowvain-dev): MAKE ALL POSSIBLE CHECKS FOR THE VALUE INSIDE THE TextFields
@@ -378,23 +402,41 @@ class _FractiiState extends State<Fractii> {
                                 if (value == frac!.toDouble()) {
                                   if (_usedCheat) {
                                     context.router.pop(context);
-                                    context.router.replace(
-                                            routes.Fractii(level: widget.level),);
+                                    context.router.push(
+                                        routes.Fractii(level: widget.level));
                                     return;
                                   }
 
-                                  if (progress.current < progress.total) {
-                                    progress.current += 1;
-                                    print("${progress.current}/${progress.total}");
+                                  if (progress.ogCurrent < progress.ogTotal) {
+                                    progress.ogCurrent += 1;
+                                    print("${progress.ogCurrent}/${progress.ogTotal}");
                                   } else {
-                                    if (progress.current > progress.total) {
+                                    if (progress.ogCurrent > progress.ogTotal) {
                                       context.router.pop(context);
-                                      context.router.replace(
-                                              routes.Fractii(level: widget.level));
+                                      context.router.push(
+                                          routes.Fractii(level: widget.level));
+                                      return;
                                     }
+                                    ToastContext().init(context);
+                                    Toast.show(
+                                        "Felicitări! Ai terminat capitolul.\nPoţi continua să exersezi sau poţi trece la următorul.",
+                                        duration: 5,
+                                        gravity: Toast.top,
+                                        backgroundRadius: 10,
+                                        backgroundColor: const Color(0xFFFFFFFF),
+                                        textStyle: Theme.of(context).textTheme.headline6!.copyWith(
+                                            color: const Color(0xFF000000),
+                                            fontFamily: "Dosis",
+                                            fontSize: 25
+                                        ),
+                                        border: Border.all(
+                                            width: 2,
+                                            color: const Color(0xFF000000)
+                                        )
+                                    );
                                   }
                                   context.router.pop(context);
-                                  context.router.replace(
+                                  context.router.push(
                                           routes.Fractii(level: widget.level));
                                 } else {
                                   showTryAgainModal(context);

@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'dart:math';
 
+import 'package:lima/views/components/header_progress/header_progress.dart';
+
 class ExerciseCard extends StatefulWidget {
   ExerciseCard(
       {Key? key,
       required this.label,
       required this.icon,
       required this.onStart,
+      required this.route,
+      required this.barColor,
       this.onHelp,
   });
 
@@ -19,6 +23,11 @@ class ExerciseCard extends StatefulWidget {
 
   /// Function called when the Start button is clicked
   VoidCallback onStart;
+
+  /// The route of the exercise you are about to press
+  String route;
+
+  Color barColor;
 
   /// Function called when the Help button is clicked
   void Function(BuildContext, void Function())? onHelp;
@@ -77,6 +86,7 @@ class ExerciseCardState extends State<ExerciseCard> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Expanded(child: SizedBox()),
                     Transform.rotate(
                       angle: icon == Iconsax.arrow_3 ? pi / 4 : 0,
                       child: Icon( icon, color: const Color(0xFF2A2B2A), 
@@ -91,6 +101,15 @@ class ExerciseCardState extends State<ExerciseCard> {
                               fontWeight: FontWeight.w600,
                               fontSize: constraints.maxWidth / 20
                             )),
+                    Expanded(child: SizedBox()),
+                    HeaderProgress(
+                      route: widget.route,
+                      width: constraints.maxWidth / 2,
+                      strokeColor: const Color(0xFF2a2b2a),
+                      height: 40,
+                      barColor: widget.barColor,
+                    ),
+                          Expanded(child: SizedBox()),
                   ])),
                   const Divider(height: 1, thickness: 1, color: Color(0xFF2A2B2A)),
                   SizedBox(

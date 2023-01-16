@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:lima/models/classes/progress_manager.dart';
 import 'package:lima/models/classes/sidemenu_manager.dart';
 import 'package:stack/stack.dart';
@@ -85,8 +86,19 @@ class FunFacts {
   }
 }
 
-class ProgressStorage {
+class ProgressStorage extends ChangeNotifier {
   static List<LevelProgress> levels = List.empty(growable: true);
+
+  void setValue (int level, String metasubject, String subject, String exercise, Progress newProgress) {
+    if (metasubject == "comunicare") {
+      levels[level].comunicare.parts[subject]!.parts[exercise] = newProgress;
+    } else if (metasubject == "matematica") {
+      levels[level].matematica.parts[subject]!.parts[exercise] = newProgress;
+    }
+    notifyListeners();
+  }
+
+  // TODO: FIX THE FACT THAT YOU NEED AN EXTRA EXERCISE TO FINISH THE TOTAL NUMBER OF EXERCISES
 
   ProgressStorage.create() {
     log("Creating Progress Storage",
@@ -98,14 +110,14 @@ class ProgressStorage {
     levels[0].comunicare.parts["romana"]!.parts["vocale"] = Progress(31, 0);
 
     levels[0].matematica.parts["aritmetica"] = CollectionProgress();
-    levels[0].matematica.parts["aritmetica"]!.parts["operatii"] = Progress(25, 0);
-    levels[0].matematica.parts["aritmetica"]!.parts["fractii"] = Progress(25, 0);
-    levels[0].matematica.parts["aritmetica"]!.parts["siruri"] = Progress(25, 0);
-    levels[0].matematica.parts["aritmetica"]!.parts["formare"] = Progress(25, 0);
+    levels[0].matematica.parts["aritmetica"]!.parts["operatii"] = Progress(50, 0);
+    levels[0].matematica.parts["aritmetica"]!.parts["fractii"] = Progress(50, 0);
+    levels[0].matematica.parts["aritmetica"]!.parts["siruri"] = Progress(50, 0);
+    levels[0].matematica.parts["aritmetica"]!.parts["formare"] = Progress(50, 0);
     levels[0].matematica.parts["geometrie"] = CollectionProgress();
-    levels[0].matematica.parts["geometrie"]!.parts["culori"] = Progress(25, 0);
-    levels[0].matematica.parts["geometrie"]!.parts["regula_siruri"] = Progress(25, 0);
-    levels[0].matematica.parts["geometrie"]!.parts["comparare"] = Progress(25, 0);
+    levels[0].matematica.parts["geometrie"]!.parts["culori"] = Progress(50, 0);
+    levels[0].matematica.parts["geometrie"]!.parts["regula_siruri"] = Progress(50, 0);
+    levels[0].matematica.parts["geometrie"]!.parts["comparare"] = Progress(50, 0);
 
     levels.add(LevelProgress());
     levels.add(LevelProgress());

@@ -8,6 +8,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lima/app/locator.dart';
 import 'package:lima/app/router.gr.dart' as routes;
 import 'package:lima/models/classes/difficulty_manager.dart';
+import 'package:lima/models/classes/header_manager.dart';
 import 'package:lima/models/classes/storage_manager.dart';
 import 'package:lima/views/components/exercise_wrapper/exercise_wrapper.dart'
     hide ExerciseWrapper;
@@ -138,6 +139,7 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
     return Focus(
       focusNode: enterNode,
       child: Container(
+        color: const Color(0xFF2a2b2a),
           // width: size.width / 1.5,
           child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -203,27 +205,25 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
                       height: size.height / 15,
                       width: size.width / 7,
                       onPressed: () {
+                        l<HeaderManager>().update();
                         if (controller.text ==
                               ExpressionTree.evaluate(tree.root).toString()) {
                             if (_usedCheat) {
                               context.router.pop(context);
-                              context.router.replace(
-                                  routes.Operatii(level: 1)
-                              );
+                              // context.router.push( routes.Operatii(level: 1));
                               return;
                             }
-                            if (progress.current < progress.total) {
-                              progress.current += 1;
-                              print("${progress.current}/${progress.total}");
+                            if (progress.ogCurrent < progress.ogTotal) {
+                              progress.ogCurrent += 1;
+                              print("${progress.ogCurrent}/${progress.ogTotal}");
                             } else {
-                              if (progress.current > progress.total) {
+                              if (progress.ogCurrent > progress.ogTotal) {
                                 context.router.pop(context);
-                                context.router.replace(
-                                    routes.Operatii(level: widget.level)
-                                );
+                                context.router.push(
+                                    routes.Operatii(level: 1));
                                 return;
                               }
-                              progress.current += 1;
+                              progress.ogCurrent += 1;
                               // TODO: add CONFETII for completing the exercise
                               ToastContext().init(context);
                               Toast.show(
@@ -244,7 +244,7 @@ class _OperatiiState extends State<Operatii> with TickerProviderStateMixin {
                               );
                             }
                             context.router.pop(context);
-                            context.router.replace(
+                            context.router.push(
                                 routes.Operatii(level: 1));
                           } else {
                             showTryAgainModal(context);
